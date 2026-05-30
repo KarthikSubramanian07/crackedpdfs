@@ -1,0 +1,87 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.venv
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# storage - uploaded files (keep .gitkeep)
+/storage/*
+!/storage/.gitkeep
+!/storage/temp/
+!/storage/temp/.gitkeep
+/storage/temp/*
+!/storage/temp/.gitkeep
+
+# crackedpdfs experiment outputs
+/generated/
+/tools/PDFautogenerator/configs/generated_*.yaml
+/tools/PDFautogenerator/configs/fresh_*.yaml
+/lightweight-detector/data/raw/*
+/lightweight-detector/data/processed/*
+/lightweight-detector/data/artifacts/*
+!/lightweight-detector/data/raw/.gitkeep
+!/lightweight-detector/data/processed/.gitkeep
+!/lightweight-detector/data/artifacts/.gitkeep
+
+# local secrets
+.env
+.env.local
+!.env.example
+
+# experiment logs
+*.log
+*.out
+*.err
+*.err.log
+*.out.log
+
+# third-party binaries and native builds
+/third_party/*
+!/third_party/.gitkeep
+/src/backend/services/processing/layers/02-watermarking/confusion-matrix-layer/binaries/*
+!/src/backend/services/processing/layers/02-watermarking/confusion-matrix-layer/binaries/.gitkeep
+!/src/backend/services/processing/layers/02-watermarking/confusion-matrix-layer/binaries/noise_stuffy_layer
+!/src/backend/services/processing/layers/02-watermarking/confusion-matrix-layer/binaries/noise_stuffy_layer.exe
+!/src/backend/services/processing/layers/02-watermarking/confusion-matrix-layer/binaries/libpdfium.so
+!/src/backend/services/processing/layers/02-watermarking/confusion-matrix-layer/binaries/libpdfium.dylib
+!/src/backend/services/processing/layers/02-watermarking/confusion-matrix-layer/binaries/pdfium.dll
+/src/backend/services/processing/layers/02-watermarking/confusion-matrix-layer/rust/target/
+/src/backend/services/processing/layers/02-watermarking/confusion-matrix-layer/rust/vgg16.ot
+.git.backup/

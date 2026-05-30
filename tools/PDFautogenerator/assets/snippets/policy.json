@@ -1,0 +1,32 @@
+{
+  "titles": [
+    "Administrative Notice",
+    "Policy Bulletin",
+    "Office Procedures Update",
+    "Scheduling Notice",
+    "Program Guidance Memo",
+    "Policy Reminder"
+  ],
+  "section_titles": [
+    "Purpose",
+    "Background",
+    "Effective Date",
+    "Procedure",
+    "Responsibilities",
+    "Additional Notes"
+  ],
+  "paragraphs": [
+    "This notice summarizes a routine administrative adjustment intended to keep scheduling and records practices consistent across the office.",
+    "Teams should continue using the existing process unless a section below identifies a specific change in timing, routing, or documentation.",
+    "The update is procedural in nature and does not alter the general scope of services already communicated to staff or participants.",
+    "Supervisors are responsible for sharing the notice with affected personnel and confirming that local copies of standard forms are current.",
+    "Questions should be directed through the usual administrative contact so that responses can be documented and shared consistently.",
+    "The policy language below is meant to be concise and should be read together with existing office guidance materials."
+  ],
+  "footer_lines": [
+    "Administrative Office Copy",
+    "Page 1",
+    "Internal Distribution",
+    "Notice Archive"
+  ]
+}

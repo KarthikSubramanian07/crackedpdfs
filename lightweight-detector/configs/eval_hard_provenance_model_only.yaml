@@ -1,0 +1,37 @@
+dataset_config: configs/dataset_hard_provenance.yaml
+features_path: data/processed/hard_provenance/features.parquet
+labels_path: data/processed/hard_provenance/labels.parquet
+splits_path: data/processed/hard_provenance/splits.json
+artifacts_dir: data/artifacts/hard_provenance
+model_artifacts:
+  - name: logreg_shortcut_free
+    path: data/artifacts/hard_provenance/models/logreg_shortcut_free.pkl
+    training_config: configs/model_logreg_hard_provenance_shortcut_free.yaml
+  - name: xgb_shortcut_free
+    path: data/artifacts/hard_provenance/models/xgb_shortcut_free.pkl
+    training_config: configs/model_xgb_hard_provenance_shortcut_free.yaml
+  - name: text_tfidf
+    path: data/artifacts/hard_provenance/models/text_tfidf.pkl
+    training_config: configs/model_text_tfidf_hard_provenance.yaml
+  - name: hybrid
+    path: data/artifacts/hard_provenance/models/hybrid.pkl
+    training_config: configs/model_hybrid_hard_provenance.yaml
+regime_columns:
+  - spatial_regime
+  - rendering_regime
+  - structural_regime
+  - message_type
+  - attack_family
+  - benign_confounder_family
+  - source_type
+baselines:
+  - name: rule
+    enabled: true
+    threshold: 0.5
+bootstrap:
+  iterations: 200
+  random_state: 42
+run_ablations: false
+run_sanity_checks: false
+plots:
+  dpi: 160

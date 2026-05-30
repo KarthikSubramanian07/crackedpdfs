@@ -1,0 +1,14 @@
+model_name: logreg
+features_config: configs/features_dataset2_robust.yaml
+features_path: data/processed/dataset2_robust/features.parquet
+labels_path: data/processed/dataset2_robust/labels.parquet
+splits_path: data/processed/dataset2_robust/splits.json
+output_model_path: data/artifacts/dataset2_robust/models/logreg.pkl
+output_metrics_path: data/artifacts/dataset2_robust/metrics/logreg_train_metrics.json
+random_state: 42
+threshold: 0.5
+logreg:
+  c_values: [0.01, 0.1, 1.0, 10.0]
+  max_iter: 4000
+  class_weight: balanced
+  solver: liblinear

@@ -1,0 +1,40 @@
+output_root: out_benchmark
+total_count: 84
+seed: 20260320
+resume_mode: skip
+
+family_weights:
+  academic_handout: 1.0
+  business_memo_report: 1.0
+  form_worksheet: 1.0
+  policy_notice: 1.0
+  invoice_receipt: 1.0
+  syllabus_info: 1.0
+
+template_allowlist: []
+
+page_size_weights:
+  letter: 1.0
+  a4: 1.0
+
+margin_presets:
+  - 0.5in
+  - 0.75in
+  - 1.0in
+
+density_presets:
+  - sparse
+  - normal
+  - dense
+
+font_allowlist:
+  - source_serif_4
+  - source_sans_3
+  - libre_baskerville
+  - liberation_serif
+  - liberation_sans
+
+header_probability: 0.72
+footer_probability: 0.56
+small_text_probability: 0.34
+table_region_probability: 0.8

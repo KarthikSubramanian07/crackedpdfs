@@ -1,0 +1,37 @@
+dataset_config: configs/holdout_attack_families/dataset_microglyph_steganography.yaml
+features_path: data/processed/hard_provenance/features.parquet
+labels_path: data/processed/hard_provenance/labels.parquet
+splits_path: data/processed/holdout_attack_family/microglyph_steganography/splits.json
+artifacts_dir: data/artifacts/holdout_attack_family/microglyph_steganography
+model_artifacts:
+- name: logreg_shortcut_free
+  path: data/artifacts/holdout_attack_family/microglyph_steganography/models/logreg_shortcut_free.pkl
+  training_config: configs/holdout_attack_families/model_logreg_shortcut_free_microglyph_steganography.yaml
+- name: xgb_shortcut_free
+  path: data/artifacts/holdout_attack_family/microglyph_steganography/models/xgb_shortcut_free.pkl
+  training_config: configs/holdout_attack_families/model_xgb_shortcut_free_microglyph_steganography.yaml
+- name: text_tfidf
+  path: data/artifacts/holdout_attack_family/microglyph_steganography/models/text_tfidf.pkl
+  training_config: configs/holdout_attack_families/model_text_tfidf_microglyph_steganography.yaml
+- name: hybrid
+  path: data/artifacts/holdout_attack_family/microglyph_steganography/models/hybrid.pkl
+  training_config: configs/holdout_attack_families/model_hybrid_microglyph_steganography.yaml
+regime_columns:
+- spatial_regime
+- rendering_regime
+- structural_regime
+- message_type
+- attack_family
+- benign_confounder_family
+- source_type
+baselines:
+- name: rule
+  enabled: true
+  threshold: 0.5
+bootstrap:
+  iterations: 200
+  random_state: 42
+run_ablations: false
+run_sanity_checks: false
+plots:
+  dpi: 160

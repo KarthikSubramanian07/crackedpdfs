@@ -1,0 +1,20 @@
+model_name: logreg
+features_config: configs/holdout_attack_families/features_layout_mimicry.yaml
+features_path: data/processed/hard_provenance/features.parquet
+labels_path: data/processed/hard_provenance/labels.parquet
+splits_path: data/processed/holdout_attack_family/layout_mimicry/splits.json
+output_model_path: data/artifacts/holdout_attack_family/layout_mimicry/models/logreg.pkl
+output_metrics_path: data/artifacts/holdout_attack_family/layout_mimicry/metrics/logreg_train_metrics.json
+random_state: 42
+threshold: 0.5
+threshold_selection: best_f1_on_val
+logreg:
+  c_values:
+  - 0.01
+  - 0.1
+  - 1.0
+  - 10.0
+  max_iter: 4000
+  class_weight: balanced
+  solver: liblinear
+dataset_config: configs/holdout_attack_families/dataset_layout_mimicry.yaml

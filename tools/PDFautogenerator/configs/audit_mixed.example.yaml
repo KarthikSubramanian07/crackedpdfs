@@ -1,0 +1,51 @@
+profile: mixed
+generator_config_path: benchmark.yaml
+
+stage_field: stage
+default_stage: benign
+allow_missing_stage_for_default: false
+allowed_stages:
+  - benign
+  - injected
+
+regime_field: regime
+parent_field: parent_doc_id
+allowed_regimes:
+  - overlay
+  - append
+  - rewrite
+
+required_stage_fields:
+  injected:
+    - source_type
+    - template_id
+    - font_family
+    - page_size
+    - margin_preset
+    - density_preset
+    - has_header
+    - has_footer
+    - has_small_text
+    - column_mode
+    - has_table_region
+    - seed
+    - parent_doc_id
+    - regime
+
+support_thresholds:
+  min_family_count: 25
+  min_template_count: 10
+  min_regime_count: 25
+
+distribution_limits:
+  max_family_share: 0.30
+  max_template_share: 0.18
+  max_regime_share: 0.30
+
+near_duplicate:
+  similarity_threshold: 0.94
+  shingle_size: 5
+  band_count: 6
+  rows_per_band: 4
+  max_bucket_size: 200
+  sample_limit: 25

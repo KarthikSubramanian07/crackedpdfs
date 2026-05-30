@@ -1,0 +1,18 @@
+dataset_config: configs/holdout_attack_families/dataset_margin_microtext.yaml
+output_features_path: data/processed/holdout_attack_family/margin_microtext/features.parquet
+output_labels_path: data/processed/holdout_attack_family/margin_microtext/labels.parquet
+output_canonical_metadata_path: data/processed/holdout_attack_family/margin_microtext/canonical_metadata.parquet
+feature_schema_output_path: data/artifacts/holdout_attack_family/margin_microtext/feature_schema.json
+feature_schema_version: feature-schema-v3
+extraction_workers: 4
+progress_every: 500
+extractor:
+  page_box: cropbox
+  text_entropy_bins: 10
+  coord_clip_min: -1.0
+  coord_clip_max: 2.0
+  white_color_threshold: 0.99
+  small_font_threshold: 3.0
+  hidden_font_threshold: 2.0
+  bbox_char_width_factor: 0.5
+  include_text_mismatch: false

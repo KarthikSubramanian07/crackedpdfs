@@ -1,0 +1,91 @@
+dataset:
+  raw_dir: data/raw
+  canonical_metadata_path: data/raw/metadata.jsonl
+  canonical_metadata_output_path: data/processed/hard_provenance/canonical_metadata.jsonl
+  canonical_metadata_parquet_path: data/processed/hard_provenance/canonical_metadata.parquet
+  labels_output_path: data/processed/hard_provenance/labels.parquet
+  sample_metadata_dir: data/raw/metadata
+  run_metadata_path: data/raw/metadata.json
+  benign_pdf_dir: data/raw/benign
+  injected_pdf_dir: data/raw/injected
+  canonical_pdf_dir: data/raw/pdfs
+  benign_regime_value: none
+  split_group_column: split_group
+  group_column: base_pdf_id
+  split_output_path: data/processed/hard_provenance/splits.json
+  validation_report_path: data/artifacts/hard_provenance/logs/dataset_validation.json
+  random_state: 42
+  split:
+    strategy: heldout_provenance
+    heldout_column: source_original_filename
+    train_size: 0.8
+    val_size: 0.1
+    test_size: 0.1
+  allowed_labels: [0, 1]
+  allowed_source_types:
+    - born_digital
+    - mixed
+    - scanned
+    - unknown
+  allowed_spatial_regimes:
+    - none
+    - extreme_off_page
+    - inside_page
+    - near_margin
+    - negative_off_page
+  allowed_rendering_regimes:
+    - none
+    - invisible_render_mode
+    - normal_visible
+    - tiny_font
+    - white_text
+  allowed_structural_regimes:
+    - none
+    - append_new_stream
+    - inject_into_existing_stream
+    - prepend_stream
+  allowed_message_types:
+    - none
+    - instruction_override
+    - policy_framing
+    - task_hijack
+    - system_extraction
+    - refusal_suppression
+    - data_exfiltration
+    - agent_tool_manipulation
+    - summarization_steering
+  allowed_attack_families:
+    - none
+    - plain_single_block
+    - split_text_objects
+    - header_footer_like
+    - near_margin_normal_font
+    - in_page_invisible_text
+    - in_page_white_text
+    - in_page_tiny_text
+    - in_page_split_text_objects
+    - layout_mimicry
+    - semantic_fragmentation
+    - existing_stream_patch
+    - in_page_low_contrast_text
+    - margin_microtext
+    - steganographic_acrostic
+    - microglyph_steganography
+  allowed_attack_strengths:
+    - none
+    - weak
+    - medium
+    - strong
+  allowed_benign_confounder_families:
+    - none
+    - benign_in_page_invisible_note
+    - benign_in_page_white_watermark
+    - benign_in_page_tiny_footer
+    - benign_in_page_split_layout
+    - benign_layout_mimicry_note
+    - benign_semantic_fragmentation_note
+    - benign_existing_stream_note
+    - benign_low_contrast_watermark
+    - benign_margin_microtext
+    - benign_acrostic_editorial_note
+    - benign_microglyph_registration_mark

@@ -1,0 +1,160 @@
+"""
+Link Insertion Layer - Adds accessibility request link to PDF
+Adds a clickable URL at the bottom of the last page for accessibility requests.
+"""
+
+from __future__ import annotations
+
+import argparse
+import io
+import sys
+from pathlib import Path
+from typing import Optional
+
+def add_accessibility_link(
+    input_path: Path,
+    output_path: Path,
+    access_token: str,
+    base_url: str = "https://solvance.ai"
+) -> dict:
+    """
+    Add accessibility request link to the last page of the PDF.
+    
+    Args:
+        input_path: Path to input PDF
+        output_path: Path to output PDF
+        access_token: Unique document access token
+        base_url: Base URL for the application
+        
+    Returns:
+        dict with metadata about the operation
+    """
+    try:
+        from PyPDF2 import PdfReader, PdfWriter
+        from reportlab.pdfbase import pdfmetrics
+        from reportlab.pdfgen import canvas
+        from reportlab.lib.colors import Color
+    except ImportError as exc:
+        raise SystemExit(
+            "Missing dependencies. Install with: pip install PyPDF2 reportlab"
+        ) from exc
+    
+    # Generate accessibility request URL
+    accessibility_url = f"{base_url}/accessibility/request?doc={access_token}"
+    
+    # Read the input PDF
+    reader = PdfReader(str(input_path))
+    writer = PdfWriter()
+    
+    total_pages = len(reader.pages)
+    
+    # Copy all pages
+    for page_num, page in enumerate(reader.pages):
+        page_width = float(page.mediabox.width)
+        page_height = float(page.mediabox.height)
+        
+        # Only add link to the last page
+        if page_num == total_pages - 1:
+            # Create overlay with link
+            overlay_buffer = io.BytesIO()
+            overlay_canvas = canvas.Canvas(overlay_buffer, pagesize=(page_width, page_height))
+            
+            # Position at bottom of page with some margin
+            margin = 36  # 0.5 inch margin
+            link_y = margin
+            link_x = margin
+            
+            # Font settings
+            font_size = 8
+            text_color = Color(0.2, 0.2, 0.8, alpha=1)  # Blue color
+            
+            # Draw the link text
+            overlay_canvas.setFillColor(text_color)
+            overlay_canvas.setFont("Helvetica", font_size)
+            
+            link_text = "Request Accessibility Access"
+            text_width = pdfmetrics.stringWidth(link_text, "Helvetica", font_size)
+            
+            # Find whitespace at bottom-right corner
+            # Position: bottom-right with margins
+            link_x = page_width - text_width - margin
+            link_y = margin
+            
+            # Draw clickable link
+            overlay_canvas.drawString(link_x, link_y, link_text)
+            
+            # Add hyperlink annotation
+            overlay_canvas.linkURL(
+                accessibility_url,
+                (link_x, link_y, link_x + text_width, link_y + font_size),
+                relative=0
+            )
+            
+            # Draw a small info icon/text before the link
+            info_text = "ⓘ Need accessible format? "
+            info_width = pdfmetrics.stringWidth(info_text, "Helvetica", font_size)
+            info_color = Color(0.4, 0.4, 0.4, alpha=1)  # Gray
+            overlay_canvas.setFillColor(info_color)
+            overlay_canvas.drawString(link_x - info_width - 5, link_y, info_text)
+            
+            overlay_canvas.save()
+            overlay_buffer.seek(0)
+            
+            # Merge overlay with page
+            overlay_page = PdfReader(overlay_buffer).pages[0]
+            page.merge_page(overlay_page)
+        
+        writer.add_page(page)
+    
+    # Write output
+    with output_path.open("wb") as output_file:
+        writer.write(output_file)
+    
+    return {
+        "success": True,
+        "total_pages": total_pages,
+        "link_added_to_page": total_pages,
+        "accessibility_url": accessibility_url,
+        "link_position": "bottom-right"
+    }
+
+
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Add accessibility request link to PDF"
+    )
+    parser.add_argument("input_path", type=Path, help="Input PDF path")
+    parser.add_argument("output_path", type=Path, help="Output PDF path")
+    parser.add_argument("access_token", type=str, help="Document access token")
+    parser.add_argument(
+        "--base-url",
+        type=str,
+        default="https://solvance.ai",
+        help="Base URL for accessibility requests"
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: Optional[list[str]] = None) -> None:
+    args = parse_args(argv or sys.argv[1:])
+    
+    if not args.input_path.exists():
+        raise SystemExit(f"Input file not found: {args.input_path}")
+    
+    result = add_accessibility_link(
+        args.input_path,
+        args.output_path,
+        args.access_token,
+        args.base_url
+    )
+    
+    if result["success"]:
+        print(f"✅ Added accessibility link to page {result['link_added_to_page']}")
+        print(f"📄 URL: {result['accessibility_url']}")
+        print(f"💾 Output: {args.output_path}")
+    else:
+        raise SystemExit("Failed to add accessibility link")
+
+
+if __name__ == "__main__":
+    main()

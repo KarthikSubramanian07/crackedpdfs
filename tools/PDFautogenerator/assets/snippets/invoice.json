@@ -1,0 +1,37 @@
+{
+  "vendors": [
+    "Harbor Ridge Group",
+    "Pinecrest Logistics",
+    "Northfield Services",
+    "Cedar Hill Office Solutions",
+    "Summit Point Partners"
+  ],
+  "item_names": [
+    "Office supplies",
+    "Printing services",
+    "Room reservation",
+    "Training materials",
+    "Courier service",
+    "Administrative support",
+    "Registration processing",
+    "Equipment setup",
+    "Document preparation",
+    "Meeting support",
+    "Records handling",
+    "Intake coordination",
+    "Scheduling assistance",
+    "Facilities access"
+  ],
+  "terms": [
+    "Net 15",
+    "Net 30",
+    "Due on receipt",
+    "Payment due within 10 days"
+  ],
+  "footer_lines": [
+    "Thank you for your prompt attention.",
+    "Retain this document for your records.",
+    "Questions may be directed to the billing contact listed above.",
+    "Reference the invoice number with all correspondence."
+  ]
+}

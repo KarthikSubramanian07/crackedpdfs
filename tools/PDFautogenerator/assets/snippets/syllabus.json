@@ -1,0 +1,42 @@
+{
+  "courses": [
+    "Introduction to Public Writing",
+    "Foundations of Community Health",
+    "Applied Statistics Workshop",
+    "Program Planning Seminar",
+    "Introduction to Civic Research",
+    "Essentials of Administrative Practice"
+  ],
+  "titles": [
+    "Course Syllabus",
+    "Program Information Sheet",
+    "Course Overview",
+    "Instructional Schedule",
+    "Program Outline",
+    "Schedule and Policies"
+  ],
+  "policies": [
+    "Assignments submitted after the posted deadline may receive reduced credit unless prior arrangements were approved.",
+    "Attendance is expected because the course relies on in-class review, structured discussion, and periodic short exercises.",
+    "Course updates will be shared through the usual classroom channel and should be reviewed before each meeting.",
+    "Readings should be completed before class so that lecture time can focus on examples, questions, and applied practice.",
+    "Students are encouraged to ask for clarification early if any grading or participation expectation is unclear."
+  ],
+  "schedule_topics": [
+    "Course introduction and expectations",
+    "Reading strategies and note organization",
+    "Short response workshop",
+    "Applied example review",
+    "Midterm preparation session",
+    "Project planning and revision",
+    "Presentation guidelines",
+    "Final review and wrap-up"
+  ],
+  "grading_labels": [
+    "Participation",
+    "Short responses",
+    "Reading notes",
+    "Project draft",
+    "Final assignment"
+  ]
+}

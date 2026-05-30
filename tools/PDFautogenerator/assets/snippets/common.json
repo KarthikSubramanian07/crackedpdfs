@@ -1,0 +1,96 @@
+{
+  "people_first_names": [
+    "Avery",
+    "Jordan",
+    "Taylor",
+    "Morgan",
+    "Casey",
+    "Riley",
+    "Jamie",
+    "Parker",
+    "Emerson",
+    "Quinn"
+  ],
+  "people_last_names": [
+    "Kim",
+    "Patel",
+    "Nguyen",
+    "Rivera",
+    "Lopez",
+    "Chen",
+    "Carter",
+    "Singh",
+    "Hall",
+    "Brooks"
+  ],
+  "departments": [
+    "Operations",
+    "Student Services",
+    "Administrative Affairs",
+    "Facilities",
+    "Program Support",
+    "Community Outreach"
+  ],
+  "locations": [
+    "Room 104",
+    "Building A",
+    "North Office",
+    "Learning Center",
+    "Conference Room 2",
+    "Main Hall"
+  ],
+  "cities": [
+    "Portland",
+    "Sacramento",
+    "Irvine",
+    "Seattle",
+    "San Diego",
+    "Oakland"
+  ],
+  "companies": [
+    "Harbor Ridge Group",
+    "Northfield Services",
+    "Summit Point Partners",
+    "Westbridge Advisory",
+    "Pinecrest Logistics",
+    "Cedar Hill Office Solutions"
+  ],
+  "program_names": [
+    "Community Leadership Program",
+    "Weekend Enrichment Series",
+    "Campus Support Initiative",
+    "Regional Training Workshop",
+    "Student Success Program",
+    "Office Operations Seminar"
+  ],
+  "months": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ],
+  "years": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027
+  ],
+  "small_notes": [
+    "Retain a copy for routine reference.",
+    "Prepared for standard internal use.",
+    "Please verify dates against the current schedule.",
+    "Questions may be directed to the office listed above.",
+    "Records should be updated if contact details change.",
+    "Issued for ordinary administrative reference."
+  ]
+}

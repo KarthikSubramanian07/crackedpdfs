@@ -1,0 +1,1 @@
+"""Solvance detector package."""

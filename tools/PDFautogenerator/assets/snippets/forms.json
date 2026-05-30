@@ -1,0 +1,52 @@
+{
+  "titles": [
+    "Acknowledgement Form",
+    "Information Worksheet",
+    "Program Checklist",
+    "Intake Worksheet",
+    "Review Form",
+    "Records Update Sheet"
+  ],
+  "field_labels": [
+    "Name",
+    "Date",
+    "ID Number",
+    "Department",
+    "Phone",
+    "Email",
+    "Supervisor",
+    "Program",
+    "Location",
+    "Signature"
+  ],
+  "checkbox_items": [
+    "I have reviewed the schedule details.",
+    "I understand the attendance expectation.",
+    "I confirm that contact information is current.",
+    "I received the policy summary.",
+    "I understand the reporting process.",
+    "I will keep a copy for my records.",
+    "I have completed all required fields.",
+    "I will notify the office of any updates.",
+    "I have verified the listed program location.",
+    "I reviewed the contact information with staff.",
+    "I understand the follow-up communication process.",
+    "I confirmed the preferred phone and email details."
+  ],
+  "signature_labels": [
+    "Participant Signature",
+    "Reviewer Signature",
+    "Requestor Signature",
+    "Coordinator Signature",
+    "Applicant Signature",
+    "Staff Signature",
+    "Supervisor Signature",
+    "Records Signature"
+  ],
+  "acknowledgement_lines": [
+    "Please print clearly and complete all fields before signing the final acknowledgement line.",
+    "Use this worksheet to confirm the most current contact and scheduling information on file.",
+    "Return the completed form to the front desk or administrative office by the listed due date.",
+    "This form is for internal records and should be retained with related program paperwork."
+  ]
+}

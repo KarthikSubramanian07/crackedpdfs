@@ -1,0 +1,55 @@
+{
+  "courses": [
+    "HIST 120: Modern Institutions",
+    "ENG 205: Reading and Analysis",
+    "BIO 110: Introductory Life Science",
+    "SOC 140: Community and Culture",
+    "ECON 101: Principles of Markets",
+    "STAT 115: Applied Data Review"
+  ],
+  "titles": [
+    "Lecture Handout",
+    "Discussion Notes",
+    "Practice Worksheet",
+    "Reading Questions",
+    "Weekly Review Sheet",
+    "Class Preparation Guide"
+  ],
+  "section_titles": [
+    "Overview",
+    "Key Terms",
+    "Reading Focus",
+    "Discussion Prompts",
+    "Written Response",
+    "Practice Tasks"
+  ],
+  "paragraphs": [
+    "Review the assigned material before class and note any terms that require clarification during discussion.",
+    "Bring a copy of your notes and be prepared to compare examples with a partner during the opening activity.",
+    "Responses may be concise, but they should refer to evidence from the reading or the lecture summary.",
+    "Use complete sentences for short written answers unless the prompt explicitly requests a list or outline.",
+    "Office hours are intended for content questions, assignment planning, and feedback on study strategies.",
+    "The goal of this handout is to support organized review rather than to introduce new material."
+  ],
+  "questions": [
+    "Identify one claim made by the author and explain why it matters for the broader topic.",
+    "Summarize the most relevant example from the reading in two or three sentences.",
+    "List two terms from the lecture that connect directly to the assigned material.",
+    "Describe one question you would raise during class discussion and explain what prompted it.",
+    "Compare the main topic this week with a topic covered earlier in the course.",
+    "Write a short response explaining which concept still feels least familiar."
+  ],
+  "office_hours": [
+    "Office hours: Tuesday 2:00-3:30 PM",
+    "Office hours: Wednesday 10:00-11:00 AM",
+    "Office hours: Thursday 1:30-3:00 PM",
+    "Office hours: Friday 9:00-10:30 AM"
+  ],
+  "reading_labels": [
+    "Assigned reading",
+    "Preparation note",
+    "Before next class",
+    "Reminder",
+    "Practice focus"
+  ]
+}

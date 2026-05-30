@@ -1,0 +1,22 @@
+{
+  "name": "@solvance/confusion-matrix-layer",
+  "version": "1.0.0",
+  "description": "VGG16-based perceptual noise watermarking layer (Rust + Node.js)",
+  "main": "index.ts",
+  "scripts": {
+    "build:rust": "cd rust && chmod +x build.sh && ./build.sh",
+    "validate": "node -e \"require('./cli-executor').validateBinarySetup().then(r => console.log(r))\"",
+    "test:cli": "cd rust && cargo test",
+    "docker:build": "docker build -t confusion-matrix-layer:latest .",
+    "docker:push": "docker tag confusion-matrix-layer:latest ${ECR_URI}:latest && docker push ${ECR_URI}:latest"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.600.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

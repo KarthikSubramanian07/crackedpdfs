@@ -1,0 +1,57 @@
+dataset_config: configs/dataset_hard_provenance.yaml
+features_path: data/processed/hard_provenance/features.parquet
+labels_path: data/processed/hard_provenance/labels.parquet
+splits_path: data/processed/hard_provenance/splits.json
+artifacts_dir: data/artifacts/hard_provenance_fast_dev
+model_artifacts:
+  - name: logreg_shortcut_free
+    path: data/artifacts/hard_provenance_fast/models/logreg_shortcut_free.pkl
+    training_config: configs/model_logreg_hard_provenance_fast_shortcut_free.yaml
+  - name: xgb_shortcut_free
+    path: data/artifacts/hard_provenance_fast/models/xgb_shortcut_free.pkl
+    training_config: configs/model_xgb_hard_provenance_fast_shortcut_free.yaml
+  - name: text_tfidf
+    path: data/artifacts/hard_provenance_fast/models/text_tfidf.pkl
+    training_config: configs/model_text_tfidf_hard_provenance_fast.yaml
+regime_columns:
+  - spatial_regime
+  - rendering_regime
+  - structural_regime
+  - message_type
+  - attack_family
+  - benign_confounder_family
+  - source_type
+baselines:
+  - name: rule
+    enabled: true
+    threshold: 0.5
+run_ablations: false
+run_sanity_checks: false
+leakage_gate:
+  single_feature_accuracy_threshold: 0.70
+  fail_on_shortcut_risk: false
+bootstrap:
+  iterations: 0
+  random_state: 42
+claim_thresholds:
+  primary_shortcut_free_models:
+    - logreg_shortcut_free
+    - xgb_shortcut_free
+    - text_tfidf
+  min_shortcut_free_f1: 0.75
+  min_paired_benign_confounder_accuracy: 0.75
+  max_full_to_shortcut_free_f1_drop: 0.2
+  text_detector:
+    max_wrapper_top_weight_hits: 0
+    max_wrapper_strip_f1_drop: 0.05
+  fail_on_blocked: false
+exact_commands:
+  - python -m src.cli validate-dataset --config configs/dataset_hard_provenance.yaml
+  - python -m src.cli build-features --config configs/features_hard_provenance.yaml
+  - python -m src.cli build-splits --config configs/dataset_hard_provenance.yaml
+  - python -m src.cli train --model logreg --config configs/model_logreg_hard_provenance_fast_shortcut_free.yaml
+  - python -m src.cli train --model xgb --config configs/model_xgb_hard_provenance_fast_shortcut_free.yaml
+  - python -m src.cli train --model text --config configs/model_text_tfidf_hard_provenance_fast.yaml
+  - python -m src.cli evaluate --config configs/eval_hard_provenance_fast_dev.yaml
+plots:
+  dpi: 120

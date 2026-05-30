@@ -1,0 +1,61 @@
+model_name: logreg
+features_config: configs/holdout_attack_families/features_in_page_low_contrast_text.yaml
+features_path: data/processed/hard_provenance/features.parquet
+labels_path: data/processed/hard_provenance/labels.parquet
+splits_path: data/processed/holdout_attack_family/in_page_low_contrast_text/splits.json
+output_model_path: data/artifacts/holdout_attack_family/in_page_low_contrast_text/models/logreg_shortcut_free.pkl
+output_metrics_path: data/artifacts/holdout_attack_family/in_page_low_contrast_text/metrics/logreg_shortcut_free_train_metrics.json
+random_state: 42
+threshold: 0.5
+threshold_selection: best_f1_on_val
+drop_feature_columns:
+- page_width
+- page_height
+- num_text_objects
+- num_text_outside_page_bounds
+- frac_text_outside_page
+- num_text_negative_coords
+- max_abs_x
+- max_abs_y
+- max_distance_from_page_center
+- mean_distance_from_page_center
+- coord_entropy_x
+- coord_entropy_y
+- bbox_area_mean
+- bbox_area_std
+- quadrant_density_q1
+- quadrant_density_q2
+- quadrant_density_q3
+- quadrant_density_q4
+- coord_variance_x
+- coord_variance_y
+- distance_outlier_score
+- num_render_mode_3
+- frac_render_mode_3
+- num_nonstandard_render_modes
+- num_white_text
+- frac_white_text
+- white_text_on_white_bg_flag
+- num_pages
+- num_content_streams_total
+- mean_streams_per_page
+- std_streams_per_page
+- artifact_bmc_count
+- artifact_emc_count
+- has_artifact_wrapper
+- num_text_show_ops
+- num_stream_objects
+- avg_stream_length_bytes
+- max_stream_length_bytes
+- text_density_per_page
+- injection_cluster_score
+logreg:
+  c_values:
+  - 0.01
+  - 0.1
+  - 1.0
+  - 10.0
+  max_iter: 4000
+  class_weight: balanced
+  solver: liblinear
+dataset_config: configs/holdout_attack_families/dataset_in_page_low_contrast_text.yaml

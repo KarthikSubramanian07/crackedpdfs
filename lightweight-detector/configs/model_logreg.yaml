@@ -1,0 +1,14 @@
+model_name: logreg
+features_config: configs/features.yaml
+features_path: data/processed/features.parquet
+labels_path: data/processed/labels.parquet
+splits_path: data/processed/splits.json
+output_model_path: data/artifacts/models/logreg.pkl
+output_metrics_path: data/artifacts/metrics/logreg_train_metrics.json
+random_state: 42
+threshold: 0.5
+logreg:
+  c_values: [0.01, 0.1, 1.0, 10.0]
+  max_iter: 4000
+  class_weight: balanced
+  solver: liblinear

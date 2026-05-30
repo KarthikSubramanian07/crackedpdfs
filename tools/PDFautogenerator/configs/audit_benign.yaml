@@ -1,0 +1,20 @@
+profile: benign_only
+generator_config_path: benchmark.yaml
+
+support_thresholds:
+  min_family_count: 10
+  min_template_count: 4
+  min_regime_count: 1
+
+distribution_limits:
+  max_family_share: 0.30
+  max_template_share: 0.18
+  max_regime_share: 1.0
+
+near_duplicate:
+  similarity_threshold: 0.94
+  shingle_size: 5
+  band_count: 6
+  rows_per_band: 4
+  max_bucket_size: 200
+  sample_limit: 25

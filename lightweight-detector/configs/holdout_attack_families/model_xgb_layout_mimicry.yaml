@@ -1,0 +1,21 @@
+model_name: xgb
+features_config: configs/holdout_attack_families/features_layout_mimicry.yaml
+features_path: data/processed/hard_provenance/features.parquet
+labels_path: data/processed/hard_provenance/labels.parquet
+splits_path: data/processed/holdout_attack_family/layout_mimicry/splits.json
+output_model_path: data/artifacts/holdout_attack_family/layout_mimicry/models/xgb.pkl
+output_metrics_path: data/artifacts/holdout_attack_family/layout_mimicry/metrics/xgb_train_metrics.json
+random_state: 42
+threshold: 0.5
+threshold_selection: best_f1_on_val
+xgb:
+  n_estimators: 400
+  max_depth: 4
+  learning_rate: 0.05
+  subsample: 0.9
+  colsample_bytree: 0.9
+  reg_lambda: 1.0
+  min_child_weight: 1.0
+  early_stopping_rounds: 25
+  eval_metric: logloss
+dataset_config: configs/holdout_attack_families/dataset_layout_mimicry.yaml

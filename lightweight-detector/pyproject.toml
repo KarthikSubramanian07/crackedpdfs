@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "solvance-detector"
+version = "0.1.0"
+description = "Reproducible PDF structural prompt injection detector pipeline."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=2.2.0",
+  "pandas>=2.2.0",
+  "pyarrow>=18.0.0",
+  "pikepdf>=9.0.0",
+  "PyYAML>=6.0.0",
+  "scikit-learn>=1.5.0",
+  "xgboost>=2.1.0",
+  "matplotlib>=3.9.0",
+  "pypdf>=5.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
