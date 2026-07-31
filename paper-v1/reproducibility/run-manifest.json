@@ -1,0 +1,49 @@
+{
+  "bundle_dir": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility",
+  "copied_files": {
+    "dataset_config.yaml": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\dataset_config.yaml",
+    "eval_config.yaml": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\eval_config.yaml",
+    "feature_schema.json": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\feature_schema.json",
+    "model_hybrid_training_config.yaml": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\model_hybrid_training_config.yaml",
+    "model_logreg_shortcut_free_training_config.yaml": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\model_logreg_shortcut_free_training_config.yaml",
+    "model_text_tfidf_training_config.yaml": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\model_text_tfidf_training_config.yaml",
+    "model_xgb_shortcut_free_training_config.yaml": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\model_xgb_shortcut_free_training_config.yaml",
+    "splits.json": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\splits.json"
+  },
+  "eval_artifacts_dir": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final",
+  "exact_commands": [
+    "python -m src.cli validate-dataset --config configs/dataset_hard_provenance.yaml",
+    "python -m src.cli build-splits --config configs/dataset_hard_provenance.yaml",
+    "python -m src.cli build-features --config configs/features_hard_provenance.yaml",
+    "python -m src.cli train --model logreg --config configs/model_logreg_hard_provenance_shortcut_free.yaml",
+    "python -m src.cli train --model xgb --config configs/model_xgb_hard_provenance_shortcut_free.yaml",
+    "python -m src.cli train --model text --config configs/model_text_tfidf_hard_provenance.yaml",
+    "python -m src.cli train --model hybrid --config configs/model_hybrid_hard_provenance.yaml",
+    "python -m src.cli evaluate --config configs/eval_publication_final.yaml"
+  ],
+  "features_path": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\processed\\hard_provenance\\features.parquet",
+  "file_hashes": {
+    "bundle:dataset_config.yaml": "2eb34d7083832dd3d8ce1371f8c97bbeeba8c9b994d5dbc8a5c75f3ccb11a428",
+    "bundle:eval_config.yaml": "d2e0b2e4ab2f14124172208c6a793c654e0748bd6c000f8f2081955b328009d9",
+    "bundle:feature_schema.json": "ff3ec5edfeea68a71669b0782402cfdd37987c0c3560a4adfc0002ffc139b8e0",
+    "bundle:model_hybrid_training_config.yaml": "48c373dcdf18237cd68971e534bef693e9d65261e333bb8801f8d508cca934cf",
+    "bundle:model_logreg_shortcut_free_training_config.yaml": "454d2815c14efd494331fde6b42120142a066274ecbe3c59b0e69b7078c77985",
+    "bundle:model_text_tfidf_training_config.yaml": "d8c81a6738d2e0dca8144300adaf3c55c68b0eb7aafd0cb957c694fa0e77796f",
+    "bundle:model_xgb_shortcut_free_training_config.yaml": "445595f2b07929135b1a5b95de460ebb61fefcd4e60b737d11d945e150632a0f",
+    "bundle:splits.json": "5ab6a6236cd13613fb194896e38eb6f85c131746df799485e800eab6cff338c3",
+    "features": "4726c8176c8b9dd7f0a24e6ea9a9d4f7263184562619f30d5f182dc380d32b80",
+    "labels": "41838450b245e22761293db57f05997cd9819a86abe2cc1f362f7cccc9724927",
+    "splits": "5ab6a6236cd13613fb194896e38eb6f85c131746df799485e800eab6cff338c3"
+  },
+  "labels_path": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\processed\\hard_provenance\\labels.parquet",
+  "promptguard_cache_policy": [
+    {
+      "allow_legacy_cache": false,
+      "name": "promptguard",
+      "reuse_scores": true,
+      "score_strategy": "sum_injection_and_jailbreak",
+      "scores_path": "data/artifacts/hard_provenance_publication/metrics/promptguard_scores.csv"
+    }
+  ],
+  "splits_path": "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\processed\\hard_provenance\\splits.json"
+}

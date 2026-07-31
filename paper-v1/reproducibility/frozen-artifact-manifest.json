@@ -1,0 +1,1442 @@
+{
+    "frozen_at_utc":  "2026-05-26T15:56:00.3892342Z",
+    "detector_root":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector",
+    "claim_scope":  "Controlled hard-provenance benchmark plus sanitized hybrid text/structure detector; structural-only results are negative controls.",
+    "source_snapshot":  [
+                            {
+                                "path":  ".\\src\\cli.py",
+                                "sha256":  "5a04c8c1abcd755a8f69bb02c8285e16945218015f09cd5c86e1d6dfe389c67b",
+                                "bytes":  3767,
+                                "last_write_time_utc":  "2026-05-25T18:43:28.5558941Z"
+                            },
+                            {
+                                "path":  ".\\src\\common.py",
+                                "sha256":  "2a313852a63655399bf8e280bd78380f742d9e27066b06b8eb7409130319dcb9",
+                                "bytes":  3139,
+                                "last_write_time_utc":  "2026-03-09T12:42:51.2246754Z"
+                            },
+                            {
+                                "path":  ".\\src\\__init__.py",
+                                "sha256":  "3a874fc8841d168358bb35052c5e1e9ef934b46b714f942627123fd37bb198b8",
+                                "bytes":  33,
+                                "last_write_time_utc":  "2026-03-09T12:39:12.6788971Z"
+                            },
+                            {
+                                "path":  ".\\src\\data\\build_splits.py",
+                                "sha256":  "2ffc9b5ec37c49c9e82d76a8ec7bcad2e0cfe7ba6c0177737eb77b3c78960a1f",
+                                "bytes":  19502,
+                                "last_write_time_utc":  "2026-05-23T04:26:51.2876278Z"
+                            },
+                            {
+                                "path":  ".\\src\\data\\load_metadata.py",
+                                "sha256":  "bdbb28abe415f7ece92b3ae0f48eb316b631a85ec9a3e241add38b16e8f71da8",
+                                "bytes":  20526,
+                                "last_write_time_utc":  "2026-05-25T05:00:58.0954966Z"
+                            },
+                            {
+                                "path":  ".\\src\\data\\validate_dataset.py",
+                                "sha256":  "14f680dff20a2accb77520d87efd7cbeb2dc78aba1c99894e5398545148e7e0f",
+                                "bytes":  11091,
+                                "last_write_time_utc":  "2026-05-25T04:47:04.6308278Z"
+                            },
+                            {
+                                "path":  ".\\src\\data\\__init__.py",
+                                "sha256":  "2110459e38b8d069bab08472bb3f75e1ee0640e0331d45480bf8fca8a0f5e5a5",
+                                "bytes":  50,
+                                "last_write_time_utc":  "2026-03-09T12:39:12.6799075Z"
+                            },
+                            {
+                                "path":  ".\\src\\data\\__pycache__\\build_splits.cpython-313.pyc",
+                                "sha256":  "03ffe4e53a8f0362eefafa6557c62b5460a8a2482bac394d6136359104a970da",
+                                "bytes":  24405,
+                                "last_write_time_utc":  "2026-05-23T04:27:03.8128909Z"
+                            },
+                            {
+                                "path":  ".\\src\\data\\__pycache__\\load_metadata.cpython-313.pyc",
+                                "sha256":  "022eb9e2030b8633eeeb26a8a93898a651ef1d411aa0600aa44e6e07b5687926",
+                                "bytes":  20853,
+                                "last_write_time_utc":  "2026-05-25T05:01:03.4468021Z"
+                            },
+                            {
+                                "path":  ".\\src\\data\\__pycache__\\validate_dataset.cpython-313.pyc",
+                                "sha256":  "af827eeb9d6b3a05216c8950787441f64c3d585c133f0d8737c2336193d3a68c",
+                                "bytes":  15055,
+                                "last_write_time_utc":  "2026-05-25T04:47:33.4204960Z"
+                            },
+                            {
+                                "path":  ".\\src\\data\\__pycache__\\__init__.cpython-313.pyc",
+                                "sha256":  "056eaa23c6143dd411bcc08bad3cc6cb945b35c40fc68dc65266eaf5f1434782",
+                                "bytes":  196,
+                                "last_write_time_utc":  "2026-03-09T12:50:21.1533691Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\ablations.py",
+                                "sha256":  "aedf98fcda132402a39222234f2d714bab32fb60e10125d309bccc08f00f0b47",
+                                "bytes":  5605,
+                                "last_write_time_utc":  "2026-05-25T23:01:05.4947178Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\baselines.py",
+                                "sha256":  "6d47d4c6d143ea6661806af2d36cbc347b07d79e2d9bb96fcc4917a6c9c97801",
+                                "bytes":  6638,
+                                "last_write_time_utc":  "2026-05-25T18:41:13.8263282Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\metrics.py",
+                                "sha256":  "46952065542b9168ea96ca6e9872b71967162d25833638c3a2b7439cfa1df9a1",
+                                "bytes":  3863,
+                                "last_write_time_utc":  "2026-05-24T03:58:07.1904218Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\per_regime.py",
+                                "sha256":  "f52c5cdcf01b1ec1d0298ecd777cbd87a1652142ca0a0d0a122e7bbcda6f7a31",
+                                "bytes":  1595,
+                                "last_write_time_utc":  "2026-03-09T12:48:42.0638708Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\plots.py",
+                                "sha256":  "044b68d5a3d2f6fe99f692966c5d7d19bacf830e2e0e3942370d18b73c1cec8b",
+                                "bytes":  3950,
+                                "last_write_time_utc":  "2026-03-22T07:07:04.1291802Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\run.py",
+                                "sha256":  "a3281404547c703266e7ce8ae5b3f75cdcb9fc96e3e6c101d5bca6779712c4a3",
+                                "bytes":  55896,
+                                "last_write_time_utc":  "2026-05-26T15:22:07.2776256Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\__init__.py",
+                                "sha256":  "f4265be9812a42fcbe10682769c95597946c675929ffc2a3693e9848bf67796c",
+                                "bytes":  26,
+                                "last_write_time_utc":  "2026-03-09T12:39:12.6799075Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\__pycache__\\ablations.cpython-313.pyc",
+                                "sha256":  "44e8f341e57b0f2fc1f9f9aacc1df0219592368f65a0b30516a0bbae199d0e22",
+                                "bytes":  5630,
+                                "last_write_time_utc":  "2026-05-25T23:03:58.9395536Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\__pycache__\\baselines.cpython-313.pyc",
+                                "sha256":  "2c388efbb43c521b590dea1c9b5e0af4cb590ce5e67caa13f34e5be8bf6ee209",
+                                "bytes":  10452,
+                                "last_write_time_utc":  "2026-05-25T18:45:16.3969062Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\__pycache__\\metrics.cpython-313.pyc",
+                                "sha256":  "19656ebda8d08fbbeec3e21c4441a82cfdfa4de07726ce4f63f264a08a49bb5e",
+                                "bytes":  4767,
+                                "last_write_time_utc":  "2026-05-24T03:58:52.2397966Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\__pycache__\\per_regime.cpython-313.pyc",
+                                "sha256":  "a95d69dde995b8e8e35a04038bf906889fd05d375b2f25aa4e85ecee1aca1263",
+                                "bytes":  1982,
+                                "last_write_time_utc":  "2026-05-21T20:38:04.8083152Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\__pycache__\\plots.cpython-313.pyc",
+                                "sha256":  "0651c67748a54b6fdbc968cf30a36aadb503f7068b0c302623ceadf4b852a373",
+                                "bytes":  7424,
+                                "last_write_time_utc":  "2026-03-22T07:08:01.7504245Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\__pycache__\\run.cpython-313.pyc",
+                                "sha256":  "1c5bd56b2427601ee73bb6e5d3c9df010b0d3af08f23692cb071b43f54ef57ce",
+                                "bytes":  63356,
+                                "last_write_time_utc":  "2026-05-26T15:55:28.5598035Z"
+                            },
+                            {
+                                "path":  ".\\src\\eval\\__pycache__\\__init__.cpython-313.pyc",
+                                "sha256":  "01626e958c63bf4e9afce367514b19e306cd3399ce8983d4786503c91edb8250",
+                                "bytes":  172,
+                                "last_write_time_utc":  "2026-03-09T12:50:21.1674991Z"
+                            },
+                            {
+                                "path":  ".\\src\\features\\build_features.py",
+                                "sha256":  "69262530b49b01d64855c4df4c08f902a2b319b26c8a0e438c0a16aae93dd3ae",
+                                "bytes":  5962,
+                                "last_write_time_utc":  "2026-05-25T04:31:03.8012539Z"
+                            },
+                            {
+                                "path":  ".\\src\\features\\normalize.py",
+                                "sha256":  "3b69a201b2760bdb1f52ad6de6039f73b194271fbf2a2fa0716066f3e90dbd5a",
+                                "bytes":  1986,
+                                "last_write_time_utc":  "2026-05-23T02:44:59.4373224Z"
+                            },
+                            {
+                                "path":  ".\\src\\features\\schema.py",
+                                "sha256":  "c6ec3de1cde9f86282f97e29ebe7dcc0955036d3abe3d2099c5987f01478baf2",
+                                "bytes":  6242,
+                                "last_write_time_utc":  "2026-05-25T04:58:15.2675954Z"
+                            },
+                            {
+                                "path":  ".\\src\\features\\__init__.py",
+                                "sha256":  "b933f1ef8ccc6101d80f70834036a771ed257c203f1fe2fb89b163e80a0f86d5",
+                                "bytes":  42,
+                                "last_write_time_utc":  "2026-03-09T12:39:12.6809200Z"
+                            },
+                            {
+                                "path":  ".\\src\\features\\__pycache__\\build_features.cpython-313.pyc",
+                                "sha256":  "cdc37aca22443cafc41139de99158baa7ca5f82133062b11577da3fe34266406",
+                                "bytes":  7392,
+                                "last_write_time_utc":  "2026-05-25T04:31:17.7006034Z"
+                            },
+                            {
+                                "path":  ".\\src\\features\\__pycache__\\normalize.cpython-313.pyc",
+                                "sha256":  "71b2429e38640cbfbf87923cc87ab685f81fcdc1a25e2ed8329dc1515f5c85a7",
+                                "bytes":  2918,
+                                "last_write_time_utc":  "2026-05-23T03:38:17.9591979Z"
+                            },
+                            {
+                                "path":  ".\\src\\features\\__pycache__\\schema.cpython-313.pyc",
+                                "sha256":  "f347b2159671ae018fed51ea26b4a0fde4dfe35293523f53d79f71d50ec72e41",
+                                "bytes":  4263,
+                                "last_write_time_utc":  "2026-05-25T04:58:40.9343647Z"
+                            },
+                            {
+                                "path":  ".\\src\\features\\__pycache__\\__init__.cpython-313.pyc",
+                                "sha256":  "97759ee4e81f3d07f2175ad9193509a973e1133efddf8a1fbf08ac8f602ee36c",
+                                "bytes":  192,
+                                "last_write_time_utc":  "2026-03-09T12:50:21.1825750Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\common.py",
+                                "sha256":  "eb792b85e968118ab42e668b15cdfb6ba246973215ed29de302c0b4c48772207",
+                                "bytes":  2497,
+                                "last_write_time_utc":  "2026-03-09T12:48:42.0617993Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\inference.py",
+                                "sha256":  "cde12d748842f7daf5fbbdbc4bc30bbfe9735a9805836f0343bebcaedaa3629c",
+                                "bytes":  6340,
+                                "last_write_time_utc":  "2026-05-25T18:44:05.7527617Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\text_preprocessing.py",
+                                "sha256":  "6796d64b7cc397e080ad9ff99217d08239477412b4ada33be06b89a4c7ce5f58",
+                                "bytes":  9332,
+                                "last_write_time_utc":  "2026-05-25T21:52:00.3766784Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\train_hybrid.py",
+                                "sha256":  "116808abb8ea7d88e98164436503bb21d41de0bcb522fc4f20affd71d8f00e6d",
+                                "bytes":  14493,
+                                "last_write_time_utc":  "2026-05-25T19:10:14.6201883Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\train_logreg.py",
+                                "sha256":  "8507ee90f98e542b510fe6b18daadd2dc9f92ec1528937feccf1bb96559af208",
+                                "bytes":  7196,
+                                "last_write_time_utc":  "2026-05-24T03:58:19.9433838Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\train_text.py",
+                                "sha256":  "addcff46b2822cca1b9c00487cbf5c6bbf1e022b7e2d6e0744f18d4b3e6842a8",
+                                "bytes":  11596,
+                                "last_write_time_utc":  "2026-05-25T23:05:17.3670412Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\train_xgb.py",
+                                "sha256":  "812d92426b32bd2b703d9ce0e7551d46a5b46971d3597aced4044c9376b73519",
+                                "bytes":  7340,
+                                "last_write_time_utc":  "2026-05-24T03:58:32.2316607Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\__init__.py",
+                                "sha256":  "bb7198a1bfcd3a9331d757a933ad28d310af55aba12b320ea4d5300b148759d7",
+                                "bytes":  36,
+                                "last_write_time_utc":  "2026-03-09T12:39:12.6819288Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\__pycache__\\common.cpython-313.pyc",
+                                "sha256":  "08a18f780cb9d20effbd9e58f7c040f3713b77f64e3629f54709eb462733b1c5",
+                                "bytes":  3842,
+                                "last_write_time_utc":  "2026-03-09T12:50:21.1962743Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\__pycache__\\inference.cpython-313.pyc",
+                                "sha256":  "c11d840873bf6296cb42558dee09db0986ca604cc80248ea649460d3a9848c9f",
+                                "bytes":  8926,
+                                "last_write_time_utc":  "2026-05-25T18:44:31.0407688Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\__pycache__\\text_preprocessing.cpython-313.pyc",
+                                "sha256":  "e90e43dabf0d72ffbfd2f96303365ac48a9aa074b3a928bd4fc20739029e0896",
+                                "bytes":  12078,
+                                "last_write_time_utc":  "2026-05-25T21:52:08.7000646Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\__pycache__\\train_hybrid.cpython-313.pyc",
+                                "sha256":  "35486412313db1766fbdf3323a9aea1230cad86f1d8347bb24d77fc736998e98",
+                                "bytes":  15844,
+                                "last_write_time_utc":  "2026-05-25T19:10:29.8713752Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\__pycache__\\train_logreg.cpython-313.pyc",
+                                "sha256":  "8aa59c7aa59379122da8cfc56cbf98c472ed7ead0ac5411d09801f66809cc74e",
+                                "bytes":  7033,
+                                "last_write_time_utc":  "2026-05-24T03:58:52.2581867Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\__pycache__\\train_text.cpython-313.pyc",
+                                "sha256":  "e236c3b104e1817a9f2e267071afd5a816bb74f030c5bf2e0659fdb514a2e510",
+                                "bytes":  12062,
+                                "last_write_time_utc":  "2026-05-25T23:05:40.9314745Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\__pycache__\\train_xgb.cpython-313.pyc",
+                                "sha256":  "4438eaeaec1c9a4d4fbfc7fc39a901eacd518d4f82bf83d1d1f32c981d4a6102",
+                                "bytes":  7805,
+                                "last_write_time_utc":  "2026-05-24T03:58:52.2645893Z"
+                            },
+                            {
+                                "path":  ".\\src\\models\\__pycache__\\__init__.cpython-313.pyc",
+                                "sha256":  "a9020ce01ff9b52af710983c78f53921dfc6919f1dffcc9db04eef28e9300773",
+                                "bytes":  184,
+                                "last_write_time_utc":  "2026-03-09T12:50:21.1930692Z"
+                            },
+                            {
+                                "path":  ".\\src\\parsers\\extractor_checks.py",
+                                "sha256":  "4b985bdef2c82e87e47967c374cbd550f52f689d03ce78e07e5f0088fcec96f9",
+                                "bytes":  1229,
+                                "last_write_time_utc":  "2026-03-09T12:42:51.2272139Z"
+                            },
+                            {
+                                "path":  ".\\src\\parsers\\pdf_features.py",
+                                "sha256":  "8baff10ab5bb36c398065c15408f6f50ff7c3042789299979400633d96981e92",
+                                "bytes":  18399,
+                                "last_write_time_utc":  "2026-03-09T13:10:59.4186734Z"
+                            },
+                            {
+                                "path":  ".\\src\\parsers\\pdf_text.py",
+                                "sha256":  "406a4dda14376e40902e38708f04beede92886fec1fb793e3fa3637d0f9c9165",
+                                "bytes":  737,
+                                "last_write_time_utc":  "2026-05-25T05:10:39.2099137Z"
+                            },
+                            {
+                                "path":  ".\\src\\parsers\\utils.py",
+                                "sha256":  "af4799d9ecfc1aed2d88a48d836761ec0b3e7666f0a80f4a2ce1f3f9afa1e4c2",
+                                "bytes":  4774,
+                                "last_write_time_utc":  "2026-03-09T13:09:49.6184767Z"
+                            },
+                            {
+                                "path":  ".\\src\\parsers\\__init__.py",
+                                "sha256":  "717a113088358d14a3664d50e1d490105169e350f26cee1a10c51f4f0234d183",
+                                "bytes":  27,
+                                "last_write_time_utc":  "2026-03-09T12:39:12.6829565Z"
+                            },
+                            {
+                                "path":  ".\\src\\parsers\\__pycache__\\extractor_checks.cpython-313.pyc",
+                                "sha256":  "8aa51df06a8b33aa85c8aee3a56c6d758dcf94ff119857f4d8c875fc77ce6c6f",
+                                "bytes":  1585,
+                                "last_write_time_utc":  "2026-03-09T12:50:21.2143885Z"
+                            },
+                            {
+                                "path":  ".\\src\\parsers\\__pycache__\\pdf_features.cpython-313.pyc",
+                                "sha256":  "a9396832324e8f224c48e5651aabebbbe25a83bbdf4638181b235f019792d5a0",
+                                "bytes":  22999,
+                                "last_write_time_utc":  "2026-03-09T13:13:45.5255928Z"
+                            },
+                            {
+                                "path":  ".\\src\\parsers\\__pycache__\\pdf_text.cpython-313.pyc",
+                                "sha256":  "0e19ad803a178ef1a7932559dffdd5cdc31a08490f7f873bb506eaa6553f6843",
+                                "bytes":  1469,
+                                "last_write_time_utc":  "2026-05-25T05:12:37.1479106Z"
+                            },
+                            {
+                                "path":  ".\\src\\parsers\\__pycache__\\utils.cpython-313.pyc",
+                                "sha256":  "9281c626c7077eb7e7c37d4eb7837661015b4a771a3aab1e697603713d3cfc88",
+                                "bytes":  7583,
+                                "last_write_time_utc":  "2026-03-09T13:13:45.5308509Z"
+                            },
+                            {
+                                "path":  ".\\src\\parsers\\__pycache__\\__init__.cpython-313.pyc",
+                                "sha256":  "7b37e23f98ee5463ef18d7dd24c9b87ca21366e9d3f35f6b229405427d8385f3",
+                                "bytes":  176,
+                                "last_write_time_utc":  "2026-03-09T12:50:21.2123776Z"
+                            },
+                            {
+                                "path":  ".\\src\\__pycache__\\cli.cpython-313.pyc",
+                                "sha256":  "ff9498d0f9483fcdd2c60a7903736f202c69d99b9699c50e49ff525a83803522",
+                                "bytes":  4908,
+                                "last_write_time_utc":  "2026-05-25T18:43:36.7665165Z"
+                            },
+                            {
+                                "path":  ".\\src\\__pycache__\\common.cpython-313.pyc",
+                                "sha256":  "a2f5aee74e0d4706a6ff8064f39ae61405f3d75416ea97a48262ad6e628d000f",
+                                "bytes":  6354,
+                                "last_write_time_utc":  "2026-03-09T12:50:21.1506034Z"
+                            },
+                            {
+                                "path":  ".\\src\\__pycache__\\__init__.cpython-313.pyc",
+                                "sha256":  "e493580e55cfe22c77756db7096f40b38902c9486561b2893fab44792717fdd1",
+                                "bytes":  174,
+                                "last_write_time_utc":  "2026-03-09T12:50:21.1418938Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\aggregate_holdout_attack_family_results.py",
+                                "sha256":  "559b0671f4427a4daea415f32300d8b77f09549e1f6c5f3135fea66d4ffb1061",
+                                "bytes":  17912,
+                                "last_write_time_utc":  "2026-05-25T23:20:55.8520441Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\audit_counterfactual_pairing.py",
+                                "sha256":  "2463c4c1789cd48eaef9a9cf03978dd62cd0bdfbc32cc69022e8447e9efecfd2",
+                                "bytes":  5785,
+                                "last_write_time_utc":  "2026-05-25T04:45:24.1620188Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\audit_leakage_gate.py",
+                                "sha256":  "46f99bace7cf3a0847a3605e674fe010871a8a1464975b9eb0a52422c1bb965c",
+                                "bytes":  4363,
+                                "last_write_time_utc":  "2026-05-25T23:06:24.1973152Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\build_features.sh",
+                                "sha256":  "1046fd951dd0cfb5e5a8218637c1897efb59d47d3a6fd0beb784caa81be5d2de",
+                                "bytes":  103,
+                                "last_write_time_utc":  "2026-03-09T12:50:12.3206821Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\check_publication_readiness.py",
+                                "sha256":  "2762a5c292d5a8d733e18a638341d592479a835e862c861eb3a40e479de661eb",
+                                "bytes":  10027,
+                                "last_write_time_utc":  "2026-05-26T15:13:22.8134699Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\evaluate.sh",
+                                "sha256":  "030e65bcf286c2781cf3450ad0f1f87dab91bf5d2a7e764d0cfdb9d449f49b39",
+                                "bytes":  93,
+                                "last_write_time_utc":  "2026-03-09T12:50:12.3226917Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\freeze_publication_manifest.ps1",
+                                "sha256":  "f5b8c1c11e19988cd9063c55b02a3cc8b52bb8258caa8a27b293eb1d745b0f0f",
+                                "bytes":  10964,
+                                "last_write_time_utc":  "2026-05-26T15:55:42.6406007Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\generate_attack_family_holdout_configs.py",
+                                "sha256":  "5627328165b7e7a70b99b99a263346f8e1586e9d63c6e0e8b88f42c16b14002c",
+                                "bytes":  8099,
+                                "last_write_time_utc":  "2026-05-25T23:15:09.6042679Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\repair_publication_repro_bundle.py",
+                                "sha256":  "03b29a8d29266e8fa868366f0b03bf4603492fb4301fb858f385123eb7041510",
+                                "bytes":  5458,
+                                "last_write_time_utc":  "2026-05-26T15:54:12.3252648Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\run_all.sh",
+                                "sha256":  "8b2459132784a29b63f341b3d08d41843a7b01fcaef5b71665ed3306ac3ff6fa",
+                                "bytes":  425,
+                                "last_write_time_utc":  "2026-03-09T12:50:12.3237009Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\run_publication_eval.ps1",
+                                "sha256":  "4d181b0c022087a216f45b2ee3bd004b8c8a9c5631609cb3f32181dec7788abd",
+                                "bytes":  10216,
+                                "last_write_time_utc":  "2026-05-25T23:21:18.6021095Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\run_publication_final.ps1",
+                                "sha256":  "0ea6c655a231ffc1e63471b8a4f4440afe125d832b3763a26e3e8707d65ab733",
+                                "bytes":  15121,
+                                "last_write_time_utc":  "2026-05-26T01:12:54.0558227Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\train.sh",
+                                "sha256":  "48ede9155c9d02d82ea595bc81deebeb2e26c9293584ea4a2d5f80390759ae3c",
+                                "bytes":  181,
+                                "last_write_time_utc":  "2026-03-09T12:50:12.3226917Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\write_publication_claim_scope.py",
+                                "sha256":  "ca7b87e890e1b457b28923f0ca445462e1bb8f5d3ad786db923b80948bf150d7",
+                                "bytes":  7117,
+                                "last_write_time_utc":  "2026-05-26T15:22:42.8080262Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\__pycache__\\aggregate_holdout_attack_family_results.cpython-313.pyc",
+                                "sha256":  "27ed173f74a5161db2222cd4bafc02ec1bc7bad274f27396d68714e4ad890a54",
+                                "bytes":  21184,
+                                "last_write_time_utc":  "2026-05-25T23:22:28.6587540Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\__pycache__\\audit_counterfactual_pairing.cpython-313.pyc",
+                                "sha256":  "846234b2cc1a126680f75b1c6ae9aeb8e99f7f69ba58ec25194af78f35ca088e",
+                                "bytes":  8041,
+                                "last_write_time_utc":  "2026-05-25T04:47:33.4271995Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\__pycache__\\audit_leakage_gate.cpython-313.pyc",
+                                "sha256":  "e6221ba3e0716a81ab69bdde4f05083e731ac4122e1ad7f200a73b9cbff09baa",
+                                "bytes":  6739,
+                                "last_write_time_utc":  "2026-05-25T23:22:28.6867814Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\__pycache__\\check_publication_readiness.cpython-313.pyc",
+                                "sha256":  "da1991903c1edfc933304fca2724b766abad0154a761e7780527188aa15eece4",
+                                "bytes":  14379,
+                                "last_write_time_utc":  "2026-05-26T15:55:28.5319684Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\__pycache__\\generate_attack_family_holdout_configs.cpython-313.pyc",
+                                "sha256":  "cf3f3b563a887b333c1000adff750919c9563e1407be5aba95876aadfe7a8d7c",
+                                "bytes":  9446,
+                                "last_write_time_utc":  "2026-05-25T23:22:28.6673461Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\__pycache__\\repair_publication_repro_bundle.cpython-313.pyc",
+                                "sha256":  "0290c597d9cd1b7671aad2927d31b1e357351e33204e4c2ef7aefb8c1c1618b8",
+                                "bytes":  7974,
+                                "last_write_time_utc":  "2026-05-26T15:55:28.5190911Z"
+                            },
+                            {
+                                "path":  ".\\scripts\\__pycache__\\write_publication_claim_scope.cpython-313.pyc",
+                                "sha256":  "30318b98cde599abb336e93bec054fd630c34d1260fe1421ba49cf3c54f4510c",
+                                "bytes":  9218,
+                                "last_write_time_utc":  "2026-05-26T15:55:28.5242655Z"
+                            },
+                            {
+                                "path":  ".\\configs\\dataset.yaml",
+                                "sha256":  "4f1906b71a016b47637bcacfa67f8762cf24ee73f8af639a4564b09caf312230",
+                                "bytes":  2523,
+                                "last_write_time_utc":  "2026-05-23T04:44:29.9508248Z"
+                            },
+                            {
+                                "path":  ".\\configs\\dataset_dataset2.yaml",
+                                "sha256":  "405ddd7d35cdf6d5f4242cd051b7a86edb7e3b442393469e608e4c988feb1dd2",
+                                "bytes":  3229,
+                                "last_write_time_utc":  "2026-05-23T04:44:29.9520192Z"
+                            },
+                            {
+                                "path":  ".\\configs\\dataset_dataset2_robust.yaml",
+                                "sha256":  "75a1e2c5286a911a66f6930d3f39acc417c8047b8add40ef26eba21ef759dc4f",
+                                "bytes":  3649,
+                                "last_write_time_utc":  "2026-05-23T04:44:29.9540191Z"
+                            },
+                            {
+                                "path":  ".\\configs\\dataset_hard_provenance.yaml",
+                                "sha256":  "2eb34d7083832dd3d8ce1371f8c97bbeeba8c9b994d5dbc8a5c75f3ccb11a428",
+                                "bytes":  2683,
+                                "last_write_time_utc":  "2026-05-23T04:44:29.9565203Z"
+                            },
+                            {
+                                "path":  ".\\configs\\eval.yaml",
+                                "sha256":  "5f925a5d04264e8fd8dcf158dc017a45acf061ad39dc2700bb609dce90cc33ee",
+                                "bytes":  3716,
+                                "last_write_time_utc":  "2026-05-23T04:12:03.0283118Z"
+                            },
+                            {
+                                "path":  ".\\configs\\eval_dataset2.yaml",
+                                "sha256":  "c97f0ca035d5ced7e0dc80dc6c4e1761b0ab861c320b4fa50d764c6f8856d68e",
+                                "bytes":  3489,
+                                "last_write_time_utc":  "2026-05-23T02:51:53.1614916Z"
+                            },
+                            {
+                                "path":  ".\\configs\\eval_dataset2_robust.yaml",
+                                "sha256":  "56bf4e55a20d8dc2b4dbd5202134dd9176d63851e7e5bfb9dfa4a18acbfdac92",
+                                "bytes":  4585,
+                                "last_write_time_utc":  "2026-05-23T02:51:53.1624896Z"
+                            },
+                            {
+                                "path":  ".\\configs\\eval_hard_provenance.yaml",
+                                "sha256":  "9c731bc72e91a1dc9cbec30ca3d1435521e1f6b2df63ac8cbc0ce437a707296c",
+                                "bytes":  4203,
+                                "last_write_time_utc":  "2026-05-25T05:20:03.8581423Z"
+                            },
+                            {
+                                "path":  ".\\configs\\eval_hard_provenance_fast.yaml",
+                                "sha256":  "be49fd4c3e1d7854c18031f28bc83c325723046cfda061467f730f14a547e52d",
+                                "bytes":  2263,
+                                "last_write_time_utc":  "2026-05-25T05:37:37.0766448Z"
+                            },
+                            {
+                                "path":  ".\\configs\\eval_hard_provenance_fast_dev.yaml",
+                                "sha256":  "67a83caa51aa7c3eac0dcd483f52f5ef28464e9e679d640fc5f1ec5cc1147b2a",
+                                "bytes":  2272,
+                                "last_write_time_utc":  "2026-05-25T05:37:37.0776437Z"
+                            },
+                            {
+                                "path":  ".\\configs\\eval_hard_provenance_hybrid.yaml",
+                                "sha256":  "bc4da781edca84fcfe3bb9c4f7130b0114c9fb64f5570cb18e79b6b67aea8880",
+                                "bytes":  1698,
+                                "last_write_time_utc":  "2026-05-25T18:46:44.9540892Z"
+                            },
+                            {
+                                "path":  ".\\configs\\eval_hard_provenance_model_only.yaml",
+                                "sha256":  "463c9ed5950d6300a3e59c97b9fe2b94b62d034e9103cf4d7e9918c9a93e10fb",
+                                "bytes":  1270,
+                                "last_write_time_utc":  "2026-05-25T23:15:09.6063727Z"
+                            },
+                            {
+                                "path":  ".\\configs\\eval_hard_provenance_publication.yaml",
+                                "sha256":  "b8603670f20cdf351d097fdad09ed5c6a0454553702b04210f52a981db0a0938",
+                                "bytes":  2878,
+                                "last_write_time_utc":  "2026-05-25T23:12:48.7615995Z"
+                            },
+                            {
+                                "path":  ".\\configs\\eval_publication_final.yaml",
+                                "sha256":  "d2e0b2e4ab2f14124172208c6a793c654e0748bd6c000f8f2081955b328009d9",
+                                "bytes":  4278,
+                                "last_write_time_utc":  "2026-05-26T15:22:02.7011899Z"
+                            },
+                            {
+                                "path":  ".\\configs\\features.yaml",
+                                "sha256":  "75f23f7ec054c2dfa9f3c58adc42b9c904ccc3c5b9a24e44c59029ceb2351442",
+                                "bytes":  505,
+                                "last_write_time_utc":  "2026-05-23T02:51:26.6126286Z"
+                            },
+                            {
+                                "path":  ".\\configs\\features_dataset2.yaml",
+                                "sha256":  "be6029323842464cf2a0f429f15994696e98f288a2ffa9c6bf5311f74e3807c7",
+                                "bytes":  541,
+                                "last_write_time_utc":  "2026-05-23T02:51:26.6146293Z"
+                            },
+                            {
+                                "path":  ".\\configs\\features_dataset2_robust.yaml",
+                                "sha256":  "81615a18df5e8ebc852f59adcd619b9d4ef4f79354b3df267a7225b63481b68f",
+                                "bytes":  569,
+                                "last_write_time_utc":  "2026-05-23T02:51:26.6176291Z"
+                            },
+                            {
+                                "path":  ".\\configs\\features_hard_provenance.yaml",
+                                "sha256":  "8f11cb37d34184e0d4256f4fd47621459dc932a7b1954f58e1f493557db8a81d",
+                                "bytes":  690,
+                                "last_write_time_utc":  "2026-05-25T04:29:49.6786041Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_hybrid_hard_provenance.yaml",
+                                "sha256":  "48c373dcdf18237cd68971e534bef693e9d65261e333bb8801f8d508cca934cf",
+                                "bytes":  2122,
+                                "last_write_time_utc":  "2026-05-25T23:05:56.3540547Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_logreg.yaml",
+                                "sha256":  "476c3fa70dc8d5bafcff83484ae8e4a4c28b6b391ffd587571fdb121f6653886",
+                                "bytes":  447,
+                                "last_write_time_utc":  "2026-03-09T12:48:42.0607973Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_logreg_dataset2.yaml",
+                                "sha256":  "843b3cb2bb887d7cd488555c2e464d7829a1cb5f546a420aa4aa3333fd373f1a",
+                                "bytes":  501,
+                                "last_write_time_utc":  "2026-03-22T06:55:23.0916440Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_logreg_dataset2_robust.yaml",
+                                "sha256":  "2bcf72a51937939484793779dfbbfe547d9522455b074a298156ef305cb637e6",
+                                "bytes":  543,
+                                "last_write_time_utc":  "2026-03-22T07:08:43.2770252Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_logreg_hard_provenance.yaml",
+                                "sha256":  "b012a55051c103094dbbeac70efae37982428a08534d3a071d623442e1d9839c",
+                                "bytes":  579,
+                                "last_write_time_utc":  "2026-05-24T03:58:41.4461988Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_logreg_hard_provenance_fast_shortcut_free.yaml",
+                                "sha256":  "e7c2db00344f91cbf545407a9637eecb9724d3fc9ff48da6a9e4de4acc060f80",
+                                "bytes":  1577,
+                                "last_write_time_utc":  "2026-05-25T04:30:26.4992648Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_logreg_hard_provenance_shortcut_free.yaml",
+                                "sha256":  "454d2815c14efd494331fde6b42120142a066274ecbe3c59b0e69b7078c77985",
+                                "bytes":  1579,
+                                "last_write_time_utc":  "2026-05-24T03:58:41.4498183Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_logreg_shortcut_free.yaml",
+                                "sha256":  "cc8d002fed5e383cf435ac11581e975248492dcf9578935cd755ba5ae556acef",
+                                "bytes":  1447,
+                                "last_write_time_utc":  "2026-05-23T04:11:40.0053682Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_text_tfidf_hard_provenance.yaml",
+                                "sha256":  "d8c81a6738d2e0dca8144300adaf3c55c68b0eb7aafd0cb957c694fa0e77796f",
+                                "bytes":  997,
+                                "last_write_time_utc":  "2026-05-25T09:01:40.4924695Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_text_tfidf_hard_provenance_fast.yaml",
+                                "sha256":  "de3ef01ff19ff8feee0e7d92cbb4ddf870c51db73b1b9dc4ede9b37c3bfb26c2",
+                                "bytes":  1018,
+                                "last_write_time_utc":  "2026-05-25T05:22:14.0566782Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_xgb.yaml",
+                                "sha256":  "4d4e31484b61024c619dd52092172dec2707864aecdd885a911931f6cebdd16e",
+                                "bytes":  529,
+                                "last_write_time_utc":  "2026-03-09T12:48:42.0607973Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_xgb_dataset2.yaml",
+                                "sha256":  "1291132e8232368970248de208b14e43ef90cca4d3c3ef9a2a31d37b5b1b78b0",
+                                "bytes":  583,
+                                "last_write_time_utc":  "2026-03-22T06:55:23.0916440Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_xgb_dataset2_robust.yaml",
+                                "sha256":  "a9b0a590aa5a1f65e4d7d916e9b0f46fbfccca9b1d4dd16dc0ef4e7d39d585e4",
+                                "bytes":  625,
+                                "last_write_time_utc":  "2026-03-22T07:08:43.2785338Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_xgb_hard_provenance.yaml",
+                                "sha256":  "06d9d82429512d9b4528f885e34eefc32a0b187ba2d38f7b09450b10d472d983",
+                                "bytes":  661,
+                                "last_write_time_utc":  "2026-05-24T03:58:41.4461988Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_xgb_hard_provenance_fast_shortcut_free.yaml",
+                                "sha256":  "a139fd35133d77a76c1ae9da43d87ebdfb104b6c0be1bd17b55e10b4ca124e48",
+                                "bytes":  1670,
+                                "last_write_time_utc":  "2026-05-25T04:30:26.4982653Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_xgb_hard_provenance_shortcut_free.yaml",
+                                "sha256":  "445595f2b07929135b1a5b95de460ebb61fefcd4e60b737d11d945e150632a0f",
+                                "bytes":  1661,
+                                "last_write_time_utc":  "2026-05-24T03:58:41.4518276Z"
+                            },
+                            {
+                                "path":  ".\\configs\\model_xgb_shortcut_free.yaml",
+                                "sha256":  "907831637eb89acb4a4f6a4d19facc2fbfc21f08822324cd1dc848eb6721310e",
+                                "bytes":  1529,
+                                "last_write_time_utc":  "2026-05-23T04:11:55.8340866Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\dataset_in_page_low_contrast_text.yaml",
+                                "sha256":  "79cf7e00990187085abaff20bf6aa0031157db7bc195a1af0aad61c1bdf9d6d6",
+                                "bytes":  2689,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.9104121Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\dataset_layout_mimicry.yaml",
+                                "sha256":  "c771cb3621c6e0481ae8d83d5eebec5b8612378e2cfe8938c81ea4c9f3f46261",
+                                "bytes":  2623,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8334912Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\dataset_margin_microtext.yaml",
+                                "sha256":  "b621027a2f2e0676947a0ef8bec08545b8d2fcd63a87971e932741d595d04916",
+                                "bytes":  2635,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8693006Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\dataset_microglyph_steganography.yaml",
+                                "sha256":  "19644520e2ef079f35bdc6fe41b10abdb692391da7063ac8dc9fbb17af1b6b66",
+                                "bytes":  2683,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7457622Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\dataset_semantic_fragmentation.yaml",
+                                "sha256":  "ad73bbd8276a2fc7e123d68e786c2d103ac8a079b827a68cc7131fda484aea1f",
+                                "bytes":  2671,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7878616Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\dataset_steganographic_acrostic.yaml",
+                                "sha256":  "1425107ea91cb95792a9ab250e1538096a621cf9a9ece20b5005d0a89f5107b6",
+                                "bytes":  2677,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7016174Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_in_page_low_contrast_text.yaml",
+                                "sha256":  "87b075d530fe24d1deefde94de0c93dc645133564bc8fdc823a5ed6e1ddde214",
+                                "bytes":  4374,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.9249510Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_layout_mimicry.yaml",
+                                "sha256":  "8162854a8f52172807255e00f5543fd53db4ffd0db495bc2fe9a682fb0a01eed",
+                                "bytes":  4231,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8440521Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_margin_microtext.yaml",
+                                "sha256":  "8162872d81f963c40a4102f95fd770b5b4469fa66cbaa70af8770f887161552b",
+                                "bytes":  4257,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8854975Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_microglyph_steganography.yaml",
+                                "sha256":  "cabedcedfab44b1e2fa6de6b6bbb122f4ed6619ff260386d970b8cd2ec418a91",
+                                "bytes":  4361,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7543133Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_model_only_in_page_low_contrast_text.yaml",
+                                "sha256":  "dc8e6666b54c9c35fcbf6ac9d750e10f4081caeee03ce9f3d46e4e51814dd1bd",
+                                "bytes":  1588,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.9336067Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_model_only_layout_mimicry.yaml",
+                                "sha256":  "0c880f342dee719b8069d82a98e99dc3776466a07f666140043c948308495a6b",
+                                "bytes":  1467,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8476825Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_model_only_margin_microtext.yaml",
+                                "sha256":  "e17a9eb736d909e3d0ae1cff5908ba0f4cb57feba8d11712ec2706bd679e67e0",
+                                "bytes":  1489,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8894712Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_model_only_microglyph_steganography.yaml",
+                                "sha256":  "5029884ad0c00dbd7cb1d57a0b48ffe1c56688553d93df7ae7f16071bc4a743d",
+                                "bytes":  1577,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7594490Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_model_only_semantic_fragmentation.yaml",
+                                "sha256":  "409c9b68e1488bdd3e37dbb97e9e7d53d406aeada6570746430d4a4a8aabe621",
+                                "bytes":  1555,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8042619Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_model_only_steganographic_acrostic.yaml",
+                                "sha256":  "4019dff30caff335b6652bb1221f778dac8d53787862de7ce2cd7d3ff59e59ff",
+                                "bytes":  1566,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7138523Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_semantic_fragmentation.yaml",
+                                "sha256":  "55487c183f457069f315e3140836b25f63af7b5129d1c752a1489a590b974000",
+                                "bytes":  4335,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8007477Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_steganographic_acrostic.yaml",
+                                "sha256":  "8cd15f7c30f463a29503b11262ee8ebadb5171ea8a9b8894d181135c1412c5e7",
+                                "bytes":  4348,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7138523Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_structural_only_microglyph_steganography.yaml",
+                                "sha256":  "623e318bd260a04f7938b2ea68148a3d953658c8e3f119829478c2631bd3b29a",
+                                "bytes":  1205,
+                                "last_write_time_utc":  "2026-05-25T10:06:31.5222950Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\eval_structural_only_steganographic_acrostic.yaml",
+                                "sha256":  "b00d70d6d1cfe6a795b90680e58f5a2c025adecbeab2336da3213c46b2fd11f0",
+                                "bytes":  1198,
+                                "last_write_time_utc":  "2026-05-25T10:06:29.5529812Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\features_in_page_low_contrast_text.yaml",
+                                "sha256":  "5c8cf353f37ec60590e8a630b53e37a55c1d7e63581492ba033b49c7cb2d0b7f",
+                                "bytes":  852,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.9181006Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\features_layout_mimicry.yaml",
+                                "sha256":  "afe6519d60d75d82670ba09ad607f6d234a6cb18ad2e8bbebf4e5e627d9c5a1b",
+                                "bytes":  797,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8362503Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\features_margin_microtext.yaml",
+                                "sha256":  "ba2a14aa4bceab901660885bb2d6b4e42af1a2492b0d6b6e0b51c26891814f4c",
+                                "bytes":  807,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8767803Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\features_microglyph_steganography.yaml",
+                                "sha256":  "1ab069b4f407d2d073b02d7fa5cfe05a58fc6a8aae78d8f05bc00045eff47df1",
+                                "bytes":  847,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7497630Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\features_semantic_fragmentation.yaml",
+                                "sha256":  "b60b32371db6e65ffbc202eaacc0fa742c6746116dd526d5b1f46b7d8620afcf",
+                                "bytes":  837,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7878616Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\features_steganographic_acrostic.yaml",
+                                "sha256":  "f0a4027dc6f924f1611b9264966bbaa09dfee426812973f9b9b5dd9dde1ca937",
+                                "bytes":  842,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7059185Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\manifest.yaml",
+                                "sha256":  "55715a10df4cd07cc4c637f5f04f477808a09ddbccf9e9c2405e93529ee09ed3",
+                                "bytes":  2346,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.9379040Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_hybrid_in_page_low_contrast_text.yaml",
+                                "sha256":  "61c1fd3552954b0981a73756d1e2006c85f5791c2499c212ff681038a3075dce",
+                                "bytes":  2194,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.9104121Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_hybrid_layout_mimicry.yaml",
+                                "sha256":  "6adef1c46c5ca9e5d12e18c69f888b3ea3330bddf36793cf55c409ae0ea51953",
+                                "bytes":  2139,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8260062Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_hybrid_margin_microtext.yaml",
+                                "sha256":  "c602394ed4b103971d423979750e974aa920587b037b38bd63a16927558c1d12",
+                                "bytes":  2149,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8687905Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_hybrid_microglyph_steganography.yaml",
+                                "sha256":  "7bbd8798a2bcdb92d084055dc065f90de25810a26824417894b76ebb59753d04",
+                                "bytes":  2189,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7379912Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_hybrid_semantic_fragmentation.yaml",
+                                "sha256":  "de80297e4b6304626ad0f58f3567eb797a7b27f1bf491ab57aae9c81fde06c7a",
+                                "bytes":  2179,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7794239Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_hybrid_steganographic_acrostic.yaml",
+                                "sha256":  "e2c40d649cc34ef20b7dfd15bc1c52bb7eb88a2a5cf2bcd3566227cd12ea60e3",
+                                "bytes":  2184,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.6972004Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_in_page_low_contrast_text.yaml",
+                                "sha256":  "6cda37619ae131de60bd385227e0a3ed92f85d39de5897c216fbd6b0c905533c",
+                                "bytes":  807,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8894712Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_layout_mimicry.yaml",
+                                "sha256":  "f32c75f0c17ea3f75f8646450eb7bf104a2b4a5cf205cec562327b589e1f01f6",
+                                "bytes":  752,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8062705Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_margin_microtext.yaml",
+                                "sha256":  "b079e6c78a0f78013d2c074579c46ac642d1b51ee151a9165f8b92d8cb12cf2f",
+                                "bytes":  762,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8476825Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_microglyph_steganography.yaml",
+                                "sha256":  "380585f3f79685c966375fcbd1ccceddfe09b1d31c95e30db17ff602ccd05adf",
+                                "bytes":  802,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7236539Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_semantic_fragmentation.yaml",
+                                "sha256":  "bdaf71e433c283521d085dafb99dec50f93529a4373f2d8d3f2309d2bdd72997",
+                                "bytes":  792,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7629437Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_shortcut_free_in_page_low_contrast_text.yaml",
+                                "sha256":  "855f695fd5517f1995e006bdd09f96b95aba7d4fc8fbed041342c46d58ba0f1a",
+                                "bytes":  1727,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8931732Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_shortcut_free_layout_mimicry.yaml",
+                                "sha256":  "4647db604bfe93a98e81f403b11331dd1a67ed2210fc0bbf9ffa63fcc7179dbd",
+                                "bytes":  1672,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8123634Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_shortcut_free_margin_microtext.yaml",
+                                "sha256":  "0a3ad61991b2a222cee63da190a8f160fcf3c805c9fe4409af41998f2e98c920",
+                                "bytes":  1682,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8544910Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_shortcut_free_microglyph_steganography.yaml",
+                                "sha256":  "4c0a1ee8d1358cc15485ed74a4a6ac01f734ecec3cc107735c6f88cf5cfc656b",
+                                "bytes":  1722,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7298102Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_shortcut_free_semantic_fragmentation.yaml",
+                                "sha256":  "f4dc42dbe04b8a0806571f8c89fc83e049867ea3fb5183aca6c648f2c97b310f",
+                                "bytes":  1712,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7644789Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_shortcut_free_steganographic_acrostic.yaml",
+                                "sha256":  "d452ffe8be7e6f5b051a7b44814635887454ca5900ae4370621faf365490c7cd",
+                                "bytes":  1717,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.6872120Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_logreg_steganographic_acrostic.yaml",
+                                "sha256":  "5147819b468d566e5c613b40b0281f4e01f885064b328a6dbc555d295c6c3519",
+                                "bytes":  797,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.6807859Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_text_tfidf_in_page_low_contrast_text.yaml",
+                                "sha256":  "9239cc68f5073f905fb931dbc6e08e38c6b9ad7219f65af7a63b35289a4594dd",
+                                "bytes":  1267,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.9022756Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_text_tfidf_layout_mimicry.yaml",
+                                "sha256":  "b8e8992099f412714872dccd4a19885c0ea01bf33c035316ef633cef23087d95",
+                                "bytes":  1212,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8166559Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_text_tfidf_margin_microtext.yaml",
+                                "sha256":  "19b4ddaf9ac2808cf578df21532c0e672c7c6b83ca60072091157281abd42b65",
+                                "bytes":  1222,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8605878Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_text_tfidf_microglyph_steganography.yaml",
+                                "sha256":  "f976bdea6f15c1a42ac61b4e3e483d706b91f675a232937df61955198547261f",
+                                "bytes":  1262,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7337163Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_text_tfidf_semantic_fragmentation.yaml",
+                                "sha256":  "565b158f4c0cb062057ca805a56dafb2d2a9d884c50585df2d04f056c26202ae",
+                                "bytes":  1252,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7768762Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_text_tfidf_steganographic_acrostic.yaml",
+                                "sha256":  "e9f6b56a85306e8a3c55c4482d34f5f86d16b714d539181764e6033eb8b3ac08",
+                                "bytes":  1257,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.6928719Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_in_page_low_contrast_text.yaml",
+                                "sha256":  "3ac61d6753e3e50caca69b2d2d155bad1c1b4a06992c1fab0a5dc6afe55d5844",
+                                "bytes":  878,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8931732Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_layout_mimicry.yaml",
+                                "sha256":  "eebc3c29822223809139ed2a4233399e0a3a09243c886e537262c6865662d632",
+                                "bytes":  823,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8062705Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_margin_microtext.yaml",
+                                "sha256":  "cdcb956a76fd8e87bf4934563ecf00f14b375ac538794e59ed91809820a5e168",
+                                "bytes":  833,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8516095Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_microglyph_steganography.yaml",
+                                "sha256":  "8a2360d1bc630a49bcab66b139edb246ee30eacf312b8e420cd27b548a6d337b",
+                                "bytes":  873,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7263820Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_semantic_fragmentation.yaml",
+                                "sha256":  "6396ec0867353e0c7034db54b592e77ffa6a73c2c852161e20178e5ad03be5e3",
+                                "bytes":  863,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7644789Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_shortcut_free_in_page_low_contrast_text.yaml",
+                                "sha256":  "078f1aafdb94c4a5b55f87040a18a1563e71814ed05a028c66a42e11edc5cab4",
+                                "bytes":  1798,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.9022756Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_shortcut_free_layout_mimicry.yaml",
+                                "sha256":  "afc720aa9b50060c71c8c7883195b2840197d46b43210d84405ef268f557831b",
+                                "bytes":  1743,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8166559Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_shortcut_free_margin_microtext.yaml",
+                                "sha256":  "a73da73bbade196fffe9db77ba957be55923f445e9b19453a3f64e5f6a2920f6",
+                                "bytes":  1753,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.8605878Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_shortcut_free_microglyph_steganography.yaml",
+                                "sha256":  "93347919333e3d782b4d7d58099376f6ceac70bc8c44209b4de335dc42d7d646",
+                                "bytes":  1793,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7337163Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_shortcut_free_semantic_fragmentation.yaml",
+                                "sha256":  "a491aa5033fade13b2b46f57435d3e955e65e016b64a23371f2adc22e927bc40",
+                                "bytes":  1783,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.7706122Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_shortcut_free_steganographic_acrostic.yaml",
+                                "sha256":  "8f1bd4a4aee8a53d5febaa3404b714053e8361ec4fb37acfb51458569cc35e3c",
+                                "bytes":  1788,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.6913549Z"
+                            },
+                            {
+                                "path":  ".\\configs\\holdout_attack_families\\model_xgb_steganographic_acrostic.yaml",
+                                "sha256":  "177195942c72786346ba9365db1e6da22d63dd25f956d77c5ed1d6f6d2aa4abc",
+                                "bytes":  868,
+                                "last_write_time_utc":  "2026-05-26T06:10:47.6831971Z"
+                            },
+                            {
+                                "path":  "README.md",
+                                "sha256":  "a095432df109e4c8fb12ab1ffa716cd1f9eb06d97b0eb9daaec260c74b800365",
+                                "bytes":  3628,
+                                "last_write_time_utc":  "2026-05-20T18:35:09.1860399Z"
+                            },
+                            {
+                                "path":  "requirements.txt",
+                                "sha256":  "9dc6ddc254b43ad0bd2b4c5878746b9ad430d884193f3095d7bb1c90c6cb7751",
+                                "bytes":  172,
+                                "last_write_time_utc":  "2026-05-20T17:54:07.9984953Z"
+                            },
+                            {
+                                "path":  "pyproject.toml",
+                                "sha256":  "90cc32c4c483922fc9724891a24008149195db98894928a5fd8e22ed2ab1d73b",
+                                "bytes":  546,
+                                "last_write_time_utc":  "2026-03-09T12:54:50.6595881Z"
+                            }
+                        ],
+    "artifacts":  [
+                      {
+                          "name":  "eval_config",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\configs\\eval_publication_final.yaml",
+                          "sha256":  "d2e0b2e4ab2f14124172208c6a793c654e0748bd6c000f8f2081955b328009d9",
+                          "bytes":  4278,
+                          "last_write_time_utc":  "2026-05-26T15:22:02.7011899Z"
+                      },
+                      {
+                          "name":  "requirements",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\requirements.txt",
+                          "sha256":  "9dc6ddc254b43ad0bd2b4c5878746b9ad430d884193f3095d7bb1c90c6cb7751",
+                          "bytes":  172,
+                          "last_write_time_utc":  "2026-05-20T17:54:07.9984953Z"
+                      },
+                      {
+                          "name":  "dataset_config",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\configs\\dataset_hard_provenance.yaml",
+                          "sha256":  "2eb34d7083832dd3d8ce1371f8c97bbeeba8c9b994d5dbc8a5c75f3ccb11a428",
+                          "bytes":  2683,
+                          "last_write_time_utc":  "2026-05-23T04:44:29.9565203Z"
+                      },
+                      {
+                          "name":  "features_config",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\configs\\features_hard_provenance.yaml",
+                          "sha256":  "8f11cb37d34184e0d4256f4fd47621459dc932a7b1954f58e1f493557db8a81d",
+                          "bytes":  690,
+                          "last_write_time_utc":  "2026-05-25T04:29:49.6786041Z"
+                      },
+                      {
+                          "name":  "holdout_manifest",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\configs\\holdout_attack_families\\manifest.yaml",
+                          "sha256":  "55715a10df4cd07cc4c637f5f04f477808a09ddbccf9e9c2405e93529ee09ed3",
+                          "bytes":  2346,
+                          "last_write_time_utc":  "2026-05-26T06:10:47.9379040Z"
+                      },
+                      {
+                          "name":  "raw_metadata_jsonl",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\raw\\metadata.jsonl",
+                          "sha256":  "77f25671fa2fcf4bbd7271600ec8d12e6c908ba539c6cafce0e41137b8da7a6f",
+                          "bytes":  52168703,
+                          "last_write_time_utc":  "2026-05-25T08:15:49.8424129Z"
+                      },
+                      {
+                          "name":  "raw_metadata_json",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\raw\\metadata.json",
+                          "sha256":  "c6d061087718e08ec5cedde7cec574ffb0cffaaee43d3fcc200ec5aacadd8c24",
+                          "bytes":  185599199,
+                          "last_write_time_utc":  "2026-05-25T08:15:49.2455241Z"
+                      },
+                      {
+                          "name":  "processed_features",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\processed\\hard_provenance\\features.parquet",
+                          "sha256":  "4726c8176c8b9dd7f0a24e6ea9a9d4f7263184562619f30d5f182dc380d32b80",
+                          "bytes":  2249567,
+                          "last_write_time_utc":  "2026-05-26T01:39:40.1620821Z"
+                      },
+                      {
+                          "name":  "processed_labels",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\processed\\hard_provenance\\labels.parquet",
+                          "sha256":  "41838450b245e22761293db57f05997cd9819a86abe2cc1f362f7cccc9724927",
+                          "bytes":  1501612,
+                          "last_write_time_utc":  "2026-05-26T01:39:41.0199873Z"
+                      },
+                      {
+                          "name":  "processed_splits",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\processed\\hard_provenance\\splits.json",
+                          "sha256":  "5ab6a6236cd13613fb194896e38eb6f85c131746df799485e800eab6cff338c3",
+                          "bytes":  1012839,
+                          "last_write_time_utc":  "2026-05-26T01:14:46.8927322Z"
+                      },
+                      {
+                          "name":  "feature_schema",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\hard_provenance\\feature_schema.json",
+                          "sha256":  "ff3ec5edfeea68a71669b0782402cfdd37987c0c3560a4adfc0002ffc139b8e0",
+                          "bytes":  5967,
+                          "last_write_time_utc":  "2026-05-26T01:39:41.8183736Z"
+                      },
+                      {
+                          "name":  "logreg_model",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\hard_provenance\\models\\logreg_shortcut_free.pkl",
+                          "sha256":  "8857555226817b20c178e2a334d641fa7ad528e9e7969fee0252afbd31f1d80b",
+                          "bytes":  5837,
+                          "last_write_time_utc":  "2026-05-26T01:43:55.4405937Z"
+                      },
+                      {
+                          "name":  "xgb_model",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\hard_provenance\\models\\xgb_shortcut_free.pkl",
+                          "sha256":  "01e3f3bcdaca478080396e0fa30d6dbc0e774ca035ed4152207ff9c9914c09d7",
+                          "bytes":  609573,
+                          "last_write_time_utc":  "2026-05-26T01:44:34.7153398Z"
+                      },
+                      {
+                          "name":  "text_tfidf_model",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\hard_provenance\\models\\text_tfidf.pkl",
+                          "sha256":  "6fa9a04bd579f0185bfa2657b64a65177f3deed6bd3fd6a9549c01d64508dd3d",
+                          "bytes":  4951627,
+                          "last_write_time_utc":  "2026-05-26T01:58:11.0561801Z"
+                      },
+                      {
+                          "name":  "hybrid_model",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\hard_provenance\\models\\hybrid.pkl",
+                          "sha256":  "c46e4157de6729cedd972bc2bed991fe632f4d239cfc0e64d808252e2acc9a5d",
+                          "bytes":  1962990,
+                          "last_write_time_utc":  "2026-05-26T02:19:45.7694416Z"
+                      },
+                      {
+                          "name":  "final_metrics",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\metrics\\metrics.json",
+                          "sha256":  "19b0b62f12fdbe6eaf909cf376dcc523abfa422ac163fff296ec0c187bff64a9",
+                          "bytes":  1551450,
+                          "last_write_time_utc":  "2026-05-26T15:55:58.5346331Z"
+                      },
+                      {
+                          "name":  "final_hard_setting_summary",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\metrics\\hard_setting_summary.csv",
+                          "sha256":  "06d082b4ee3afe360318c4591b29e8329358e35efff20228924bb8754ee2c772",
+                          "bytes":  1531,
+                          "last_write_time_utc":  "2026-05-26T06:10:41.3011280Z"
+                      },
+                      {
+                          "name":  "final_ablations",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\metrics\\ablations.csv",
+                          "sha256":  "a0bfa54fc1e052fe648fec5ba96b9b09aaff339f9c3df9249570aa1d5b5a1d76",
+                          "bytes":  6198,
+                          "last_write_time_utc":  "2026-05-26T06:10:40.9884773Z"
+                      },
+                      {
+                          "name":  "final_leakage_audit",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\metrics\\shortcut_feature_audit.csv",
+                          "sha256":  "24696666d69e3d9b0b40721f4a0c8072c37284ce6578cd484a12046090766157",
+                          "bytes":  15504,
+                          "last_write_time_utc":  "2026-05-26T15:23:17.6109541Z"
+                      },
+                      {
+                          "name":  "final_leakage_gate_summary",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\metrics\\shortcut_feature_gate_summary.csv",
+                          "sha256":  "af2db472d6c455066799bfcd68ac074dfd7cc26109182e50cb5d7ca7d9a34f31",
+                          "bytes":  70,
+                          "last_write_time_utc":  "2026-05-26T13:09:49.3880686Z"
+                      },
+                      {
+                          "name":  "final_leakage_audit_full_test",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\metrics\\shortcut_feature_audit_full_test.csv",
+                          "sha256":  "24696666d69e3d9b0b40721f4a0c8072c37284ce6578cd484a12046090766157",
+                          "bytes":  15504,
+                          "last_write_time_utc":  "2026-05-26T13:09:51.1493873Z"
+                      },
+                      {
+                          "name":  "final_leakage_gate_summary_full_test",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\metrics\\shortcut_feature_gate_summary_full_test.csv",
+                          "sha256":  "af2db472d6c455066799bfcd68ac074dfd7cc26109182e50cb5d7ca7d9a34f31",
+                          "bytes":  70,
+                          "last_write_time_utc":  "2026-05-26T13:09:51.1702646Z"
+                      },
+                      {
+                          "name":  "claim_scope_report",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\claim_scope_report.md",
+                          "sha256":  "1d4a4e44182dbf7039db6731e314447597f25e0e329a34ccbd0f198d05253652",
+                          "bytes":  1273,
+                          "last_write_time_utc":  "2026-05-26T15:55:58.9984462Z"
+                      },
+                      {
+                          "name":  "claim_scope_report_json",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\claim_scope_report.json",
+                          "sha256":  "fff11446490601a3e430e00691e9864fe998d51096f16321b3495c2ca00bf0ad",
+                          "bytes":  3723,
+                          "last_write_time_utc":  "2026-05-26T15:55:58.9984462Z"
+                      },
+                      {
+                          "name":  "promptguard_scores",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\hard_provenance_publication\\metrics\\promptguard_scores.csv",
+                          "sha256":  "bf31c77a71c035088e2667b368d9f220b16317c16809ccd81c82f987729e00cc",
+                          "bytes":  534299,
+                          "last_write_time_utc":  "2026-05-25T09:46:29.1326922Z"
+                      },
+                      {
+                          "name":  "pairing_audit",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\holdout_attack_family\\counterfactual_pairing_audit.csv",
+                          "sha256":  "179f9ceecd0cd2dc61c654f888ac68e4a831f6ccd9e458bb9f72bf3d63ab6362",
+                          "bytes":  953,
+                          "last_write_time_utc":  "2026-05-26T13:09:47.5151206Z"
+                      },
+                      {
+                          "name":  "aggregate_metrics",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\holdout_attack_family\\aggregate_metrics.csv",
+                          "sha256":  "663e54081082ecaf2c8073509afbe91fafc1a14132f2d5ea73f11199d4b29e9a",
+                          "bytes":  8693,
+                          "last_write_time_utc":  "2026-05-26T14:52:28.0185761Z"
+                      },
+                      {
+                          "name":  "target_family_metrics",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\holdout_attack_family\\target_family_focus_metrics.csv",
+                          "sha256":  "a4054b4c6eb6e05c02066ea27dc4c2aaabc7719b0fc28816f4bbb04eaad34832",
+                          "bytes":  7107,
+                          "last_write_time_utc":  "2026-05-26T14:52:28.0206580Z"
+                      },
+                      {
+                          "name":  "matched_counterfactual_metrics",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\holdout_attack_family\\matched_counterfactual_metrics.csv",
+                          "sha256":  "1ec8af1bc03625872c464b68926477b29d836a13285616c8271ddf73f2a316b7",
+                          "bytes":  8822,
+                          "last_write_time_utc":  "2026-05-26T14:52:28.0216583Z"
+                      },
+                      {
+                          "name":  "python_version",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\python_version.txt",
+                          "sha256":  "4c8174d2d3277607266209b044e15afeed00ccb47d53a1b2198f29ad7b644f55",
+                          "bytes":  18,
+                          "last_write_time_utc":  "2026-05-26T15:55:53.5087414Z"
+                      },
+                      {
+                          "name":  "pip_freeze",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\pip_freeze.txt",
+                          "sha256":  "de38d9ff5f6b4f5ec37228aec4df2a14fa9b22d97cea97e56c1008070e3dc3e5",
+                          "bytes":  4824,
+                          "last_write_time_utc":  "2026-05-26T15:55:55.3750739Z"
+                      },
+                      {
+                          "name":  "git_head",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\git_head.txt",
+                          "sha256":  "21c2fa38171c473902d45f8fc9a259706c8a45cf5caeeb886ece509966f6448e",
+                          "bytes":  86,
+                          "last_write_time_utc":  "2026-05-26T15:55:55.5469202Z"
+                      },
+                      {
+                          "name":  "git_status",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\git_status_short.txt",
+                          "sha256":  "02b2adbe11b149c2641218ab3af77582811acb5360f36cfbb110d19ef4e7484e",
+                          "bytes":  19350,
+                          "last_write_time_utc":  "2026-05-26T15:55:55.6644114Z"
+                      },
+                      {
+                          "name":  "git_diff_stat",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\git_diff_stat.txt",
+                          "sha256":  "af5eabadd0ac754b0f253c2101dbb14df45a75f404267374f8257956c6eda2fa",
+                          "bytes":  1882,
+                          "last_write_time_utc":  "2026-05-26T15:55:55.8151753Z"
+                      },
+                      {
+                          "name":  "git_diff_stat_stderr",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\git_diff_stat.stderr.txt",
+                          "sha256":  "2e13bc23949bdd596479b0478b8cf719789bfec596e34d28aebcdbf12840a43c",
+                          "bytes":  5140,
+                          "last_write_time_utc":  "2026-05-26T15:55:55.8151753Z"
+                      },
+                      {
+                          "name":  "git_diff_patch",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\git_diff.patch",
+                          "sha256":  "1bf8fba3b9b12fdf71a7e412908eaccbd6771b15235ff428588df2a4a82d1892",
+                          "bytes":  289996,
+                          "last_write_time_utc":  "2026-05-26T15:55:56.0969027Z"
+                      },
+                      {
+                          "name":  "git_diff_stderr",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\git_diff.stderr.txt",
+                          "sha256":  "2e13bc23949bdd596479b0478b8cf719789bfec596e34d28aebcdbf12840a43c",
+                          "bytes":  5140,
+                          "last_write_time_utc":  "2026-05-26T15:55:55.9105208Z"
+                      },
+                      {
+                          "name":  "git_diff_cached_patch",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\git_diff_cached.patch",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0,
+                          "last_write_time_utc":  "2026-05-26T15:55:56.1040731Z"
+                      },
+                      {
+                          "name":  "git_diff_cached_stderr",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\git_diff_cached.stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0,
+                          "last_write_time_utc":  "2026-05-26T15:55:56.1050702Z"
+                      },
+                      {
+                          "name":  "git_untracked_files",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\git_untracked_files.txt",
+                          "sha256":  "c961793e1b7e1475f0766794f75e7ebd00e40bf9944db90a8fa49f7463dd6b7d",
+                          "bytes":  3545306,
+                          "last_write_time_utc":  "2026-05-26T15:55:58.2151561Z"
+                      },
+                      {
+                          "name":  "repro_bundle_repair",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\repro_bundle_repair.json",
+                          "sha256":  "0df2923e3592503cccf67e178560cee2623b097bc7f4649d2b0c7f9f6393544e",
+                          "bytes":  238,
+                          "last_write_time_utc":  "2026-05-26T15:55:58.5775885Z"
+                      },
+                      {
+                          "name":  "repro_bundle_repair_stderr",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\repro_bundle_repair.stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0,
+                          "last_write_time_utc":  "2026-05-26T15:55:58.5833334Z"
+                      },
+                      {
+                          "name":  "publication_readiness",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\publication_readiness.json",
+                          "sha256":  "eeef669d2b5a87723d7f5c253ba1a4f83106a1bd6ce3102d45e6f5534eb9836b",
+                          "bytes":  537,
+                          "last_write_time_utc":  "2026-05-26T15:55:58.8219206Z"
+                      },
+                      {
+                          "name":  "publication_readiness_stderr",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\publication_readiness.stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0,
+                          "last_write_time_utc":  "2026-05-26T15:55:58.8241637Z"
+                      },
+                      {
+                          "name":  "claim_scope_report_command_stdout",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\claim_scope_report_command.stdout.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0,
+                          "last_write_time_utc":  "2026-05-26T15:55:59.0144258Z"
+                      },
+                      {
+                          "name":  "claim_scope_report_command_stderr",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\claim_scope_report_command.stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0,
+                          "last_write_time_utc":  "2026-05-26T15:55:59.0165255Z"
+                      },
+                      {
+                          "name":  "source_file_hashes",
+                          "path":  "C:\\Users\\volko\\solvance-ai-production\\lightweight-detector\\data\\artifacts\\publication_final\\reproducibility\\source_file_hashes.json",
+                          "sha256":  "f090cf75f37edfd06ae0728ce60affd9d4dc01400dda0814482dd5054ced625b",
+                          "bytes":  49177,
+                          "last_write_time_utc":  "2026-05-26T15:55:59.6310290Z"
+                      }
+                  ]
+}
