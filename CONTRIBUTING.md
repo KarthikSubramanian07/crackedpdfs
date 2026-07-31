@@ -37,7 +37,10 @@ For TypeScript tests:
 
 ```powershell
 npm install
-npx vitest run
+npx --yes tsx --test `
+  src/lib/prompt-injection-message-library.test.ts `
+  src/backend/services/dataset-mode/index.test.ts `
+  src/backend/services/processing/layers/02-watermarking/injection-config.contract.test.ts
 ```
 
 ## Pull request rules
