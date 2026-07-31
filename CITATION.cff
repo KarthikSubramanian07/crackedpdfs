@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use CrackedPDFs, cite the paper below."
+title: "CrackedPDFs"
+abstract: "Code and frozen evaluation artifacts for a controlled benchmark of hidden prompt injection in PDFs."
+type: software
+authors:
+  - family-names: "Thienpreecha"
+    given-names: "Pukaphol"
+    alias: "Volk"
+    email: "volk_thienpreecha@berkeley.edu"
+  - family-names: "Subramanian"
+    given-names: "Karthik"
+    email: "karthik.subramanian@berkeley.edu"
+repository-code: "https://github.com/volkthienpreecha/crackedpdfs"
+url: "https://arxiv.org/abs/2607.19396"
+license: MIT
+identifiers:
+  - type: doi
+    value: "10.48550/arXiv.2607.19396"
+    description: "arXiv DOI"
+  - type: url
+    value: "https://arxiv.org/abs/2607.19396"
+    description: "arXiv record"
+preferred-citation:
+  type: article
+  title: "CrackedPDFs: A Controlled Benchmark for Hidden Prompt Injection in PDFs"
+  authors:
+    - family-names: "Thienpreecha"
+      given-names: "Pukaphol"
+      alias: "Volk"
+    - family-names: "Subramanian"
+      given-names: "Karthik"
+  year: 2026
+  journal: "arXiv"
+  volume: "abs/2607.19396"
+  doi: "10.48550/arXiv.2607.19396"
+  url: "https://arxiv.org/abs/2607.19396"
