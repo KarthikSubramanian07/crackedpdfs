@@ -15,16 +15,18 @@ Do not commit:
 
 ## Development setup
 
-The current end-to-end runner targets Windows PowerShell and Python 3.13.
+The paper release uses Python 3.13 and Node.js 22. On Linux:
 
-```powershell
+```bash
 git clone https://github.com/volkthienpreecha/crackedpdfs.git
 cd crackedpdfs
-Copy-Item .env.example .env
-npm run experiment:smoke
+make smoke
+make reproduce-results
 ```
 
-For focused Python generator tests:
+The smoke target runs the generator, source-integrity, and TypeScript checks. The reproduction target downloads hash-pinned frozen features and regenerates the compact result table without rebuilding the PDF corpus.
+
+For focused Python generator tests on Windows PowerShell:
 
 ```powershell
 python -m venv .venv
@@ -33,7 +35,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pytest .\tools\PDFautogenerator\tests
 ```
 
-For TypeScript tests:
+For TypeScript tests on Windows PowerShell:
 
 ```powershell
 npm install

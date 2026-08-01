@@ -4,7 +4,6 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$PythonBin = if ([string]::IsNullOrWhiteSpace($env:PYTHON_BIN)) { "python" } else { $env:PYTHON_BIN }
 
 function Write-JsonFile {
   param(
@@ -137,17 +136,17 @@ Push-Location $DetectorRoot
 try {
   $reproDir = "data/artifacts/publication_final/reproducibility"
   New-Item -ItemType Directory -Force -Path $reproDir | Out-Null
-  & $PythonBin --version | Set-Content -LiteralPath "$reproDir/python_version.txt" -Encoding utf8
-  & $PythonBin -m pip freeze | Set-Content -LiteralPath "$reproDir/pip_freeze.txt" -Encoding utf8
+  python --version | Set-Content -LiteralPath "$reproDir/python_version.txt" -Encoding utf8
+  python -m pip freeze | Set-Content -LiteralPath "$reproDir/pip_freeze.txt" -Encoding utf8
   Invoke-GitCapture @("rev-parse", "HEAD") "$reproDir/git_head.txt"
   Invoke-GitCapture @("status", "--short") "$reproDir/git_status_short.txt"
   Invoke-GitCapture @("diff", "--stat") "$reproDir/git_diff_stat.txt" "$reproDir/git_diff_stat.stderr.txt"
   Invoke-GitCapture @("diff", "--binary") "$reproDir/git_diff.patch" "$reproDir/git_diff.stderr.txt"
   Invoke-GitCapture @("diff", "--cached", "--binary") "$reproDir/git_diff_cached.patch" "$reproDir/git_diff_cached.stderr.txt"
   Invoke-GitCapture @("ls-files", "--others", "--exclude-standard") "$reproDir/git_untracked_files.txt"
-  Invoke-CommandCapture $PythonBin @("scripts/repair_publication_repro_bundle.py", "--config", "configs/eval_publication_final.yaml", "--metrics", "data/artifacts/publication_final/metrics/metrics.json") "$reproDir/repro_bundle_repair.json" "$reproDir/repro_bundle_repair.stderr.txt"
-  Invoke-CommandCapture $PythonBin @("scripts/check_publication_readiness.py", "--config", "configs/eval_publication_final.yaml", "--metrics", "data/artifacts/publication_final/metrics/metrics.json", "--require-bootstrap", "--require-ablations", "--require-sanity") "$reproDir/publication_readiness.json" "$reproDir/publication_readiness.stderr.txt"
-  Invoke-CommandCapture $PythonBin @("scripts/write_publication_claim_scope.py", "--metrics", "data/artifacts/publication_final/metrics/metrics.json", "--matched-counterfactual", "data/artifacts/holdout_attack_family/matched_counterfactual_metrics.csv", "--output", "data/artifacts/publication_final/claim_scope_report.md", "--json-output", "data/artifacts/publication_final/claim_scope_report.json") "$reproDir/claim_scope_report_command.stdout.txt" "$reproDir/claim_scope_report_command.stderr.txt"
+  Invoke-CommandCapture "python" @("scripts/repair_publication_repro_bundle.py", "--config", "configs/eval_publication_final.yaml", "--metrics", "data/artifacts/publication_final/metrics/metrics.json") "$reproDir/repro_bundle_repair.json" "$reproDir/repro_bundle_repair.stderr.txt"
+  Invoke-CommandCapture "python" @("scripts/check_publication_readiness.py", "--config", "configs/eval_publication_final.yaml", "--metrics", "data/artifacts/publication_final/metrics/metrics.json", "--require-bootstrap", "--require-ablations", "--require-sanity") "$reproDir/publication_readiness.json" "$reproDir/publication_readiness.stderr.txt"
+  Invoke-CommandCapture "python" @("scripts/write_publication_claim_scope.py", "--metrics", "data/artifacts/publication_final/metrics/metrics.json", "--matched-counterfactual", "data/artifacts/holdout_attack_family/matched_counterfactual_metrics.csv", "--output", "data/artifacts/publication_final/claim_scope_report.md", "--json-output", "data/artifacts/publication_final/claim_scope_report.json") "$reproDir/claim_scope_report_command.stdout.txt" "$reproDir/claim_scope_report_command.stderr.txt"
   $sourceSnapshotPath = "$reproDir/source_file_hashes.json"
   $sourceSnapshot = New-SourceSnapshot -OutputPath $sourceSnapshotPath
 

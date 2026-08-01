@@ -27,6 +27,8 @@ The run manifest and paths show that the paper evaluation ran on Windows from Po
 
 Do not infer those versions from a current developer machine. They are unknown for the paper run.
 
+The imported `lightweight-detector/configs/` files intentionally preserve the paper working tree's absolute Windows paths, line endings, and byte-level hashes. They are provenance, not portable entrypoints. Use the root `make smoke` and `make reproduce-results` targets on Linux; changing the frozen configs would break the source-snapshot claim.
+
 ## Frozen configuration
 
 The exact copied configurations are under [`reproducibility/configs/`](reproducibility/configs/):
@@ -54,4 +56,10 @@ python -m src.cli train --model hybrid --config configs/model_hybrid_hard_proven
 python -m src.cli evaluate --config configs/eval_publication_final.yaml
 ```
 
-These commands expect feature, label, and PDF artifacts that are not committed in `paper-v1/`. They are provenance, not a complete fast reproduction command.
+These commands document the original full evaluation path. For a fast Linux check of the published numbers, run this from the repository root:
+
+```bash
+make reproduce-results
+```
+
+It downloads the frozen feature, label, split, and metric artifacts from the immutable dataset revision and does not regenerate the PDF corpus.

@@ -1,0 +1,3 @@
+# Preserve the byte-level May 25, 2026 detector snapshot recorded by
+# paper-v1/reproducibility/source-file-hashes.json on every platform.
+lightweight-detector/** -text whitespace=cr-at-eol

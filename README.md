@@ -3,11 +3,12 @@
 ## A Controlled Benchmark for Hidden Prompt Injection in PDFs
 
 [![arXiv](https://img.shields.io/badge/arXiv-2607.19396-b31b1b.svg)](https://arxiv.org/abs/2607.19396)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21735803.svg)](https://doi.org/10.5281/zenodo.21735803)
 [![Python 3.13](https://img.shields.io/badge/Python-3.13-3776AB.svg)](https://www.python.org/downloads/release/python-3137/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [![Paper](https://img.shields.io/badge/Paper-read-b31b1b.svg)](https://arxiv.org/abs/2607.19396)
-[![Dataset](https://img.shields.io/badge/Dataset-paper--v1-4c1.svg)](paper-v1/DATASET.md)
+[![Dataset](https://img.shields.io/badge/Dataset-Hugging_Face-ffd21e.svg)](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs)
 [![Code](https://img.shields.io/badge/Code-browse-181717.svg)](https://github.com/volkthienpreecha/crackedpdfs)
 [![Results](https://img.shields.io/badge/Results-tables-2563eb.svg)](paper-v1/RESULTS.md)
 [![Citation](https://img.shields.io/badge/Citation-BibTeX-8b5cf6.svg)](#citation)
@@ -37,7 +38,7 @@ Benign source documents were produced with [PDFAutoGen](https://github.com/volkt
 | `lightweight-detector/` | Feature extraction, grouped splitting, baselines, learned models, audits, and evaluation. |
 | `scripts/run_crackedpdfs_experiment.ps1` | Current end-to-end experiment runner. |
 
-Generated PDFs, local databases, model binaries, and full feature tables remain excluded from Git. The `paper-v1/` directory contains the compact paper record that can be reviewed without rerunning 29,322 PDFs.
+Generated PDFs, local databases, model binaries, and full feature tables remain excluded from Git. They are published in the [Hugging Face dataset](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs); `paper-v1/` is the compact, reviewable paper record.
 
 ## Benchmark design
 
@@ -70,35 +71,30 @@ The evaluation includes:
 
 See [`paper-v1/RESULTS.md`](paper-v1/RESULTS.md) for the paper-facing tables and exact artifact keys.
 
-## Quick smoke run
-
-The current one-command runner targets Windows PowerShell.
+## Linux reproduction
 
 Requirements:
 
 - Python 3.13;
-- Node.js and npm;
-- Git; and
-- PowerShell.
+- Node.js 22 and npm;
+- GNU Make; and
+- Git.
 
-```powershell
+```bash
 git clone https://github.com/volkthienpreecha/crackedpdfs.git
 cd crackedpdfs
-Copy-Item .env.example .env
-npm run experiment:smoke
+make smoke
 ```
 
-After the first setup:
+`make smoke` verifies the May 25 source snapshot, runs the Python generator and TypeScript tests, then generates one benign PDF and one injected counterpart through the real benchmark pipeline.
 
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/run_crackedpdfs_experiment.ps1 `
-  -Mode smoke `
-  -SkipInstall
+To regenerate the paper's compact result table from the published frozen features:
+
+```bash
+make reproduce-results
 ```
 
-The smoke run generates a small fresh corpus, creates matched and injected variants, exports detector metadata, builds grouped splits and features, trains the included detector variants, and runs model-only evaluation.
-
-The repository does not yet provide `make smoke` or a fast Linux `make reproduce-results` target. Do not cite either command until the corresponding code and frozen feature download exist.
+The second command downloads four hash-pinned artifacts from an immutable [Hugging Face revision](paper-v1/reproducibility/download-manifest.json), verifies every SHA-256 digest, and writes `reproduced-results/hard-setting-summary.csv`. It does not regenerate the 29,322 PDFs.
 
 ## Full publication-style run
 
@@ -117,20 +113,13 @@ For paper review, start with:
 
 ## Dataset availability
 
-The complete 29,322-PDF corpus is not committed to Git and does not yet have a public Hugging Face or Zenodo identifier. The Dataset button therefore points to the [paper-v1 dataset record](paper-v1/DATASET.md), not to a fabricated download.
+The complete public dataset is at [Hugging Face](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs) and is archived at [Zenodo](https://doi.org/10.5281/zenodo.21735803). It contains all 29,322 PDFs, row-level metadata, frozen features, labels, paper evaluation splits, metrics, and SHA-256 checksums. The large binaries remain outside Git so the repository stays cloneable.
 
-The repository includes:
-
-- the exact frozen split assignment;
-- the paper evaluation metrics and audit tables;
-- the reproducibility and source-hash manifests; and
-- fifteen exact triplet metadata examples spanning train, validation, and test.
-
-The example manifest records the original corpus-relative PDF paths. The PDF binaries themselves are not included in this documentation-only package.
+The release manifest pins the fast reproduction command to dataset revision `02d7e0be03b09d6a29c7e4d388440bc1f5a4907b`. See [`paper-v1/DATASET.md`](paper-v1/DATASET.md) for schema, split semantics, and limitations.
 
 ## Citation
 
-If you use the benchmark, code, splits, or paper results, cite:
+If you use the benchmark, code, splits, or paper results, cite the paper and dataset release. Both entries are also available in [`CITATION.bib`](CITATION.bib).
 
 ```bibtex
 @misc{thienpreecha2026crackedpdfs,
@@ -142,6 +131,16 @@ If you use the benchmark, code, splits, or paper results, cite:
   primaryClass  = {cs.AI},
   doi           = {10.48550/arXiv.2607.19396},
   url           = {https://arxiv.org/abs/2607.19396}
+}
+
+@dataset{thienpreecha2026crackedpdfs_dataset,
+  title     = {CrackedPDFs: Paper v1 Dataset and Reproducibility Artifacts},
+  author    = {Thienpreecha, Pukaphol and Subramanian, Karthik},
+  publisher = {Zenodo},
+  year      = {2026},
+  version   = {1.0.0},
+  doi       = {10.5281/zenodo.21735803},
+  url       = {https://doi.org/10.5281/zenodo.21735803}
 }
 ```
 

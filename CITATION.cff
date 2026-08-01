@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use CrackedPDFs, cite the paper below."
+message: "If you use CrackedPDFs, cite the paper and the dataset release."
 title: "CrackedPDFs"
 abstract: "Code and frozen evaluation artifacts for a controlled benchmark of hidden prompt injection in PDFs."
 type: software
@@ -12,15 +12,24 @@ authors:
     given-names: "Karthik"
     email: "karthik.subramanian@berkeley.edu"
 repository-code: "https://github.com/volkthienpreecha/crackedpdfs"
+repository-artifact: "https://doi.org/10.5281/zenodo.21735803"
 url: "https://arxiv.org/abs/2607.19396"
 license: MIT
+version: "1.0.0"
+date-released: "2026-08-01"
 identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21735803"
+    description: "CrackedPDFs paper-v1 dataset and reproducibility archive"
   - type: doi
     value: "10.48550/arXiv.2607.19396"
     description: "arXiv DOI"
   - type: url
     value: "https://arxiv.org/abs/2607.19396"
     description: "arXiv record"
+  - type: url
+    value: "https://huggingface.co/datasets/volkthienpreecha/crackedpdfs/tree/245bc98ec7e838346ee6fd5bdf5fed1b16d2a3e5"
+    description: "Complete dataset at an immutable revision"
 preferred-citation:
   type: article
   title: "CrackedPDFs: A Controlled Benchmark for Hidden Prompt Injection in PDFs"

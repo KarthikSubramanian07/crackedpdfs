@@ -8,4 +8,4 @@
 
 The selection includes five examples from each split and multiple attack and confounder families.
 
-The `path` fields are the original corpus-relative locations. The corresponding PDF binaries were not present in the recovered paper artifact and are not included here.
+The `path` fields are the original corpus-relative locations. The corresponding PDF binaries are not duplicated in Git; they are available in the [published dataset archives at revision `245bc98`](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs/tree/245bc98ec7e838346ee6fd5bdf5fed1b16d2a3e5/pdfs).

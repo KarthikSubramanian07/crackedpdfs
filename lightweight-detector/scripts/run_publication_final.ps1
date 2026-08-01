@@ -10,7 +10,6 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$PythonBin = if ([string]::IsNullOrWhiteSpace($env:PYTHON_BIN)) { "python" } else { $env:PYTHON_BIN }
 
 function Invoke-CheckedPython {
   param([Parameter(Mandatory = $true)][string[]]$Arguments)
@@ -18,7 +17,7 @@ function Invoke-CheckedPython {
   $previousErrorAction = $ErrorActionPreference
   try {
     $ErrorActionPreference = "Continue"
-    & $script:PythonBin @Arguments
+    python @Arguments
     $exitCode = $LASTEXITCODE
   } finally {
     $ErrorActionPreference = $previousErrorAction
@@ -165,8 +164,8 @@ try {
 
   Invoke-Stage "environment-freeze" {
     New-Item -ItemType Directory -Force -Path "data/artifacts/publication_final/reproducibility" | Out-Null
-    & $PythonBin --version | Set-Content -LiteralPath "data/artifacts/publication_final/reproducibility/python_version.txt" -Encoding utf8
-    & $PythonBin -m pip freeze | Set-Content -LiteralPath "data/artifacts/publication_final/reproducibility/pip_freeze.txt" -Encoding utf8
+    python --version | Set-Content -LiteralPath "data/artifacts/publication_final/reproducibility/python_version.txt" -Encoding utf8
+    python -m pip freeze | Set-Content -LiteralPath "data/artifacts/publication_final/reproducibility/pip_freeze.txt" -Encoding utf8
     Invoke-GitCapture @("rev-parse", "HEAD") "data/artifacts/publication_final/reproducibility/git_head.txt"
     Invoke-GitCapture @("status", "--short") "data/artifacts/publication_final/reproducibility/git_status_short.txt"
     Invoke-GitCapture @("diff", "--stat") "data/artifacts/publication_final/reproducibility/git_diff_stat.txt" "data/artifacts/publication_final/reproducibility/git_diff_stat.stderr.txt"
