@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use CrackedPDFs, cite the paper and the archived dataset release."
+message: "If you use CrackedPDFs, cite the paper and the dataset release."
 title: "CrackedPDFs"
 abstract: "Code and frozen evaluation artifacts for a controlled benchmark of hidden prompt injection in PDFs."
 type: software
@@ -24,8 +24,8 @@ identifiers:
     value: "https://arxiv.org/abs/2607.19396"
     description: "arXiv record"
   - type: url
-    value: "https://huggingface.co/datasets/volkthienpreecha/crackedpdfs"
-    description: "Complete dataset"
+    value: "https://huggingface.co/datasets/volkthienpreecha/crackedpdfs/tree/4a9ad89a9f42bb18681b608c07b643cd77491ea5"
+    description: "Complete dataset at an immutable revision"
 preferred-citation:
   type: article
   title: "CrackedPDFs: A Controlled Benchmark for Hidden Prompt Injection in PDFs"

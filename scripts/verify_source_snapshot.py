@@ -10,6 +10,12 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = REPO_ROOT / "paper-v1" / "reproducibility" / "source-file-hashes.json"
+SCAFFOLD_PATHS = {
+    Path(".gitignore"),
+    Path("data/artifacts/.gitkeep"),
+    Path("data/processed/.gitkeep"),
+    Path("data/raw/.gitkeep"),
+}
 
 
 def normalize_relative_path(raw_path: str) -> Path:
@@ -40,13 +46,13 @@ def verify(repo_root: Path, manifest_path: Path) -> tuple[int, int]:
 
     errors: list[str] = []
     expected_paths = {relative for relative, _ in source_entries}
-    source_suffixes = {relative.suffix.lower() for relative in expected_paths}
     actual_paths = {
         path.relative_to(detector_root)
         for path in detector_root.rglob("*")
         if path.is_file()
-        and path.suffix.lower() in source_suffixes
+        and path.suffix.lower() not in {".pyc", ".pyo"}
         and "__pycache__" not in path.relative_to(detector_root).parts
+        and path.relative_to(detector_root) not in SCAFFOLD_PATHS
     }
     for relative in sorted(actual_paths - expected_paths, key=lambda path: path.as_posix()):
         errors.append(f"Unexpected source file: {relative.as_posix()}")

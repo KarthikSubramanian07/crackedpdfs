@@ -27,6 +27,8 @@ The run manifest and paths show that the paper evaluation ran on Windows from Po
 
 Do not infer those versions from a current developer machine. They are unknown for the paper run.
 
+The imported `lightweight-detector/configs/` files intentionally preserve the paper working tree's absolute Windows paths, line endings, and byte-level hashes. They are provenance, not portable entrypoints. Use the root `make smoke` and `make reproduce-results` targets on Linux; changing the frozen configs would break the source-snapshot claim.
+
 ## Frozen configuration
 
 The exact copied configurations are under [`reproducibility/configs/`](reproducibility/configs/):

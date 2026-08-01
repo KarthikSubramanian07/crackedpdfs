@@ -7,6 +7,7 @@ import hashlib
 import json
 import shutil
 import sys
+import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any
@@ -45,6 +46,11 @@ def safe_artifact_path(root: Path, relative: str) -> Path:
 
 
 def download_file(url: str, destination: Path) -> None:
+    scheme = urllib.parse.urlsplit(url).scheme.lower()
+    if scheme not in {"http", "https"}:
+        raise ReproductionError(
+            f"Refusing to download from unsupported scheme: {scheme or 'none'}"
+        )
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_suffix(destination.suffix + ".part")
     request = urllib.request.Request(url, headers={"User-Agent": "crackedpdfs-reproducer/1.0"})
@@ -74,8 +80,10 @@ def materialize_and_verify_artifacts(
         actual_hash = sha256_file(destination)
         expected_hash = str(entry["sha256"]).lower()
         if actual_hash != expected_hash:
+            destination.unlink(missing_ok=True)
             raise ReproductionError(
-                f"SHA-256 mismatch for {relative}: expected {expected_hash}, got {actual_hash}"
+                f"SHA-256 mismatch for {relative}: expected {expected_hash}, got {actual_hash}. "
+                "Removed the cached copy; rerun to download it again."
             )
         actual_size = destination.stat().st_size
         expected_size = entry.get("bytes")

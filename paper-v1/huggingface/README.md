@@ -63,7 +63,7 @@ data/
   metadata.jsonl          Complete row-level metadata
   metadata.parquet        Columnar metadata
   labels.parquet          Frozen labels and metadata used by the paper run
-  features.parquet        54 frozen structural features for all 29,322 PDFs
+  features.parquet        54 columns: pdf_id plus 53 frozen numeric structural features
   splits.json             Frozen group-aware split assignment
 pdfs/
   benign.tar.gz           Benign originals and matched confounders
@@ -101,7 +101,7 @@ The metadata contains additional generation, pairing, physical-regime, and audit
 ## Quick reproduction
 
 ```bash
-git clone https://github.com/volkthienpreecha/crackedpdfs.git
+git clone --branch v1.0.0-paper --depth 1 https://github.com/volkthienpreecha/crackedpdfs.git
 cd crackedpdfs
 make reproduce-results
 ```

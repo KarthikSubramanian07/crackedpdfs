@@ -37,6 +37,16 @@ def load_injector():
     return module
 
 
+def validate_pdf_pair(benign_pdf: Path, injected_pdf: Path) -> None:
+    if not injected_pdf.is_file() or injected_pdf.stat().st_size == 0:
+        raise RuntimeError("Injection did not produce a PDF")
+
+    benign_reader = PdfReader(str(benign_pdf))
+    injected_reader = PdfReader(str(injected_pdf))
+    if not benign_reader.pages or len(benign_reader.pages) != len(injected_reader.pages):
+        raise RuntimeError("Injected PDF did not preserve the benign document page count")
+
+
 def run_smoke(output_dir: Path) -> dict[str, object]:
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -94,12 +104,7 @@ def run_smoke(output_dir: Path) -> dict[str, object]:
             str(benign_pdf), str(injected_pdf), policy_text, validated_config
         )
 
-    benign_reader = PdfReader(str(benign_pdf))
-    injected_reader = PdfReader(str(injected_pdf))
-    if not benign_reader.pages or len(benign_reader.pages) != len(injected_reader.pages):
-        raise RuntimeError("Injected PDF did not preserve the benign document page count")
-    if not injected_pdf.is_file() or injected_pdf.stat().st_size == 0:
-        raise RuntimeError("Injection did not produce a PDF")
+    validate_pdf_pair(benign_pdf, injected_pdf)
 
     return {
         "generated_count": 1,

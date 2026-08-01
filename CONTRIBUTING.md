@@ -26,7 +26,7 @@ make reproduce-results
 
 The smoke target runs the generator, source-integrity, and TypeScript checks. The reproduction target downloads hash-pinned frozen features and regenerates the compact result table without rebuilding the PDF corpus.
 
-For focused Python generator tests:
+For focused Python generator tests on Windows PowerShell:
 
 ```powershell
 python -m venv .venv
@@ -35,7 +35,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pytest .\tools\PDFautogenerator\tests
 ```
 
-For TypeScript tests:
+For TypeScript tests on Windows PowerShell:
 
 ```powershell
 npm install

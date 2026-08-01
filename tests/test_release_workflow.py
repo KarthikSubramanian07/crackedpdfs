@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import subprocess
 import sys
 from pathlib import Path
+
+import pytest
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -22,6 +25,15 @@ def _run(*args: str) -> subprocess.CompletedProcess[str]:
         text=True,
         check=False,
     )
+
+
+def _load_script(relative: str, module_name: str):
+    script_path = REPO_ROOT / relative
+    spec = importlib.util.spec_from_file_location(module_name, script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def _write_frozen_fixture(root: Path) -> Path:
@@ -130,6 +142,16 @@ def test_reproduce_results_rejects_tampered_artifact(tmp_path: Path) -> None:
 
     assert result.returncode != 0
     assert "SHA-256 mismatch for labels.parquet" in result.stderr
+    assert not (tmp_path / "artifacts" / "labels.parquet").exists()
+
+
+def test_reproduce_results_rejects_non_http_download_scheme(tmp_path: Path) -> None:
+    reproducer = _load_script("scripts/reproduce_results.py", "reproducer_scheme_test")
+    local_source = tmp_path / "local-source.bin"
+    local_source.write_bytes(b"local data must not be accepted as a release download")
+
+    with pytest.raises(reproducer.ReproductionError, match="unsupported scheme: file"):
+        reproducer.download_file(local_source.as_uri(), tmp_path / "downloaded.bin")
 
 
 def test_source_snapshot_verifier_ignores_bytecode_and_catches_source_drift(
@@ -161,7 +183,7 @@ def test_source_snapshot_verifier_ignores_bytecode_and_catches_source_drift(
     assert "Verified 1/1 source files" in valid.stdout
     assert "Excluded 1 Python bytecode cache" in valid.stdout
 
-    unexpected = detector / "src" / "unexpected.py"
+    unexpected = detector / "src" / "unexpected.newext"
     unexpected.write_bytes(b"print('not in the paper snapshot')\n")
     with_extra = _run(
         "scripts/verify_source_snapshot.py",
@@ -171,7 +193,7 @@ def test_source_snapshot_verifier_ignores_bytecode_and_catches_source_drift(
         str(manifest),
     )
     assert with_extra.returncode != 0
-    assert "Unexpected source file: src/unexpected.py" in with_extra.stderr
+    assert "Unexpected source file: src/unexpected.newext" in with_extra.stderr
     unexpected.unlink()
 
     source.write_bytes(b"print('drifted')\n")
@@ -196,3 +218,10 @@ def test_smoke_benchmark_creates_valid_benign_and_injected_pdfs(tmp_path: Path) 
     assert Path(report["benign_pdf"]).is_file()
     assert Path(report["injected_pdf"]).is_file()
     assert report["attack_stats"]["segment_count"] >= 1
+
+
+def test_smoke_validation_reports_missing_injected_output(tmp_path: Path) -> None:
+    smoke = _load_script("scripts/smoke_benchmark.py", "smoke_missing_output_test")
+
+    with pytest.raises(RuntimeError, match="Injection did not produce a PDF"):
+        smoke.validate_pdf_pair(tmp_path / "benign.pdf", tmp_path / "missing.pdf")
