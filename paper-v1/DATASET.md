@@ -65,7 +65,7 @@ The examples preserve the original IDs, split assignments, regimes, confounder f
 
 ## Availability
 
-The complete 29,322-PDF dataset is published at [Hugging Face](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs). The paper release is pinned at [dataset revision `4a9ad89`](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs/tree/4a9ad89a9f42bb18681b608c07b643cd77491ea5). It includes the PDF binaries, complete row-level metadata, frozen feature and label tables, the paper evaluation split, and publication metrics.
+The complete 29,322-PDF dataset is published at [Hugging Face](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs) and archived at [Zenodo DOI `10.5281/zenodo.21735803`](https://doi.org/10.5281/zenodo.21735803). The paper release is pinned at [dataset revision `245bc98`](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs/tree/245bc98ec7e838346ee6fd5bdf5fed1b16d2a3e5). It includes the PDF binaries, complete row-level metadata, frozen feature and label tables, the paper evaluation split, and publication metrics.
 
 The fast reproduction manifest pins downloads to immutable dataset revision `02d7e0be03b09d6a29c7e4d388440bc1f5a4907b`. Run `make reproduce-results` from the repository root to verify the downloaded hashes and regenerate the hard-setting result table.
 

@@ -3,6 +3,7 @@
 ## A Controlled Benchmark for Hidden Prompt Injection in PDFs
 
 [![arXiv](https://img.shields.io/badge/arXiv-2607.19396-b31b1b.svg)](https://arxiv.org/abs/2607.19396)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21735803.svg)](https://doi.org/10.5281/zenodo.21735803)
 [![Python 3.13](https://img.shields.io/badge/Python-3.13-3776AB.svg)](https://www.python.org/downloads/release/python-3137/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -112,13 +113,13 @@ For paper review, start with:
 
 ## Dataset availability
 
-The complete public dataset is at [Hugging Face](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs). It contains all 29,322 PDFs, row-level metadata, frozen features, labels, paper evaluation splits, metrics, and SHA-256 checksums. The large binaries remain outside Git so the repository stays cloneable.
+The complete public dataset is at [Hugging Face](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs) and is archived at [Zenodo](https://doi.org/10.5281/zenodo.21735803). It contains all 29,322 PDFs, row-level metadata, frozen features, labels, paper evaluation splits, metrics, and SHA-256 checksums. The large binaries remain outside Git so the repository stays cloneable.
 
 The release manifest pins the fast reproduction command to dataset revision `02d7e0be03b09d6a29c7e4d388440bc1f5a4907b`. See [`paper-v1/DATASET.md`](paper-v1/DATASET.md) for schema, split semantics, and limitations.
 
 ## Citation
 
-If you use the benchmark, code, splits, or paper results, cite:
+If you use the benchmark, code, splits, or paper results, cite the paper and dataset release. Both entries are also available in [`CITATION.bib`](CITATION.bib).
 
 ```bibtex
 @misc{thienpreecha2026crackedpdfs,
@@ -130,6 +131,16 @@ If you use the benchmark, code, splits, or paper results, cite:
   primaryClass  = {cs.AI},
   doi           = {10.48550/arXiv.2607.19396},
   url           = {https://arxiv.org/abs/2607.19396}
+}
+
+@dataset{thienpreecha2026crackedpdfs_dataset,
+  title     = {CrackedPDFs: Paper v1 Dataset and Reproducibility Artifacts},
+  author    = {Thienpreecha, Pukaphol and Subramanian, Karthik},
+  publisher = {Zenodo},
+  year      = {2026},
+  version   = {1.0.0},
+  doi       = {10.5281/zenodo.21735803},
+  url       = {https://doi.org/10.5281/zenodo.21735803}
 }
 ```
 

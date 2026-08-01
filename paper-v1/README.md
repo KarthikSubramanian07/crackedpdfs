@@ -5,6 +5,7 @@ This directory is the compact research record for:
 > Pukaphol (Volk) Thienpreecha and Karthik Subramanian. “CrackedPDFs: A Controlled Benchmark for Hidden Prompt Injection in PDFs.” arXiv:2607.19396v1, 2026.
 
 - Paper: https://arxiv.org/abs/2607.19396
+- Dataset archive: https://doi.org/10.5281/zenodo.21735803
 - Version: arXiv v1, submitted 2026-07-03
 - Corpus: 29,322 PDFs from 4,983 base documents
 - Held-out test set: 2,919 PDFs
@@ -46,7 +47,7 @@ The frozen split hash matches the hash recorded inside the original run manifest
 
 1. The original run records source Git commit `1de100c7460a7409b1cf85ac09c9c150f13b53a9` plus a dirty May 25 working tree. The 146 non-cache source files from that exact working tree are frozen in public commit `86148d92341f26cac04e06ad1492929f68b5da02`; `scripts/verify_source_snapshot.py` checks them against the captured SHA-256 manifest. The 38 recorded `.pyc` cache files are deliberately excluded.
 2. The paper calls 95.9% a paired ranking result. The frozen artifact records 0.958890 as paired-set classification accuracy and 1.000 as explicit pairwise rank accuracy. See [`RESULTS.md`](RESULTS.md#paired-result-provenance).
-3. The complete PDFs, metadata, frozen features, labels, and split file are published at immutable [Hugging Face dataset revision `4a9ad89`](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs/tree/4a9ad89a9f42bb18681b608c07b643cd77491ea5).
+3. The complete PDFs, metadata, frozen features, labels, and split file are published at immutable [Hugging Face dataset revision `245bc98`](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs/tree/245bc98ec7e838346ee6fd5bdf5fed1b16d2a3e5) and archived under [Zenodo DOI `10.5281/zenodo.21735803`](https://doi.org/10.5281/zenodo.21735803).
 4. The paper PDF lists two authors. The arXiv abstract page displayed only Pukaphol Thienpreecha when this package was prepared.
 
 ## What this package can support

@@ -12,11 +12,15 @@ authors:
     given-names: "Karthik"
     email: "karthik.subramanian@berkeley.edu"
 repository-code: "https://github.com/volkthienpreecha/crackedpdfs"
+repository-artifact: "https://doi.org/10.5281/zenodo.21735803"
 url: "https://arxiv.org/abs/2607.19396"
 license: MIT
 version: "1.0.0"
 date-released: "2026-08-01"
 identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21735803"
+    description: "CrackedPDFs paper-v1 dataset and reproducibility archive"
   - type: doi
     value: "10.48550/arXiv.2607.19396"
     description: "arXiv DOI"
@@ -24,7 +28,7 @@ identifiers:
     value: "https://arxiv.org/abs/2607.19396"
     description: "arXiv record"
   - type: url
-    value: "https://huggingface.co/datasets/volkthienpreecha/crackedpdfs/tree/4a9ad89a9f42bb18681b608c07b643cd77491ea5"
+    value: "https://huggingface.co/datasets/volkthienpreecha/crackedpdfs/tree/245bc98ec7e838346ee6fd5bdf5fed1b16d2a3e5"
     description: "Complete dataset at an immutable revision"
 preferred-citation:
   type: article
