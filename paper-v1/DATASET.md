@@ -65,9 +65,11 @@ The examples preserve the original IDs, split assignments, regimes, confounder f
 
 ## Availability
 
-The complete 29,322-PDF dataset is not currently published from this repository. No Hugging Face dataset identifier or Zenodo DOI has been assigned in this documentation pass.
+The complete 29,322-PDF dataset is published at [Hugging Face](https://huggingface.co/datasets/volkthienpreecha/crackedpdfs). It includes the PDF binaries, complete row-level metadata, frozen feature and label tables, the paper evaluation split, and publication metrics.
 
-Do not cite a dataset DOI or claim a public PDF download until those artifacts exist. For now, cite the paper and use the frozen split and metric files in this directory for result provenance.
+The fast reproduction manifest pins downloads to immutable dataset revision `02d7e0be03b09d6a29c7e4d388440bc1f5a4907b`. Run `make reproduce-results` from the repository root to verify the downloaded hashes and regenerate the hard-setting result table.
+
+The `dataset_split` column in `metadata.parquet` and `labels.parquet` preserves the generation-layer assignment recorded in the original publication table. The paper's model evaluation used `data/splits.json`, whose counts are the 23,766 / 2,637 / 2,919 split shown above. Use `splits.json` for reproducing paper results.
 
 ## Limitations
 

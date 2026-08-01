@@ -54,4 +54,10 @@ python -m src.cli train --model hybrid --config configs/model_hybrid_hard_proven
 python -m src.cli evaluate --config configs/eval_publication_final.yaml
 ```
 
-These commands expect feature, label, and PDF artifacts that are not committed in `paper-v1/`. They are provenance, not a complete fast reproduction command.
+These commands document the original full evaluation path. For a fast Linux check of the published numbers, run this from the repository root:
+
+```bash
+make reproduce-results
+```
+
+It downloads the frozen feature, label, split, and metric artifacts from the immutable dataset revision and does not regenerate the PDF corpus.

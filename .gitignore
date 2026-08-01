@@ -3,6 +3,11 @@
 # dependencies
 /node_modules
 /.venv
+/.venv-paper/
+/.cache/
+/.release-data/
+/reproduced-results/
+/.pytest-*/
 /.pnp
 .pnp.*
 .yarn/*
