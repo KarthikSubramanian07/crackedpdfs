@@ -1,0 +1,9 @@
+# Default reviewers for everything in the repository.
+*                                   @volkthienpreecha @KarthikSubramanian07
+
+# The paper record and the attack generator change benchmark claims; both
+# authors review them.
+/paper-v1/                          @volkthienpreecha @KarthikSubramanian07
+/src/backend/services/processing/   @volkthienpreecha @KarthikSubramanian07
+/src/backend/services/dataset-mode/ @volkthienpreecha @KarthikSubramanian07
+/lightweight-detector/              @volkthienpreecha
