@@ -23,7 +23,11 @@ import {
   type PdfAttackFamily,
   type PdfAttackStrength,
 } from "@/lib/pdf-benchmark-taxonomy";
-import { processAdaPolicyLayer } from "@/backend/services/processing/layers/02-watermarking/volks-pdf-blocker-ada-layer-1";
+import {
+  processAdaPolicyLayer,
+  type AdaAttackStats,
+  type PlacementSummary,
+} from "@/backend/services/processing/layers/02-watermarking/volks-pdf-blocker-ada-layer-1";
 import {
   getAdaMessagePolicyPath,
   getAdaPolicyTextPath,
@@ -424,6 +428,10 @@ export interface DatasetItemManifest {
   compatibility_notes: string[];
   target_physical_regime: DatasetPhysicalRegime;
   confounder_physical_regime: DatasetPhysicalRegime;
+  realized_placement: {
+    injected: PlacementSummary | null;
+    benign_confounder: PlacementSummary | null;
+  };
   dataset_split: DatasetSplit;
   pairing: {
     strategy: "per_sample_benign_clone" | "matched_counterfactual_benign_confounder";
@@ -1129,9 +1137,10 @@ export function buildBenignConfounderInjectionConfig(
   };
 }
 
-function buildBenignConfounderText(
+export function buildBenignConfounderText(
   family: Exclude<DatasetBenignConfounderFamily, "none">,
-  targetText?: string
+  targetText?: string,
+  validationMarker?: string
 ): string {
   const body =
     family === "benign_in_page_invisible_note"
@@ -1196,17 +1205,25 @@ function buildBenignConfounderText(
     ...extendedBody,
     "</DOCUMENT_LAYOUT_NOTE>",
   ].join("\n");
+  // The injected payload starts with the bookkeeping marker line. Confounders
+  // carry the same marker so it cannot act as a label oracle (in paper v1 it
+  // appeared in every injected PDF and in no confounder).
+  const markerPrefix = validationMarker ? `${validationMarker}\n` : "";
   if (!targetText) {
-    return baseText;
+    return `${markerPrefix}${baseText}`;
   }
 
-  const targetLength = Math.max(baseText.length, targetText.length);
+  // Match the injected payload length exactly. In paper v1 the confounder was
+  // padded to at most the payload length, so the injected member of every
+  // non-acrostic pair carried more hidden glyphs than its confounder and a
+  // length-only ranker separated the pair.
+  const targetBodyLength = Math.max(baseText.length, targetText.length - markerPrefix.length);
   const fillerSentence = " Benign layout calibration text only.";
   let padded = baseText;
-  while (padded.length + fillerSentence.length <= targetLength) {
+  while (padded.length < targetBodyLength) {
     padded += fillerSentence;
   }
-  return padded;
+  return `${markerPrefix}${padded.slice(0, targetBodyLength).trimEnd().padEnd(targetBodyLength, ".")}`;
 }
 
 function toPhysicalRegime(config: InjectionConfig): DatasetPhysicalRegime {
@@ -1268,11 +1285,13 @@ async function processDatasetAssignment(
     benignConfounderFamily,
     baseConfig
   );
-  let attackStats = {
+  let attackStats: AdaAttackStats = {
     num_chunks: 0,
     chunk_strategy: "single_line",
     avg_chunk_len: 0,
+    placement: null,
   };
+  let confounderPlacement: PlacementSummary | null = null;
   let benignValidation: ValidationHarnessResult | null = null;
   let injectedValidation: ValidationHarnessResult | null = null;
   let status: DatasetItemManifest["status"] = "completed";
@@ -1308,7 +1327,7 @@ async function processDatasetAssignment(
 
     await fs.writeFile(
       confounderPolicyPath,
-      buildBenignConfounderText(benignConfounderFamily, policyText),
+      buildBenignConfounderText(benignConfounderFamily, policyText, validationMarker),
       "utf-8"
     );
     const confounderResult = await processAdaPolicyLayer({
@@ -1324,6 +1343,7 @@ async function processDatasetAssignment(
       );
     }
     finalConfounderConfig = confounderResult.metadata.injectionConfig;
+    confounderPlacement = confounderResult.metadata.attackStats.placement;
     const benignConfounderFilename = `${sampleId}.benign-confounder.pdf`;
     const benignConfounderUpload = await persistStorageFileFromPath(
       confounderOutputPath,
@@ -1450,6 +1470,10 @@ async function processDatasetAssignment(
     compatibility_notes: [...finalConfig.compatibility_notes],
     target_physical_regime: toPhysicalRegime(finalConfig),
     confounder_physical_regime: toPhysicalRegime(finalConfounderConfig),
+    realized_placement: {
+      injected: attackStats.placement,
+      benign_confounder: confounderPlacement,
+    },
     dataset_split: datasetSplit,
     pairing: {
       strategy: input.matchedBenignConfounders
@@ -2596,6 +2620,7 @@ function buildBenchmarkRecords(item: DatasetItemManifest): Record<string, unknow
       num_chunks: 0,
       chunk_strategy: "none",
       avg_chunk_len: 0,
+      ...placementRecordColumns(null),
     },
     {
       ...shared,
@@ -2615,6 +2640,7 @@ function buildBenchmarkRecords(item: DatasetItemManifest): Record<string, unknow
       num_chunks: 0,
       chunk_strategy: "none",
       avg_chunk_len: 0,
+      ...placementRecordColumns(item.realized_placement.benign_confounder),
     },
     {
       ...shared,
@@ -2634,8 +2660,23 @@ function buildBenchmarkRecords(item: DatasetItemManifest): Record<string, unknow
       num_chunks: item.num_chunks,
       chunk_strategy: item.chunk_strategy,
       avg_chunk_len: item.avg_chunk_len,
+      ...placementRecordColumns(item.realized_placement.injected),
     },
   ];
+}
+
+export function placementRecordColumns(
+  placement: PlacementSummary | null
+): Record<string, string | number | boolean | null> {
+  return {
+    realized_spatial_class: placement?.realized_spatial_class ?? "none",
+    realized_layout: placement?.layout ?? "none",
+    realized_glyphs: placement?.glyphs ?? 0,
+    realized_glyphs_inside: placement?.glyphs_inside ?? 0,
+    realized_glyphs_partial: placement?.glyphs_partial ?? 0,
+    realized_glyphs_outside: placement?.glyphs_outside ?? 0,
+    placement_contract_satisfied: placement?.contract_satisfied ?? null,
+  };
 }
 
 function auditMatchedCounterfactualCoverage(
