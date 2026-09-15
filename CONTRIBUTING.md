@@ -67,7 +67,7 @@ The generator writes labels that detectors are scored against, so a label must d
 
 ## Pull request rules
 
-Keep pull requests small and focused. For a change that builds on another open pull request, open a stacked pull request and say which one it depends on. Merge stacks bottom-up with merge or rebase merges (not squash) so the upper diffs collapse cleanly.
+Keep pull requests small and focused. For a change that builds on another open pull request, open a stacked pull request and say which one it depends on. Merge stacks bottom-up with ordinary merge commits (not squash and not rebase merge): squash and rebase rewrite commit identities, which strands the commits the upper pull requests still reference.
 
 Write commit subjects in the imperative mood ("Add", "Fix", "Record"), under about 72 characters, and use the body to explain why.
 
