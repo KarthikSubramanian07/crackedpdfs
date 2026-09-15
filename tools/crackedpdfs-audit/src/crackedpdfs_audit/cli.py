@@ -55,7 +55,7 @@ def _cmd_file(args: argparse.Namespace) -> int:
 
 
 def _cmd_corpus(args: argparse.Namespace) -> int:
-    from .corpus import build_tasks, read_metadata, run_audit, write_outputs
+    from .corpus import build_tasks, coverage, coverage_complete, read_metadata, run_audit, write_outputs
 
     rows = read_metadata(args.metadata)
     families = set(args.families.split(",")) if args.families else None
@@ -63,7 +63,7 @@ def _cmd_corpus(args: argparse.Namespace) -> int:
     if args.limit:
         tasks = tasks[: args.limit]
     if not tasks:
-        print("No auditable PDFs found under the corpus root.", file=sys.stderr)
+        print("No audited-role rows found in the metadata.", file=sys.stderr)
         return 1
     started = time.time()
     records = []
@@ -74,6 +74,17 @@ def _cmd_corpus(args: argparse.Namespace) -> int:
     outputs = write_outputs(records, args.out)
     for name, path in outputs.items():
         print(f"{name}: {path}")
+
+    cov = coverage(records)
+    print(
+        f"coverage: records={cov['records']:,} audited={cov['audited']:,} "
+        f"missing={cov['missing']:,} reference_missing={cov['reference_missing']:,} "
+        f"errors={cov['errors']:,} multi_page={cov['multi_page']:,}",
+        file=sys.stderr,
+    )
+    if args.strict and not coverage_complete(cov):
+        print("strict mode: corpus is incomplete (missing files or errors).", file=sys.stderr)
+        return 2
     return 0
 
 
@@ -114,6 +125,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     corpus_cmd.add_argument("--families", help="Comma-separated attack families to audit.")
     corpus_cmd.add_argument("--limit", type=int)
+    corpus_cmd.add_argument(
+        "--strict",
+        action="store_true",
+        help="Exit non-zero if any PDF or reference is missing or fails to parse (release gate).",
+    )
     corpus_cmd.set_defaults(handler=_cmd_corpus)
 
     reveal_cmd = commands.add_parser("reveal", help="Render off-page and hidden text on an expanded canvas.")
