@@ -30,6 +30,7 @@ class AuditTask:
     rendering_label: str
     path: str
     reference_path: str | None
+    reference_expected: bool
     render: bool
 
 
@@ -69,9 +70,9 @@ def build_tasks(
         if families and family not in families:
             continue
         prefix = "target" if role == "injected_attack" else "confounder"
+        # Missing PDFs are never silently dropped: a task is still built so the
+        # output has one record per audited metadata row, marked missing.
         path = root / str(row["file_path"])
-        if not path.exists():
-            continue
         reference = originals.get(str(row["sample_id"]))
         reference_path = root / reference if reference else None
         tasks.append(
@@ -87,6 +88,7 @@ def build_tasks(
                 ),
                 path=str(path),
                 reference_path=str(reference_path) if reference_path and reference_path.exists() else None,
+                reference_expected=reference is not None,
                 render=render,
             )
         )
@@ -94,9 +96,31 @@ def build_tasks(
 
 
 @lru_cache(maxsize=256)
-def _cached_first_page(path: str) -> PageGlyphs | None:
-    pages = extract_glyphs(path)
-    return pages[0] if pages else None
+def _cached_pages(path: str) -> tuple[PageGlyphs, ...]:
+    return tuple(extract_glyphs(path))
+
+
+def _merge_page_summaries(summaries: list) -> dict[str, object]:
+    fields = [
+        "glyphs",
+        "inside",
+        "clipped",
+        "outside",
+        "below_page",
+        "above_page",
+        "left_of_page",
+        "right_of_page",
+        "invisible_render_mode",
+        "tiny_font",
+        "low_contrast_fill",
+        "likely_visible",
+    ]
+    merged = {field: sum(getattr(s, field) for s in summaries) for field in fields}
+    classes = {s.realized_spatial_class for s in summaries}
+    merged["realized_spatial_class"] = classes.pop() if len(classes) == 1 else "mixed"
+    preview = "".join(s.text_preview for s in summaries)[:120]
+    merged["text_preview"] = preview
+    return merged
 
 
 def audit_task(task: AuditTask) -> dict[str, object]:
@@ -108,25 +132,47 @@ def audit_task(task: AuditTask) -> dict[str, object]:
         "strength": task.strength,
         "spatial_label": task.spatial_label,
         "rendering_label": task.rendering_label,
+        "reference_expected": task.reference_expected,
         "has_reference": task.reference_path is not None,
+        "status": "audited",
+        "error": None,
     }
+    if not Path(task.path).exists():
+        record["status"] = "missing"
+        record["error"] = f"file not found: {task.path}"
+        return record
+    if task.reference_expected and task.reference_path is None:
+        # A pair audit without its clean original would count the whole document
+        # as injected text, so it is reported as an error rather than guessed.
+        record["status"] = "reference_missing"
+        record["error"] = "expected benign original is missing; pair not audited"
+        return record
     try:
-        page = extract_glyphs(task.path)[0]
-        reference = _cached_first_page(task.reference_path) if task.reference_path else None
-        extra = added_glyphs(page, reference)
-        summary = summarize_glyphs(extra, page.page_box)
-        record.update({f"added_{key}": value for key, value in summary.as_dict().items()})
-        record["page_box"] = list(page.page_box)
-        record["contract_satisfied"] = contract_satisfied(task.spatial_label, extra, page.page_box)
-        full_text = "".join(glyph.text for glyph in page.glyphs)
-        record["lexical_oracle_tokens"] = lexical_oracle_hits(full_text)
+        pages = list(_cached_pages(task.path))
+        references = list(_cached_pages(task.reference_path)) if task.reference_path else []
+        page_summaries = []
+        contract_flags = []
+        oracle_tokens: set[str] = set()
+        for index, page in enumerate(pages):
+            reference = references[index] if index < len(references) else None
+            extra = added_glyphs(page, reference)
+            page_summaries.append(summarize_glyphs(extra, page.page_box))
+            contract_flags.append(contract_satisfied(task.spatial_label, extra, page.page_box))
+            oracle_tokens.update(lexical_oracle_hits("".join(g.text for g in page.glyphs)))
+        merged = _merge_page_summaries(page_summaries)
+        record.update({f"added_{key}": value for key, value in merged.items()})
+        record["pages"] = len(pages)
+        record["page_box"] = list(pages[0].page_box) if pages else None
+        verdicts = [flag for flag in contract_flags if flag is not None]
+        record["contract_satisfied"] = all(verdicts) if verdicts else None
+        record["lexical_oracle_tokens"] = sorted(oracle_tokens)
         if task.render and task.reference_path:
             from .render import pixel_diff
 
             diff = pixel_diff(task.path, task.reference_path)
             record["changed_pixels_72dpi"] = diff.changed_pixels if diff else None
-        record["error"] = None
     except Exception as exc:  # keep auditing the corpus; report the failure per file
+        record["status"] = "error"
         record["error"] = f"{type(exc).__name__}: {exc}"
     return record
 
@@ -195,6 +241,27 @@ def summarize_records(records: list[dict[str, object]]) -> list[dict[str, object
     return rows
 
 
+def coverage(records: list[dict[str, object]], expected: int | None = None) -> dict[str, int]:
+    """Counts of what was expected, found, audited, and what went wrong."""
+    by_status: dict[str, int] = defaultdict(int)
+    for record in records:
+        by_status[str(record.get("status", "audited"))] += 1
+    audited = by_status.get("audited", 0)
+    return {
+        "expected": expected if expected is not None else len(records),
+        "records": len(records),
+        "audited": audited,
+        "missing": by_status.get("missing", 0),
+        "reference_missing": by_status.get("reference_missing", 0),
+        "errors": by_status.get("error", 0),
+        "multi_page": sum(1 for r in records if isinstance(r.get("pages"), int) and r["pages"] > 1),
+    }
+
+
+def coverage_complete(cov: dict[str, int]) -> bool:
+    return cov["missing"] == 0 and cov["reference_missing"] == 0 and cov["errors"] == 0
+
+
 def write_outputs(records: list[dict[str, object]], out_dir: str | Path) -> dict[str, Path]:
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -202,6 +269,10 @@ def write_outputs(records: list[dict[str, object]], out_dir: str | Path) -> dict
     with records_path.open("w", encoding="utf-8") as handle:
         for record in records:
             handle.write(json.dumps(record, sort_keys=True) + "\n")
+
+    cov = coverage(records)
+    coverage_path = out_dir / "placement-audit-coverage.json"
+    coverage_path.write_text(json.dumps(cov, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     summary = summarize_records(records)
     summary_path = out_dir / "placement-audit-summary.csv"
@@ -212,11 +283,12 @@ def write_outputs(records: list[dict[str, object]], out_dir: str | Path) -> dict
             writer.writerows(summary)
 
     markdown_path = out_dir / "placement-audit-summary.md"
-    errors = sum(1 for record in records if record.get("error"))
     lines = [
         "# Placement audit",
         "",
-        f"Audited PDFs: {len(records):,}. Extraction errors: {errors:,}.",
+        f"Records: {cov['records']:,}. Audited: {cov['audited']:,}. "
+        f"Missing PDFs: {cov['missing']:,}. Missing references: {cov['reference_missing']:,}. "
+        f"Extraction errors: {cov['errors']:,}. Multi-page PDFs: {cov['multi_page']:,}.",
         "",
         "Label contracts:",
         "",
@@ -237,4 +309,9 @@ def write_outputs(records: list[dict[str, object]], out_dir: str | Path) -> dict
             f"{fmt(row['label_contract_rate'])} | {fmt(row['oracle_token_rate'])} |"
         )
     markdown_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    return {"records": records_path, "summary_csv": summary_path, "summary_markdown": markdown_path}
+    return {
+        "records": records_path,
+        "coverage": coverage_path,
+        "summary_csv": summary_path,
+        "summary_markdown": markdown_path,
+    }

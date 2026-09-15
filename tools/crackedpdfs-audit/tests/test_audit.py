@@ -230,3 +230,183 @@ def test_file_command_json(tmp_path, base_pdf, capsys):
     report = json.loads(capsys.readouterr().out)
     assert report[0]["outside"] == 3
     assert report[0]["contract_satisfied"] is True
+
+
+def write_pdf_raw(path: Path, content: bytes, mediabox=None, rotate=None, pages=1) -> Path:
+    pdf = pikepdf.new()
+    for _ in range(pages):
+        pdf.add_blank_page(page_size=(612, 792))
+    for page in pdf.pages:
+        page.Resources = pikepdf.Dictionary(
+            Font=pikepdf.Dictionary(
+                F1=pikepdf.Dictionary(
+                    Type=pikepdf.Name.Font, Subtype=pikepdf.Name.Type1, BaseFont=pikepdf.Name.Helvetica
+                )
+            )
+        )
+        if mediabox:
+            page.MediaBox = pikepdf.Array(mediabox)
+        if rotate is not None:
+            page.Rotate = rotate
+    path.parent.mkdir(parents=True, exist_ok=True)
+    pdf.save(path)
+    return path
+
+
+def test_rotated_page_uses_the_glyph_coordinate_frame(tmp_path):
+    pdf = pikepdf.new()
+    pdf.add_blank_page(page_size=(612, 792))
+    page = pdf.pages[0]
+    page.Resources = pikepdf.Dictionary(
+        Font=pikepdf.Dictionary(
+            F1=pikepdf.Dictionary(
+                Type=pikepdf.Name.Font, Subtype=pikepdf.Name.Type1, BaseFont=pikepdf.Name.Helvetica
+            )
+        )
+    )
+    page.Rotate = 90
+    page.Contents = pikepdf.Stream(pdf, b"BT /F1 12 Tf 100 700 Td (INSIDE) Tj ET")
+    path = tmp_path / "rot.pdf"
+    pdf.save(path)
+    glyphs_page = extract_glyphs(path)[0]
+    assert glyphs_page.page_box == (0.0, 0.0, 792.0, 612.0)
+    assert summarize_glyphs(glyphs_page.glyphs, glyphs_page.page_box).realized_spatial_class == "inside_page"
+
+
+def test_nonzero_mediabox_origin_is_normalized(tmp_path):
+    pdf = pikepdf.new()
+    pdf.add_blank_page(page_size=(612, 792))
+    page = pdf.pages[0]
+    page.Resources = pikepdf.Dictionary(
+        Font=pikepdf.Dictionary(
+            F1=pikepdf.Dictionary(
+                Type=pikepdf.Name.Font, Subtype=pikepdf.Name.Type1, BaseFont=pikepdf.Name.Helvetica
+            )
+        )
+    )
+    page.MediaBox = pikepdf.Array([100, 100, 712, 892])
+    page.Contents = pikepdf.Stream(pdf, b"BT /F1 12 Tf 120 120 Td (INSIDE) Tj ET")
+    path = tmp_path / "shift.pdf"
+    pdf.save(path)
+    glyphs_page = extract_glyphs(path)[0]
+    assert glyphs_page.page_box == (0.0, 0.0, 612.0, 792.0)
+    assert summarize_glyphs(glyphs_page.glyphs, glyphs_page.page_box).realized_spatial_class == "inside_page"
+
+
+def test_multi_page_marker_on_second_page_is_counted(tmp_path):
+    base = write_pdf_raw(tmp_path / "base.pdf", b"", pages=2)
+    pdf = pikepdf.open(base, allow_overwriting_input=True)
+    pdf.pages[1].Contents = pikepdf.Stream(
+        pdf, b"q 3 Tr BT /F1 12 Tf 100 400 Td ([DATASET_SAMPLE_ID=s2] hidden) Tj ET Q"
+    )
+    cand = tmp_path / "cand.pdf"
+    pdf.save(cand)
+    from crackedpdfs_audit.corpus import AuditTask, audit_task
+
+    task = AuditTask(
+        pdf_id="p",
+        sample_id="s",
+        role="injected_attack",
+        family="f",
+        strength="weak",
+        spatial_label="inside_page",
+        rendering_label="invisible_render_mode",
+        path=str(cand),
+        reference_path=str(base),
+        reference_expected=True,
+        render=False,
+    )
+    record = audit_task(task)
+    assert record["status"] == "audited"
+    assert record["pages"] == 2
+    assert record["added_glyphs"] == len("[DATASET_SAMPLE_ID=s2] hidden")
+    assert record["lexical_oracle_tokens"] == ["DATASET_SAMPLE_ID"]
+
+
+def test_missing_pdf_and_reference_are_reported_not_skipped(tmp_path):
+    from crackedpdfs_audit.corpus import AuditTask, audit_task, coverage, coverage_complete
+
+    missing = AuditTask(
+        pdf_id="p1",
+        sample_id="s1",
+        role="injected_attack",
+        family="f",
+        strength="weak",
+        spatial_label="inside_page",
+        rendering_label="x",
+        path=str(tmp_path / "gone.pdf"),
+        reference_path=None,
+        reference_expected=True,
+        render=False,
+    )
+    present = write_pdf_raw(tmp_path / "there.pdf", b"BT /F1 12 Tf 100 400 Td (hi) Tj ET")
+    ref_gone = AuditTask(
+        pdf_id="p2",
+        sample_id="s2",
+        role="injected_attack",
+        family="f",
+        strength="weak",
+        spatial_label="inside_page",
+        rendering_label="x",
+        path=str(present),
+        reference_path=None,
+        reference_expected=True,
+        render=False,
+    )
+    records = [audit_task(missing), audit_task(ref_gone)]
+    assert records[0]["status"] == "missing"
+    assert records[1]["status"] == "reference_missing"
+    cov = coverage(records)
+    assert cov["missing"] == 1 and cov["reference_missing"] == 1
+    assert coverage_complete(cov) is False
+
+
+def test_strict_mode_exits_nonzero_on_missing_pdf(tmp_path, capsys):
+    root = tmp_path / "corpus"
+    write_pdf(root / "benign/s1.benign.pdf")
+    write_pdf(root / "benign/s1.benign-confounder.pdf", text_block(100, 400, "note", mode=3))
+    # injected PDF referenced by metadata but absent on disk
+    rows = []
+    shared = {
+        "sample_id": "s1",
+        "target_attack_family": "in_page_invisible_text",
+        "target_physical_attack_strength": "weak",
+        "target_physical_spatial_regime": "inside_page",
+        "target_physical_rendering_regime": "invisible_render_mode",
+        "confounder_physical_attack_strength": "weak",
+        "confounder_physical_spatial_regime": "inside_page",
+        "confounder_physical_rendering_regime": "invisible_render_mode",
+    }
+    rows += [
+        {**shared, "pdf_id": "s1.benign", "pdf_role": "benign_original", "file_path": "benign/s1.benign.pdf"},
+        {
+            **shared,
+            "pdf_id": "s1.benign_confounder",
+            "pdf_role": "benign_confounder",
+            "file_path": "benign/s1.benign-confounder.pdf",
+        },
+        {
+            **shared,
+            "pdf_id": "s1.injected",
+            "pdf_role": "injected_attack",
+            "file_path": "injected/s1.injected.pdf",
+        },
+    ]
+    metadata = tmp_path / "metadata.jsonl"
+    metadata.write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
+    code = main(
+        [
+            "corpus",
+            "--root",
+            str(root),
+            "--metadata",
+            str(metadata),
+            "--out",
+            str(tmp_path / "out"),
+            "--workers",
+            "1",
+            "--strict",
+        ]
+    )
+    assert code == 2
+    assert (tmp_path / "out" / "placement-audit-coverage.json").exists()

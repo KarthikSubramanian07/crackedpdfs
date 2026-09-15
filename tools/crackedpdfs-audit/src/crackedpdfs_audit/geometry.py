@@ -15,6 +15,7 @@ from pathlib import Path
 from pdfminer.converter import PDFLayoutAnalyzer
 from pdfminer.pdfinterp import PDFPageInterpreter, PDFResourceManager
 from pdfminer.pdfpage import PDFPage
+from pdfminer.utils import apply_matrix_pt
 
 EDGE_TOLERANCE = 0.05
 TINY_FONT_POINTS = 2.0
@@ -49,14 +50,36 @@ def _normalize_box(raw: Iterable[float]) -> Box:
     return (min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1))
 
 
-def visible_page_box(page: PDFPage) -> Box:
-    """MediaBox intersected with CropBox: the region a viewer can display."""
+def _user_space_visible_box(page: PDFPage) -> Box:
+    """MediaBox intersected with CropBox in default user space (pre-rotation)."""
     media = _normalize_box(page.mediabox)
     crop = _normalize_box(page.cropbox) if page.cropbox else media
     box = (max(media[0], crop[0]), max(media[1], crop[1]), min(media[2], crop[2]), min(media[3], crop[3]))
     if box[2] <= box[0] or box[3] <= box[1]:
         return media
     return box
+
+
+def visible_page_box(page: PDFPage, ctm=None) -> Box:
+    """The region a viewer can display, in the same coordinate frame as glyphs.
+
+    pdfminer maps glyph coordinates through the page ctm, which folds in
+    /Rotate and a nonzero MediaBox origin so the visible page starts at (0, 0)
+    and reads upright. The visible box must be transformed by that same ctm, or
+    a rotated or shifted page compares glyphs against the wrong rectangle.
+    """
+    box = _user_space_visible_box(page)
+    if ctm is None:
+        return box
+    corners = [
+        apply_matrix_pt(ctm, (box[0], box[1])),
+        apply_matrix_pt(ctm, (box[2], box[1])),
+        apply_matrix_pt(ctm, (box[2], box[3])),
+        apply_matrix_pt(ctm, (box[0], box[3])),
+    ]
+    xs = [x for x, _ in corners]
+    ys = [y for _, y in corners]
+    return (min(xs), min(ys), max(xs), max(ys))
 
 
 def _to_rgb(color: object, colorspace_name: str | None) -> tuple[float, float, float] | None:
@@ -81,7 +104,12 @@ class _GlyphDevice(PDFLayoutAnalyzer):
     def __init__(self, resource_manager: PDFResourceManager) -> None:
         super().__init__(resource_manager)
         self.glyphs: list[Glyph] = []
+        self.page_box: Box | None = None
         self._render_mode = 0
+
+    def begin_page(self, page, ctm):  # type: ignore[override]
+        super().begin_page(page, ctm)
+        self.page_box = visible_page_box(page, ctm)
 
     def render_string(self, textstate, seq, ncs, graphicstate):  # type: ignore[override]
         self._render_mode = int(getattr(textstate, "render", 0) or 0)
@@ -111,7 +139,8 @@ def extract_glyphs(pdf_path: str | Path) -> list[PageGlyphs]:
             manager = PDFResourceManager(caching=True)
             device = _GlyphDevice(manager)
             PDFPageInterpreter(manager, device).process_page(page)
-            pages.append(PageGlyphs(number, visible_page_box(page), tuple(device.glyphs)))
+            page_box = device.page_box or visible_page_box(page)
+            pages.append(PageGlyphs(number, page_box, tuple(device.glyphs)))
     return pages
 
 
