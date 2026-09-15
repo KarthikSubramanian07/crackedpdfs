@@ -375,6 +375,77 @@ class PlacementContractTests(unittest.TestCase):
         glyphs = self.assert_parsed_inside(output, (0, 0, 612, 792))
         self.assertEqual(len(glyphs), stats["placement"]["glyphs"])
 
+    def make_pdf_with_content(self, content, resources=None, name="custom.pdf"):
+        pdf = pikepdf.new()
+        pdf.add_blank_page(page_size=(612, 792))
+        page = pdf.pages[0]
+        if resources is not None:
+            page.Resources = resources(pdf)
+        page.Contents = pikepdf.Stream(pdf, content)
+        path = self.tmp / name
+        pdf.save(path)
+        return path
+
+    def inject_into(self, source, config, policy=POLICY):
+        output = self.tmp / "injected.pdf"
+        with contextlib.redirect_stdout(io.StringIO()):
+            stats = INJECT_POLICY.inject_policy_artifact(str(source), str(output), policy, config)
+        return output, stats
+
+    def test_inherited_transform_does_not_escape_the_placement_contract(self):
+        # An unbalanced cm in the original content would otherwise carry our
+        # injected text off the page while the contract still reported success.
+        for structural_regime in ("append_new_stream", "inject_into_existing_stream", "prepend_stream"):
+            with self.subTest(structural_regime=structural_regime):
+                source = self.make_pdf_with_content(
+                    b"1 0 0 1 1000 0 cm BT /F1 10 Tf 5 700 Td (x) Tj ET",
+                    resources=lambda pdf: pikepdf.Dictionary(
+                        Font=pikepdf.Dictionary(
+                            F1=pikepdf.Dictionary(
+                                Type=pikepdf.Name.Font,
+                                Subtype=pikepdf.Name.Type1,
+                                BaseFont=pikepdf.Name.Helvetica,
+                            )
+                        )
+                    ),
+                )
+                config = resolved_config(
+                    attack_family="in_page_invisible_text", structural_regime=structural_regime
+                )
+                output, stats = self.inject_into(source, config)
+                self.assertTrue(stats["placement"]["contract_satisfied"])
+                # The base 'x' glyph rode the 1000pt transform off-page; only
+                # the injected payload (render mode 3) must be inside.
+                injected = [g for g in parsed_glyphs(output)[0] if g[2] == 3]
+                self.assertEqual(len(injected), stats["placement"]["glyphs"])
+                for text, (gx0, gy0, gx1, gy1), _ in injected:
+                    self.assertTrue(
+                        gx0 >= 0 - 0.05 and gx1 <= 612 + 0.05 and gy0 >= 0 - 0.05 and gy1 <= 792 + 0.05,
+                        f"injected glyph {text!r} at {(gx0, gy0, gx1, gy1)} escaped the page",
+                    )
+
+    def test_existing_font_resource_is_never_reused(self):
+        # /CpdfInj0 pre-bound to Courier must not capture our text, or the
+        # Helvetica width assumption behind the contract would be wrong.
+        def courier_named_like_ours(pdf):
+            return pikepdf.Dictionary(
+                Font=pikepdf.Dictionary(
+                    CpdfInj0=pikepdf.Dictionary(
+                        Type=pikepdf.Name.Font,
+                        Subtype=pikepdf.Name.Type1,
+                        BaseFont=pikepdf.Name.Courier,
+                    )
+                )
+            )
+
+        source = self.make_pdf_with_content(
+            b"BT /CpdfInj0 10 Tf 72 700 Td (base) Tj ET", resources=courier_named_like_ours
+        )
+        config = resolved_config(attack_family="in_page_invisible_text")
+        output, stats = self.inject_into(source, config, policy=MARKER + "\n" + "i" * 90)
+        self.assertTrue(stats["placement"]["contract_satisfied"])
+        self.assert_parsed_inside(output, (0, 0, 612, 792))
+
 
 if __name__ == "__main__":
     unittest.main()

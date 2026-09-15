@@ -522,46 +522,53 @@ def _segment_policy_lines(policy_lines, attack_family, attack_strength):
         "chunk_strategy": chunk_strategy,
     }
 
+def _free_font_name(font_resources):
+    """Return a /Font resource name not already present on the page."""
+    for index in range(10000):
+        candidate = Name(f"/CpdfInj{index}")
+        if candidate not in font_resources:
+            return candidate
+    raise PlacementContractError("Could not allocate a free font resource name.")
+
+
+def _original_content_streams(pdf, contents):
+    if isinstance(contents, pikepdf.Array):
+        return [stream for stream in contents]
+    return [contents]
+
+
 def _apply_structural_placement(page, pdf, stream_data, structural_regime):
-    new_content_stream = pikepdf.Stream(pdf, stream_data)
-
     if "/Contents" not in page:
-        page.Contents = new_content_stream
+        page.Contents = pikepdf.Stream(pdf, stream_data)
         return
 
-    contents = page.Contents
+    original = _original_content_streams(pdf, page.Contents)
 
+    # When the injected text runs after existing content, it inherits that
+    # content's graphics state. A page content stream shares graphics state
+    # across concatenated streams, and `q` saves state rather than resetting
+    # it, so an unbalanced `cm` in the original leaks an arbitrary transform
+    # into our text and moves it off the page the geometry check just approved.
+    # Bracketing all original content in a balanced q/Q restores the page's
+    # default identity state before our text runs, so measured and rendered
+    # geometry agree. Prepended text runs first, already at the default state.
     if structural_regime == "prepend_stream":
-        if isinstance(contents, pikepdf.Array):
-            page.Contents = pikepdf.Array([new_content_stream, *list(contents)])
-        else:
-            page.Contents = pikepdf.Array([new_content_stream, contents])
+        page.Contents = pikepdf.Array([pikepdf.Stream(pdf, stream_data), *original])
         return
+
+    save_state = pikepdf.Stream(pdf, b"q")
 
     if structural_regime == "inject_into_existing_stream":
-        try:
-            if isinstance(contents, pikepdf.Array) and len(contents) > 0:
-                target_index = len(contents) - 1
-                existing_bytes = contents[target_index].read_bytes()
-                contents[target_index] = pikepdf.Stream(
-                    pdf, existing_bytes + b"\n" + stream_data
-                )
-            else:
-                existing_bytes = contents.read_bytes()
-                page.Contents = pikepdf.Stream(
-                    pdf, existing_bytes + b"\n" + stream_data
-                )
-            return
-        except Exception as exc:
-            print(
-                f"Warning: inject_into_existing_stream failed ({exc}); falling back to append_new_stream."
-            )
+        # Keep the injected bytes inside an existing content stream, but close
+        # the bracket immediately before them.
+        tail = original[-1].read_bytes() + b"\nQ\n" + stream_data
+        merged_tail = pikepdf.Stream(pdf, tail)
+        page.Contents = pikepdf.Array([save_state, *original[:-1], merged_tail])
+        return
 
-    # append_new_stream default
-    if isinstance(contents, pikepdf.Array):
-        page.Contents = pikepdf.Array([*list(contents), new_content_stream])
-    else:
-        page.Contents = pikepdf.Array([contents, new_content_stream])
+    # append_new_stream default: the injected text is its own trailing stream.
+    restore_state = pikepdf.Stream(pdf, b"Q\n" + stream_data)
+    page.Contents = pikepdf.Array([save_state, *original, restore_state])
 
 def _layout_mode(injection_config):
     """Pick how emitted segments are arranged on the page.
@@ -995,8 +1002,6 @@ def inject_policy_artifact(input_path: str, output_path: str, policy_text: str, 
     # Prepare policy text lines.
     policy_lines = policy_text.strip().splitlines()
 
-    # Define the font name we will use (or reuse)
-    font_name = Name("/FPolicyInj")
     attack_family = injection_config["attack_family"]
     attack_strength = injection_config["attack_strength"]
     spatial_regime = injection_config["spatial_regime"]
@@ -1009,19 +1014,22 @@ def inject_policy_artifact(input_path: str, output_path: str, policy_text: str, 
     for i, page in enumerate(pdf.pages):
         print(f"Processing page {i+1}...")
 
-        # 1. Ensure a font is available: a standard 14 Type1 Helvetica reference.
+        # 1. Ensure a standard 14 Type1 Helvetica reference under a resource
+        # name the page does not already use. Reusing an existing name could
+        # bind our text to a different font (for example Courier), whose
+        # advance widths would not match the Helvetica metrics the geometry
+        # check assumes, so the check would certify the wrong placement.
         if "/Resources" not in page:
             page.Resources = pikepdf.Dictionary()
         if "/Font" not in page.Resources:
             page.Resources.Font = pikepdf.Dictionary()
 
-        if font_name not in page.Resources.Font:
-            font_dict = pikepdf.Dictionary(
-                Type=Name.Font,
-                Subtype=Name.Type1,
-                BaseFont=Name.Helvetica
-            )
-            page.Resources.Font[font_name] = font_dict
+        font_name = _free_font_name(page.Resources.Font)
+        page.Resources.Font[font_name] = pikepdf.Dictionary(
+            Type=Name.Font,
+            Subtype=Name.Type1,
+            BaseFont=Name.Helvetica,
+        )
 
         page_box = _visible_page_box(page)
         page_width = page_box[2] - page_box[0]
