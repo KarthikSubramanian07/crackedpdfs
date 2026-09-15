@@ -543,6 +543,11 @@ def _apply_structural_placement(page, pdf, stream_data, structural_regime):
         return
 
     original = _original_content_streams(pdf, page.Contents)
+    if not original:
+        # An empty /Contents array has no stream to append to or bracket, so it
+        # is treated exactly like absent content.
+        page.Contents = pikepdf.Stream(pdf, stream_data)
+        return
 
     # When the injected text runs after existing content, it inherits that
     # content's graphics state. A page content stream shares graphics state

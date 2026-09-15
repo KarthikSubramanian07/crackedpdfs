@@ -424,6 +424,24 @@ class PlacementContractTests(unittest.TestCase):
                         f"injected glyph {text!r} at {(gx0, gy0, gx1, gy1)} escaped the page",
                     )
 
+    def test_empty_contents_array_is_treated_as_absent_content(self):
+        # A /Contents [] page has no last stream to append to; injection must
+        # still succeed and satisfy the independently measured contract.
+        for structural_regime in ("inject_into_existing_stream", "append_new_stream", "prepend_stream"):
+            with self.subTest(structural_regime=structural_regime):
+                pdf = pikepdf.new()
+                pdf.add_blank_page(page_size=(612, 792))
+                pdf.pages[0].Contents = pikepdf.Array([])
+                source = self.tmp / "empty-contents.pdf"
+                pdf.save(source)
+                config = resolved_config(
+                    attack_family="in_page_invisible_text", structural_regime=structural_regime
+                )
+                output, stats = self.inject_into(source, config)
+                self.assertTrue(stats["placement"]["contract_satisfied"])
+                glyphs = self.assert_parsed_inside(output, (0, 0, 612, 792))
+                self.assertEqual(len(glyphs), stats["placement"]["glyphs"])
+
     def test_existing_font_resource_is_never_reused(self):
         # /CpdfInj0 pre-bound to Courier must not capture our text, or the
         # Helvetica width assumption behind the contract would be wrong.
