@@ -1,27 +1,49 @@
 #!/usr/bin/env python3
-"""Regenerate every evidence table in this directory from pinned inputs.
+"""Regenerate the five derived evidence tables in this directory.
 
-Two inputs, both from the frozen v1 dataset release (Hugging Face revision
+This script produces exactly five CSVs:
+  lexical-oracle-tokens.csv, placement-by-spatial-label.csv,
+  acrostic-placement-by-strength.csv, pair-matching-by-family.csv,
+  length-only-paired-ranker.csv
+
+The sixth file in this directory, placement-audit-summary.csv, is written by
+`crackedpdfs-audit corpus` itself and is not produced here. Regenerating the
+full evidence set is therefore two steps: run the corpus audit, then run this
+script over its output.
+
+Inputs, all from the frozen v1 dataset release (Hugging Face revision
 245bc98ec7e838346ee6fd5bdf5fed1b16d2a3e5):
 
-  1. placement-audit.jsonl : output of `crackedpdfs-audit corpus` over the
-     extracted v1 corpus (one record per injected and confounder PDF).
+  1. placement-audit.jsonl : output of `crackedpdfs-audit corpus --strict`
+     over the extracted v1 corpus (one record per injected and confounder PDF).
   2. data/features.parquet : the frozen structural feature table.
+  3. paper-v1/metrics/holdout-matched-counterfactual-metrics.csv : the frozen
+     source of the paper hybrid paired-ranking values used for comparison.
+     These are read from that file, never hardcoded here.
 
 Pinned SHA-256:
   data/features.parquet  4726c8176c8b9dd7f0a24e6ea9a9d4f7263184562619f30d5f182dc380d32b80
   data/metadata.parquet  41838450b245e22761293db57f05997cd9819a86abe2cc1f362f7cccc9724927
+
+Requirements: Python 3.11+ and pandas (for the parquet feature table). See
+README.md in this directory for the pinned environment.
 
 Method notes for every table:
   - pairing key: sample_id (injected and confounder share it).
   - tie handling in paired ranking: ties count as one half.
   - scope: all pairs in each attack family across the whole corpus, not a split.
   - a "length proxy" is a single frozen feature; the larger value is called
-    injected.
+     injected.
+
+The audit input must be complete: any record whose status is not "audited"
+causes this script to refuse to generate publication tables, unless
+--allow-incomplete is passed.
 
 Usage:
   python derive_tables.py --audit placement-audit.jsonl \
-    --features features.parquet --out .
+    --features features.parquet \
+    --paper-metrics ../../metrics/holdout-matched-counterfactual-metrics.csv \
+    --out .
 """
 
 from __future__ import annotations
@@ -39,14 +61,16 @@ ORACLE_TOKENS = (
     "SYSTEM_POLICY_DO_NOT_REMOVE",
     "DOCUMENT_LAYOUT_NOTE",
 )
-PAPER_HYBRID_PAIRED_RANK = {
-    "steganographic_acrostic": 0.424242,
-    "microglyph_steganography": 1.0,
-    "semantic_fragmentation": 1.0,
-    "layout_mimicry": 1.0,
-    "in_page_low_contrast_text": 1.0,
-    "margin_microtext": 1.0,
-}
+def load_paper_hybrid_paired_rank(path: Path) -> dict[str, float]:
+    """Read the paper hybrid paired-ranking values from the frozen metrics CSV."""
+    values: dict[str, float] = {}
+    with path.open(encoding="utf-8", newline="") as handle:
+        for row in csv.DictReader(handle):
+            if row.get("method") == "hybrid" and row.get("paired_rank_accuracy"):
+                values[row["family"]] = float(row["paired_rank_accuracy"])
+    if not values:
+        raise SystemExit(f"No hybrid paired_rank_accuracy rows found in {path}")
+    return values
 
 
 def sha256(path: Path) -> str:
@@ -169,7 +193,7 @@ def pair_matching_table(audit: list[dict]) -> list[dict]:
     return rows
 
 
-def length_ranker_table(features_path: Path, audit: list[dict]) -> list[dict]:
+def length_ranker_table(features_path: Path, audit: list[dict], paper_values: dict[str, float]) -> list[dict]:
     import pandas as pd
 
     features = pd.read_parquet(features_path)
@@ -203,30 +227,75 @@ def length_ranker_table(features_path: Path, audit: list[dict]) -> list[dict]:
                     "family": family,
                     "pairs": count,
                     "text_density_per_page_rank_accuracy": round(wins / count, 4),
-                    "paper_hybrid_heldout_paired_rank_accuracy": PAPER_HYBRID_PAIRED_RANK.get(family, ""),
+                    "paper_hybrid_heldout_paired_rank_accuracy": paper_values.get(family, ""),
                 }
             )
     return out
+
+
+def audit_completeness(audit: list[dict]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for record in audit:
+        status = str(record.get("status", "audited"))
+        counts[status] = counts.get(status, 0) + 1
+    return counts
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--audit", type=Path, required=True)
     parser.add_argument("--features", type=Path, required=True)
+    parser.add_argument(
+        "--paper-metrics",
+        type=Path,
+        default=Path(__file__).resolve().parents[2] / "metrics" / "holdout-matched-counterfactual-metrics.csv",
+        help="Frozen source of the paper hybrid paired-ranking values.",
+    )
     parser.add_argument("--out", type=Path, default=Path("."))
+    parser.add_argument(
+        "--allow-incomplete",
+        action="store_true",
+        help="Generate tables even if the audit input contains non-audited records.",
+    )
     args = parser.parse_args()
 
-    print(f"audit  {args.audit}  sha256={sha256(args.audit)}")
-    print(f"features {args.features}  sha256={sha256(args.features)}")
+    audit_sha = sha256(args.audit)
+    features_sha = sha256(args.features)
+    print(f"audit  {args.audit}  sha256={audit_sha}")
+    print(f"features {args.features}  sha256={features_sha}")
 
     audit = load_audit(args.audit)
+    counts = audit_completeness(audit)
+    incomplete = {status: n for status, n in counts.items() if status != "audited"}
+    if incomplete and not args.allow_incomplete:
+        raise SystemExit(
+            f"Refusing to build publication tables from incomplete audit input: {incomplete}. "
+            "Re-run `crackedpdfs-audit corpus --strict` or pass --allow-incomplete."
+        )
+
+    paper_values = load_paper_hybrid_paired_rank(args.paper_metrics)
     args.out.mkdir(parents=True, exist_ok=True)
     write_csv(args.out / "lexical-oracle-tokens.csv", lexical_oracle_table(audit))
     write_csv(args.out / "placement-by-spatial-label.csv", placement_by_label_table(audit))
     write_csv(args.out / "acrostic-placement-by-strength.csv", acrostic_by_strength_table(audit))
     write_csv(args.out / "pair-matching-by-family.csv", pair_matching_table(audit))
-    write_csv(args.out / "length-only-paired-ranker.csv", length_ranker_table(args.features, audit))
-    print(f"wrote 5 evidence tables to {args.out}")
+    write_csv(
+        args.out / "length-only-paired-ranker.csv",
+        length_ranker_table(args.features, audit, paper_values),
+    )
+
+    provenance = {
+        "generated_tables": 5,
+        "audit_jsonl_sha256": audit_sha,
+        "audit_record_status_counts": counts,
+        "features_parquet_sha256": features_sha,
+        "paper_metrics_source": str(args.paper_metrics.name),
+        "paper_metrics_sha256": sha256(args.paper_metrics),
+    }
+    (args.out / "derivation-provenance.json").write_text(
+        json.dumps(provenance, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    print(f"wrote 5 evidence tables and derivation-provenance.json to {args.out}")
     return 0
 
 

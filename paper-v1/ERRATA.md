@@ -144,20 +144,28 @@ tar -xzf crackedpdfs-v1/pdfs/injected.tar.gz -C crackedpdfs-v1/pdfs
 tar -xzf crackedpdfs-v1/pdfs/benign.tar.gz -C crackedpdfs-v1/pdfs
 
 # 2. Audit every injected and confounder PDF against its benign original.
+#    --strict fails the run if any PDF, benign original, or payload is missing,
+#    so publication tables are never built from a partial audit. This step also
+#    writes placement-audit-summary.csv.
 pip install -e "tools/crackedpdfs-audit[parquet]"
 crackedpdfs-audit corpus --root crackedpdfs-v1/pdfs \
-  --metadata crackedpdfs-v1/data/metadata.parquet --out audit-v1 --render
+  --metadata crackedpdfs-v1/data/metadata.parquet --out audit-v1 --render --strict
 
 # 3. Inspect one acrostic.
 crackedpdfs-audit file crackedpdfs-v1/pdfs/injected/sample_0009.injected.pdf \
   --reference crackedpdfs-v1/pdfs/benign/sample_0009.benign.pdf --label inside_page
 
-# 4. Regenerate every evidence CSV in errata/2026-09-placement/ from the audit
-#    output and the frozen feature table.
+# 4. Regenerate the five derived evidence CSVs from the audit output, the
+#    frozen feature table, and the frozen paper metrics (needs pandas).
 python paper-v1/errata/2026-09-placement/derive_tables.py \
   --audit audit-v1/placement-audit.jsonl \
   --features crackedpdfs-v1/data/features.parquet \
   --out paper-v1/errata/2026-09-placement
 ```
+
+Step 2 writes `placement-audit-summary.csv`; step 4 writes the other five CSVs
+and a `derivation-provenance.json` recording the input checksums it used. The
+paper hybrid paired-ranking values in the comparison table are read from
+`paper-v1/metrics/holdout-matched-counterfactual-metrics.csv`, not retyped.
 
 The full audit took about 12 minutes on an 8-core laptop and reported 0 extraction errors across 19,548 PDFs. See [`errata/2026-09-placement/README.md`](errata/2026-09-placement/README.md) for pinned input checksums and the exact derivation method for every table.
