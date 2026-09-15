@@ -410,3 +410,148 @@ def test_strict_mode_exits_nonzero_on_missing_pdf(tmp_path, capsys):
     )
     assert code == 2
     assert (tmp_path / "out" / "placement-audit-coverage.json").exists()
+
+
+def two_page_pdf(path: Path, page2_extra: bytes = b"") -> Path:
+    pdf = pikepdf.new()
+    for _ in range(2):
+        pdf.add_blank_page(page_size=(612, 792))
+    for index, page in enumerate(pdf.pages):
+        page.Resources = pikepdf.Dictionary(
+            Font=pikepdf.Dictionary(
+                F1=pikepdf.Dictionary(
+                    Type=pikepdf.Name.Font, Subtype=pikepdf.Name.Type1, BaseFont=pikepdf.Name.Helvetica
+                )
+            )
+        )
+        body = b"BT /F1 12 Tf 72 700 Td (Body) Tj ET"
+        page.Contents = pikepdf.Stream(
+            pdf, body + (b"\n" + page2_extra if index == 1 and page2_extra else b"")
+        )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    pdf.save(path)
+    return path
+
+
+def audit_pair(
+    candidate: Path,
+    reference: Path | None,
+    label: str = "inside_page",
+    render: bool = False,
+    require_reference: bool = True,
+):
+    from crackedpdfs_audit.corpus import AuditTask, audit_task
+
+    task = AuditTask(
+        pdf_id="p",
+        sample_id="s",
+        role="injected_attack",
+        family="f",
+        strength="weak",
+        spatial_label=label,
+        rendering_label="invisible_render_mode",
+        path=str(candidate),
+        reference_path=str(reference) if reference else None,
+        reference_expected=reference is not None,
+        render=render,
+        require_reference=require_reference,
+    )
+    return audit_task(task)
+
+
+def test_unchanged_pages_do_not_count_as_placement_failures(tmp_path):
+    base = two_page_pdf(tmp_path / "base.pdf")
+    cand = two_page_pdf(tmp_path / "cand.pdf", b"q 3 Tr BT /F1 12 Tf 100 400 Td (hidden inside) Tj ET Q")
+    record = audit_pair(cand, base)
+    assert record["status"] == "audited"
+    assert record["payload_pages"] == [2]
+    assert record["contract_satisfied"] is True
+    assert record["added_realized_spatial_class"] == "inside_page"
+
+
+def test_contract_fails_when_any_payload_page_violates(tmp_path):
+    base = two_page_pdf(tmp_path / "base.pdf")
+    cand = two_page_pdf(tmp_path / "cand.pdf", b"q 3 Tr BT /F1 12 Tf 10000 10000 Td (off page) Tj ET Q")
+    record = audit_pair(cand, base)
+    assert record["contract_satisfied"] is False
+
+
+def test_no_added_glyphs_is_an_explicit_absent_payload_result(tmp_path):
+    base = two_page_pdf(tmp_path / "base.pdf")
+    same = two_page_pdf(tmp_path / "same.pdf")
+    record = audit_pair(same, base)
+    assert record["status"] == "no_payload_detected"
+    assert record["contract_satisfied"] is None
+    assert record["payload_pages"] == []
+
+
+def test_missing_original_metadata_row_is_a_reference_error(tmp_path):
+    from crackedpdfs_audit.corpus import build_tasks, coverage, coverage_complete, run_audit
+
+    root = tmp_path / "corpus"
+    two_page_pdf(root / "injected/s1.injected.pdf", b"q 3 Tr BT /F1 12 Tf 100 400 Td (x) Tj ET Q")
+    rows = [
+        {
+            "sample_id": "s1",
+            "pdf_id": "s1.injected",
+            "pdf_role": "injected_attack",
+            "file_path": "injected/s1.injected.pdf",
+            "target_attack_family": "f",
+            "target_physical_attack_strength": "weak",
+            "target_physical_spatial_regime": "inside_page",
+            "target_physical_rendering_regime": "invisible_render_mode",
+        }
+    ]
+    records = list(run_audit(build_tasks(rows, root), workers=1))
+    assert records[0]["status"] == "reference_missing"
+    assert "no benign_original metadata row" in records[0]["error"]
+    assert records[0].get("added_glyphs") is None
+    assert coverage_complete(coverage(records)) is False
+
+
+def test_unpaired_mode_is_explicit(tmp_path):
+    from crackedpdfs_audit.corpus import build_tasks, run_audit
+
+    root = tmp_path / "corpus"
+    two_page_pdf(root / "injected/s1.injected.pdf", b"q 3 Tr BT /F1 12 Tf 100 400 Td (x) Tj ET Q")
+    rows = [
+        {
+            "sample_id": "s1",
+            "pdf_id": "s1.injected",
+            "pdf_role": "injected_attack",
+            "file_path": "injected/s1.injected.pdf",
+            "target_attack_family": "f",
+            "target_physical_attack_strength": "weak",
+            "target_physical_spatial_regime": "inside_page",
+            "target_physical_rendering_regime": "invisible_render_mode",
+        }
+    ]
+    records = list(run_audit(build_tasks(rows, root, paired=False), workers=1))
+    assert records[0]["status"] == "audited"
+    assert records[0]["paired"] is False
+    # Without a reference, existing document text counts as added text, so the
+    # unpaired count exceeds the single injected glyph.
+    assert records[0]["added_glyphs"] == len("Body") * 2 + len("x")
+
+
+def test_pixel_diff_covers_every_page(tmp_path):
+    base = two_page_pdf(tmp_path / "base.pdf")
+    visible = two_page_pdf(
+        tmp_path / "vis.pdf", b"q 0 Tr BT /F1 24 Tf 100 400 Td (VISIBLE ON PAGE TWO) Tj ET Q"
+    )
+    diff = pixel_diff(visible, base)
+    assert diff is not None
+    assert diff.compared_pages == 2
+    assert diff.changed_pixels_by_page[0] == 0
+    assert diff.changed_pixels_by_page[1] > 0
+    assert diff.changed_pixels == sum(diff.changed_pixels_by_page)
+    assert diff.page_count_mismatch is False
+
+
+def test_pixel_diff_reports_page_count_mismatch(tmp_path):
+    base = two_page_pdf(tmp_path / "base.pdf")
+    one = write_pdf(tmp_path / "one.pdf")
+    diff = pixel_diff(one, base)
+    assert diff is not None
+    assert diff.page_count_mismatch is True
+    assert diff.compared_pages == 1

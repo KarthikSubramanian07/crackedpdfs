@@ -59,7 +59,7 @@ def _cmd_corpus(args: argparse.Namespace) -> int:
 
     rows = read_metadata(args.metadata)
     families = set(args.families.split(",")) if args.families else None
-    tasks = build_tasks(rows, args.root, render=args.render, families=families)
+    tasks = build_tasks(rows, args.root, render=args.render, families=families, paired=not args.unpaired)
     if args.limit:
         tasks = tasks[: args.limit]
     if not tasks:
@@ -76,9 +76,12 @@ def _cmd_corpus(args: argparse.Namespace) -> int:
         print(f"{name}: {path}")
 
     cov = coverage(records)
+    if args.unpaired:
+        print("mode: UNPAIRED (no reference; all page text counted as added)", file=sys.stderr)
     print(
         f"coverage: records={cov['records']:,} audited={cov['audited']:,} "
         f"missing={cov['missing']:,} reference_missing={cov['reference_missing']:,} "
+        f"no_payload={cov['no_payload_detected']:,} "
         f"errors={cov['errors']:,} multi_page={cov['multi_page']:,}",
         file=sys.stderr,
     )
@@ -129,6 +132,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--strict",
         action="store_true",
         help="Exit non-zero if any PDF or reference is missing or fails to parse (release gate).",
+    )
+    corpus_cmd.add_argument(
+        "--unpaired",
+        action="store_true",
+        help=(
+            "Audit candidates without their benign originals. All page text counts as added "
+            "text, so results are not comparable with paired audits."
+        ),
     )
     corpus_cmd.set_defaults(handler=_cmd_corpus)
 

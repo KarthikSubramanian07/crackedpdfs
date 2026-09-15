@@ -40,25 +40,69 @@ def render_page(pdf: str | Path | bytes, page_index: int = 0, dpi: float = 72.0)
         document.close()
 
 
+def page_count(pdf: str | Path | bytes) -> int:
+    document = pdfium.PdfDocument(pdf)
+    try:
+        return len(document)
+    finally:
+        document.close()
+
+
 @dataclass
 class PixelDiff:
+    """Rendered difference across the whole document, page by page.
+
+    changed_pixels is the document total. changed_pixels_by_page keeps the
+    per-page counts, and the mismatch fields say where a comparison could not
+    be made rather than silently reporting zero.
+    """
+
     changed_pixels: int
     total_pixels: int
     dpi: float
+    changed_pixels_by_page: list[int]
+    compared_pages: int
+    candidate_pages: int
+    reference_pages: int
+    dimension_mismatch_pages: list[int]
 
     @property
     def changed_fraction(self) -> float:
         return self.changed_pixels / self.total_pixels if self.total_pixels else 0.0
 
+    @property
+    def page_count_mismatch(self) -> bool:
+        return self.candidate_pages != self.reference_pages
+
 
 def pixel_diff(candidate: str | Path, reference: str | Path, dpi: float = 72.0) -> PixelDiff | None:
-    """Count pixels that differ visibly between two renders of the same page."""
-    left = np.asarray(render_page(candidate, dpi=dpi), dtype=np.int16)
-    right = np.asarray(render_page(reference, dpi=dpi), dtype=np.int16)
-    if left.shape != right.shape:
+    """Count pixels that differ visibly between two renders, over every page."""
+    candidate_pages = page_count(candidate)
+    reference_pages = page_count(reference)
+    per_page: list[int] = []
+    dimension_mismatch: list[int] = []
+    total_pixels = 0
+    for index in range(min(candidate_pages, reference_pages)):
+        left = np.asarray(render_page(candidate, page_index=index, dpi=dpi), dtype=np.int16)
+        right = np.asarray(render_page(reference, page_index=index, dpi=dpi), dtype=np.int16)
+        if left.shape != right.shape:
+            dimension_mismatch.append(index + 1)
+            per_page.append(0)
+            continue
+        per_page.append(int((np.abs(left - right).max(axis=2) > PIXEL_DELTA_THRESHOLD).sum()))
+        total_pixels += int(left.shape[0] * left.shape[1])
+    if not per_page and not dimension_mismatch:
         return None
-    changed = int((np.abs(left - right).max(axis=2) > PIXEL_DELTA_THRESHOLD).sum())
-    return PixelDiff(changed, int(left.shape[0] * left.shape[1]), dpi)
+    return PixelDiff(
+        changed_pixels=sum(per_page),
+        total_pixels=total_pixels,
+        dpi=dpi,
+        changed_pixels_by_page=per_page,
+        compared_pages=len(per_page),
+        candidate_pages=candidate_pages,
+        reference_pages=reference_pages,
+        dimension_mismatch_pages=dimension_mismatch,
+    )
 
 
 def _glyph_color(glyph: Glyph, page_box: Box) -> tuple[int, int, int]:

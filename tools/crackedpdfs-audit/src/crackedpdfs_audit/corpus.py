@@ -32,6 +32,7 @@ class AuditTask:
     reference_path: str | None
     reference_expected: bool
     render: bool
+    require_reference: bool = True
 
 
 def read_metadata(path: str | Path) -> list[dict[str, object]]:
@@ -53,6 +54,7 @@ def build_tasks(
     root: str | Path,
     render: bool = False,
     families: set[str] | None = None,
+    paired: bool = True,
 ) -> list[AuditTask]:
     root = Path(root)
     rows = list(rows)
@@ -88,8 +90,13 @@ def build_tasks(
                 ),
                 path=str(path),
                 reference_path=str(reference_path) if reference_path and reference_path.exists() else None,
+                # In paired mode every injected or confounder sample must have a
+                # benign_original row. Without one, document text would be
+                # counted as added text, so a missing row is an error, not an
+                # unpaired audit.
                 reference_expected=reference is not None,
                 render=render,
+                require_reference=paired,
             )
         )
     return tasks
@@ -134,6 +141,7 @@ def audit_task(task: AuditTask) -> dict[str, object]:
         "rendering_label": task.rendering_label,
         "reference_expected": task.reference_expected,
         "has_reference": task.reference_path is not None,
+        "paired": task.require_reference,
         "status": "audited",
         "error": None,
     }
@@ -141,36 +149,59 @@ def audit_task(task: AuditTask) -> dict[str, object]:
         record["status"] = "missing"
         record["error"] = f"file not found: {task.path}"
         return record
-    if task.reference_expected and task.reference_path is None:
+    if task.require_reference and task.reference_path is None:
         # A pair audit without its clean original would count the whole document
         # as injected text, so it is reported as an error rather than guessed.
         record["status"] = "reference_missing"
-        record["error"] = "expected benign original is missing; pair not audited"
+        record["error"] = (
+            "no benign_original metadata row for this sample; pair not audited"
+            if not task.reference_expected
+            else "benign original file is missing; pair not audited"
+        )
         return record
     try:
         pages = list(_cached_pages(task.path))
         references = list(_cached_pages(task.reference_path)) if task.reference_path else []
         page_summaries = []
         contract_flags = []
+        payload_pages = []
         oracle_tokens: set[str] = set()
         for index, page in enumerate(pages):
             reference = references[index] if index < len(references) else None
             extra = added_glyphs(page, reference)
-            page_summaries.append(summarize_glyphs(extra, page.page_box))
-            contract_flags.append(contract_satisfied(task.spatial_label, extra, page.page_box))
+            summary = summarize_glyphs(extra, page.page_box)
+            page_summaries.append(summary)
             oracle_tokens.update(lexical_oracle_hits("".join(g.text for g in page.glyphs)))
-        merged = _merge_page_summaries(page_summaries)
+            # Only pages that actually carry added text can satisfy or violate a
+            # placement contract. An untouched page is not a placement failure.
+            if summary.glyphs:
+                payload_pages.append(index + 1)
+                contract_flags.append(contract_satisfied(task.spatial_label, extra, page.page_box))
+        scored = [page_summaries[page - 1] for page in payload_pages]
+        merged = _merge_page_summaries(scored) if scored else _merge_page_summaries(page_summaries)
         record.update({f"added_{key}": value for key, value in merged.items()})
         record["pages"] = len(pages)
+        record["payload_pages"] = payload_pages
         record["page_box"] = list(pages[0].page_box) if pages else None
-        verdicts = [flag for flag in contract_flags if flag is not None]
-        record["contract_satisfied"] = all(verdicts) if verdicts else None
         record["lexical_oracle_tokens"] = sorted(oracle_tokens)
+        if not payload_pages:
+            # No added text anywhere is not a pass: the payload is unaccounted for.
+            record["status"] = "no_payload_detected"
+            record["contract_satisfied"] = None
+            record["error"] = "no added glyphs found relative to the reference"
+        else:
+            verdicts = [flag for flag in contract_flags if flag is not None]
+            record["contract_satisfied"] = all(verdicts) if verdicts else None
         if task.render and task.reference_path:
             from .render import pixel_diff
 
             diff = pixel_diff(task.path, task.reference_path)
             record["changed_pixels_72dpi"] = diff.changed_pixels if diff else None
+            if diff:
+                record["changed_pixels_by_page"] = diff.changed_pixels_by_page
+                record["render_compared_pages"] = diff.compared_pages
+                record["render_page_count_mismatch"] = diff.page_count_mismatch
+                record["render_dimension_mismatch_pages"] = diff.dimension_mismatch_pages
     except Exception as exc:  # keep auditing the corpus; report the failure per file
         record["status"] = "error"
         record["error"] = f"{type(exc).__name__}: {exc}"
@@ -253,13 +284,20 @@ def coverage(records: list[dict[str, object]], expected: int | None = None) -> d
         "audited": audited,
         "missing": by_status.get("missing", 0),
         "reference_missing": by_status.get("reference_missing", 0),
+        "no_payload_detected": by_status.get("no_payload_detected", 0),
         "errors": by_status.get("error", 0),
         "multi_page": sum(1 for r in records if isinstance(r.get("pages"), int) and r["pages"] > 1),
     }
 
 
 def coverage_complete(cov: dict[str, int]) -> bool:
-    return cov["missing"] == 0 and cov["reference_missing"] == 0 and cov["errors"] == 0
+    """True only when every audited row produced a usable placement verdict."""
+    return (
+        cov["missing"] == 0
+        and cov["reference_missing"] == 0
+        and cov["no_payload_detected"] == 0
+        and cov["errors"] == 0
+    )
 
 
 def write_outputs(records: list[dict[str, object]], out_dir: str | Path) -> dict[str, Path]:
@@ -288,6 +326,7 @@ def write_outputs(records: list[dict[str, object]], out_dir: str | Path) -> dict
         "",
         f"Records: {cov['records']:,}. Audited: {cov['audited']:,}. "
         f"Missing PDFs: {cov['missing']:,}. Missing references: {cov['reference_missing']:,}. "
+        f"No payload detected: {cov['no_payload_detected']:,}. "
         f"Extraction errors: {cov['errors']:,}. Multi-page PDFs: {cov['multi_page']:,}.",
         "",
         "Label contracts:",
