@@ -578,6 +578,9 @@ export function assertResolvedInjectionConfig(
     );
   }
 
+  if (!Array.isArray(config.coordinates) || config.coordinates.length !== 2) {
+    throw new Error("Invalid resolved coordinates: expected a length-2 array.");
+  }
   const [x, y] = config.coordinates;
   if (!Number.isFinite(x) || !Number.isFinite(y)) {
     throw new Error("Invalid resolved coordinates: expected finite [x, y].");

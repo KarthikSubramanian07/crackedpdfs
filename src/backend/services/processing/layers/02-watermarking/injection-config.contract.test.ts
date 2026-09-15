@@ -239,7 +239,7 @@ test("margin_microtext resolves to near-margin tiny text", () => {
   assert.deepEqual(validateWithPython(resolved), resolved);
 });
 
-test("resolution is idempotent across the full regime grid", () => {
+test("resolution is idempotent across the full 4,320-config regime grid", () => {
   const spatialRegimes = ["extreme_off_page", "negative_off_page", "near_margin", "inside_page"];
   const renderingRegimes = ["invisible_render_mode", "tiny_font", "white_text", "normal_visible"];
   const structuralRegimes = ["append_new_stream", "prepend_stream", "inject_into_existing_stream"];
@@ -296,4 +296,25 @@ test("explicit coordinates still resolve as overrides", () => {
   assert.equal(resolved.coordinates_mode, "override");
   assert.deepEqual(resolved.coordinates, [72, 144]);
   assert.deepEqual(resolveInjectionConfig(resolved), resolved);
+});
+
+test("resolver and Python validator agree on malformed coordinate arrays", () => {
+  // A three-element coordinate array must not pass either side's contract, so
+  // the resolved fast path cannot smuggle a config that Python then rejects.
+  assert.throws(
+    () => assertResolvedInjectionConfig({
+      ...resolveInjectionConfig({}),
+      coordinates: [72, 144, 200] as unknown as [number, number],
+    }),
+    /length-2/
+  );
+
+  // A malformed array on the input side is dropped, not promoted, so the
+  // regime default survives and the two validators agree.
+  const resolved = resolveInjectionConfig({
+    coordinates: [72, 144, 200] as unknown as [number, number],
+  });
+  assert.equal(resolved.coordinates_mode, "regime");
+  assert.equal(resolved.coordinates.length, 2);
+  assert.deepEqual(validateWithPython(resolved), resolved);
 });
